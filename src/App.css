@@ -1,0 +1,42 @@
+.new-form{
+  width: 500px;
+}
+.new-form div{
+  display: flex;
+  align-items: center;
+}
+.new-form div label{
+  width: 200px;
+}
+
+
+
+.new-form details{
+  
+  margin-bottom: 5px;
+  border-radius: 10px;
+  border: 2px solid #202020;
+}
+.new-form details summary{
+  background-color: #202020;
+  border-radius: 10px 10px 0 0;
+  color: white;
+  text-align: start;
+  padding-left: 10px;
+  font-size: 24px;
+}
+.new-form details div{
+  background-color: #ccc;
+  display: flex;
+  flex-direction: column;
+  padding-top: 5px;
+
+}
+.new-form details div div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.new-form details div div label{
+  width: 200px;
+}
