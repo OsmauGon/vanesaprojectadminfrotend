@@ -3,10 +3,10 @@ import { Form, InputGroup, Button } from 'react-bootstrap';
 import { useFetch } from '../hooks/useFetch';
 import '../styles/profesinal-page-style.css'
 import type { Establishment } from '../types/types';
-import { fakeEstablishments } from '../fakeObjects';
-import EstablishmentForm from '../forms/EstablishmentForm';
 import EstablishmentRow from '../rows/EstablishmentRow';
 import { ModalDEestablecimiento } from '../modales/ModalDEestablecimiento';
+import { EstablishmentForm } from '../forms/EstablishmentForm';
+import { vetesGetEndpoint } from '../endpoints';
 
 type Props = {
     auth: boolean
@@ -16,13 +16,9 @@ const ProfesionalesPage = ({auth}: Props) => {
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedProf,setSelectedProf] = useState<Establishment | null>(null)
   const [showModal, setShowModal] = useState(false);
-  const { data, loading, error } = useFetch<Establishment[]>("https://api.example.com/users");
+  const { data, loading, error } = useFetch<Establishment[]>(vetesGetEndpoint);
   
   const lista = data?.filter(p => 
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-    p.ubicacion.toLowerCase().includes(busqueda.toLowerCase())
-  ); 
-  const lista2 = fakeEstablishments?.filter(p => 
     p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
     p.ubicacion.toLowerCase().includes(busqueda.toLowerCase())
   ); 
@@ -58,24 +54,6 @@ const ProfesionalesPage = ({auth}: Props) => {
                   <tbody>
                     {lista?.map((user) => (
                        <EstablishmentRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal}/>
-                    ))}
-                    </tbody>
-                  </table>
-      }
-      {formview ? ""
-                : <table className='user-list'>
-                  <thead>
-                    <tr>
-                      <td>IDs</td>
-                      <td>Nombre</td>
-                      <td>Modificar</td>
-                      <td>Eliminar</td>
-                      <td>Estado</td>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {lista2?.map((user) => (
-                      <EstablishmentRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal}/>
                     ))}
                     </tbody>
                   </table>

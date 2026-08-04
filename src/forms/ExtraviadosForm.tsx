@@ -1,7 +1,11 @@
 import { useState } from "react";
 import type { MissingPost } from "../types/types";
+import { Alert, Button, Spinner } from "react-bootstrap";
 
-export default function MissingPostForm() {
+type innerFormType = {
+  changeState: (val: "standby" | "success" | "error" | "loading")=> void
+}
+const InnerForm = ({changeState}: innerFormType) =>{
   const [formData, setFormData] = useState<MissingPost>({
     id: 0,
     title: "",
@@ -18,22 +22,50 @@ export default function MissingPostForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Podrías subirlo a tu backend o convertirlo en URL temporal
-      const url = URL.createObjectURL(file);
-      setFormData((prev) => ({ ...prev, imageUrl: url }));
-    }
-  };
   
-
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Nuevo MissingPost:", formData);
-    // Aquí podrías hacer un POST al backend
+  const [file, setFile] = useState<File | null>(null);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectedFile = e.target.files?.[0];
+  if (selectedFile) {
+    setFile(selectedFile);
+    // opcional: mostrar preview
+    const url = URL.createObjectURL(selectedFile);
+    setFormData((prev) => ({ ...prev, imagen: url }));
+  }
   };
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+        
+      changeState("loading")
+      const formDataToSend = new FormData();
+      
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("description", formData.description);
+      formDataToSend.append("tipo", JSON.stringify(formData.tipo));
+      formDataToSend.append("contact", formData.contact);
+      
+      
+  
+      // imagen como archivo
+      if (file) {
+        formDataToSend.append("imagen", file);
+      }
+      /*
+      const response = await fetch(missingPostEndpoint, {
+        method: "POST",
+        body: formDataToSend,
+      });
+  
+      const result = await response.json();
+      if(result.nombre) {
+        changeState("success")
+      }
+      else changeState("error")
+      */
+     for (const [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+    };
 
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
@@ -70,17 +102,12 @@ export default function MissingPostForm() {
         />
       </div>
       <div className="mb-3">{/* Tipo */}
-        <label className="form-label">Foto de perfil</label>
-        <input
-          type="file"
-          className="form-control"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
+        <label className="form-label">Tipo de posteo</label>
+        
         <select name="tipo" id="tipo" className="form-control" onChange={handleChange}>
-          <option value="0">Extraviado</option>
-          <option value="1">Encontrado</option>
-          <option value="2">En Adopcion</option>
+          <option value={0}>Perdido</option>
+          <option value={1}>Encontrado</option>
+          <option value={2}>En Adopcion</option>
         </select>
       </div>
       <div className="mb-3">{/* Contacto */}
@@ -102,3 +129,22 @@ export default function MissingPostForm() {
     </form>
   );
 }
+export default function MissingPostForm() {
+  const [requestState,setRequestState] = useState<"standby" | "success" | "error" | "loading">("standby")
+  return <>
+  {requestState === "standby" && <InnerForm  changeState={setRequestState}/>}
+                {requestState === "error" && <Alert variant={"danger"}>Operacion fallida</Alert>}
+                {requestState === "success" && <Alert  variant={"success"}>Operacion Exitosa</Alert>}
+                {requestState === "loading" && <Button variant="primary" disabled>
+                                                  <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                  />
+                                                   Loading...
+                                                </Button> }
+  </>
+}
+

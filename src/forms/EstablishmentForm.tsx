@@ -1,7 +1,12 @@
 import { useState } from "react";
 import type { Establishment } from "../types/types";
+import { Alert, Button, Spinner } from "react-bootstrap";
+import { vetesPostEndpoint } from "../endpoints";
 
-export default function EstablishmentForm() {
+type innerFormType = {
+  changeState: (val: "standby" | "success" | "error" | "loading")=> void
+}
+const InnerForm = ({changeState}: innerFormType)=> {
   const [formData, setFormData] = useState<Establishment>({
     id: 0,
     nombre: "",
@@ -23,46 +28,29 @@ export default function EstablishmentForm() {
     haceurgencias: false,
     tienepeluqueria: false,
     tienepetshop: false,
+    redsocial: "",
+    insignias: []
   });
 
   const [practicaInput, setPracticaInput] = useState("");
   const [profesionalInput, setProfesionalInput] = useState("");
   const [phoneInput, setPhoneInput] = useState("");
   const [especialidadInput, setEspecialidadInput] = useState("");
-  
+  const [file, setFile] = useState<File | null>(null);
+  const [badges, setBadges] = useState<string[]>([])
+  const badgeCollector = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    /*esta funcion es para agregar o quitar la insignia de correspondiente del establecimiento */
+    const {id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: e.target.value }));
+    if(value) setBadges((prev) => [ ...prev,id ]);
+    else setBadges(badges.filter(item => item !=id))
+    
+  }
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleCheckboxQuirofano = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, tienequirofano: e.target.checked }));
-  };
-  const handleCheckboxLaboratorio = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, tienelaboratorio: e.target.checked }));
-  };
-  const handleCheckboxInternacion = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, tieneinternacion: e.target.checked }));
-  };
-  const handleCheckboxUrgencias = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, haceurgencias: e.target.checked }));
-  };
-  const handleCheckboxPeluqueria = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, tienepeluqueria: e.target.checked }));
-  };
-  const handleCheckboxPetshop = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, tienepetshop: e.target.checked }));
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Podrías subirlo a tu backend o convertirlo en URL temporal
-      const url = URL.createObjectURL(file);
-      setFormData((prev) => ({ ...prev, imagen: url }));
-    }
   };
 
   const addPractica = () => {
@@ -99,11 +87,7 @@ export default function EstablishmentForm() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Nuevo establecimiento:", formData);
-    // Aquí podrías hacer un POST al backend
-  };
+  
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
@@ -127,6 +111,59 @@ export default function EstablishmentForm() {
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
+      const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = e.target.files?.[0];
+      if (selectedFile) {
+        setFile(selectedFile);
+        // opcional: mostrar preview
+        const url = URL.createObjectURL(selectedFile);
+        setFormData((prev) => ({ ...prev, imagen: url }));
+      }
+    };
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+          console.log(formData)
+        changeState("loading")
+        const formDataToSend = new FormData();
+        const servicios = [especialidadInput].concat(formData.serviciosNOfiltrables)
+        //const domicilio = formData.hacedomicilio ? ["hacedomicilio"] : []
+        
+    
+        formDataToSend.append("nombre", formData.nombre);
+        formDataToSend.append("servicios", JSON.stringify(servicios));
+        formDataToSend.append("ubicacion", formData.ubicacion);
+        formDataToSend.append("telefono", JSON.stringify(formData.telefono));
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("redsocial", formData.redsocial ? formData.redsocial : "");
+        formDataToSend.append("insignias", JSON.stringify(badges));
+        formDataToSend.append("finDeSuscripcion", formData.finDEsuscripcion);
+        formDataToSend.append("horario", formData.horario);
+        formDataToSend.append("profesionalesVinculados", JSON.stringify(formData.profesionalesVinculados));
+    
+        
+    
+        // imagen como archivo
+        if (file) {
+          formDataToSend.append("imagen", file);
+        }
+        
+        const response = await fetch(vetesPostEndpoint, {
+          method: "POST",
+          body: formDataToSend,
+        });
+    
+        const result = await response.json();
+        if(result.nombre) {
+          console.log(result)
+          changeState("success")
+        }
+        else changeState("error")
+        
+      };
+  
+  /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
+  /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
+  /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
       
@@ -146,12 +183,13 @@ export default function EstablishmentForm() {
             />
           </div>
           <div className="mb-3">{/* IMAGEN */}
-        <label className="form-label">Foto de perfil</label>
+        <label className="form-label">Foto de edificio *</label>
         <input
           type="file"
           className="form-control"
           accept="image/*"
           onChange={handleFileChange}
+          required
         />
           </div>
           <div className="mb-3">{/* Horario de atencion */}
@@ -342,7 +380,7 @@ export default function EstablishmentForm() {
               type="checkbox"
               className="form-check-input"
               checked={formData.tienequirofano}
-              onChange={handleCheckboxQuirofano}
+              onChange={badgeCollector}
               id="tienequirofano"
             />
             <label className="form-check-label" htmlFor="tienelaboratorio">
@@ -354,7 +392,7 @@ export default function EstablishmentForm() {
               type="checkbox"
               className="form-check-input"
               checked={formData.tienelaboratorio}
-              onChange={handleCheckboxLaboratorio}
+             onChange={badgeCollector}
               id="tienelaboratorio"
             />
             <label className="form-check-label" htmlFor="tienelaboratorio">
@@ -366,7 +404,7 @@ export default function EstablishmentForm() {
               type="checkbox"
               className="form-check-input"
               checked={formData.tieneinternacion}
-              onChange={handleCheckboxInternacion}
+             onChange={badgeCollector}
               id="tieneinternacion"
             />
             <label className="form-check-label" htmlFor="tieneinternacion">
@@ -378,7 +416,7 @@ export default function EstablishmentForm() {
               type="checkbox"
               className="form-check-input"
               checked={formData.haceurgencias}
-              onChange={handleCheckboxUrgencias}
+             onChange={badgeCollector}
               id="haceurgencias"
             />
             <label className="form-check-label" htmlFor="haceurgencias">
@@ -390,7 +428,7 @@ export default function EstablishmentForm() {
               type="checkbox"
               className="form-check-input"
               checked={formData.tienepeluqueria}
-              onChange={handleCheckboxPeluqueria}
+             onChange={badgeCollector}
               id="tienepeluqueria"
             />
             <label className="form-check-label" htmlFor="tienepeluqueria">
@@ -402,7 +440,7 @@ export default function EstablishmentForm() {
               type="checkbox"
               className="form-check-input"
               checked={formData.tienepetshop}
-              onChange={handleCheckboxPetshop}
+             onChange={badgeCollector}
               id="tienepetshop"
             />
             <label className="form-check-label" htmlFor="tienepetshop">
@@ -417,4 +455,22 @@ export default function EstablishmentForm() {
       </button>
     </form>
   );
+}
+export const EstablishmentForm  = () =>{
+  const [requestState,setRequestState] = useState<"standby" | "success" | "error" | "loading">("standby")
+  return <>
+  {requestState === "standby" && <InnerForm  changeState={setRequestState}/>}
+                {requestState === "error" && <Alert variant={"danger"}>Operacion fallida</Alert>}
+                {requestState === "success" && <Alert  variant={"success"}>Operacion Exitosa</Alert>}
+                {requestState === "loading" && <Button variant="primary" disabled>
+                                                  <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                  />
+                                                   Loading...
+                                                </Button> }
+  </>
 }

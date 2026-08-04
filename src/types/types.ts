@@ -22,15 +22,15 @@ export interface Profesional {
   id: number;
   nombre: string;// nombre del profesional
   especialidad: string; // especialidad medica
-  practicas?: string[];//especies, practicas, conocimientos
+  practicas: string[];//especies, practicas, conocimientos
   imagen?: string;// url de la foto de perfil
   ubicacion: string;//contacto
   telefono: string;//contacto
   email: string;//contacto
   hacedomicilio: boolean;// para filtrar si hace visitas a domicilio
-  horarioDEcontacto?: string; //para que la gente sepa en que horario llamarlo
+  horarioDEcontacto: string; //para que la gente sepa en que horario llamarlo
   finDEsuscripcion: string;//algunos profesionales no ejercen dentro de un establecimiento
-
+  redsocial?: string;
   contacto?: UserContact;
   rating?: number;
   disponible?: boolean;
@@ -81,7 +81,7 @@ export interface Establishment {
   longitud: number;
 
     servicios?: EstablishmentService;
-    serviciosNOfiltrables?: string[]
+    serviciosNOfiltrables: string[]
   tienequirofano?: boolean;// pa servicios
   tienelaboratorio?: boolean;// pa servicios
   tieneinternacion?: boolean;// pa servicios
@@ -91,7 +91,8 @@ export interface Establishment {
 
   
   finDEsuscripcion: string;
-  
+  redsocial: string;
+  insignias: string[]
   disponible?: boolean;
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
@@ -106,7 +107,7 @@ export interface MissingPost {
   title: string;
   description: string;
   location?: string;
-  contact?: string;
+  contact: string;
   createdAt?: Date;
   tipo: 0 | 1 | 2// 0:"extraviado" 1:"encontrado" 2:"adopcion"
 }

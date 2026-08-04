@@ -23,7 +23,8 @@ const ProfesionalEditForm = ({props, changeState}: FormProps)=> {
     telefono: props ? props.telefono : "",
     email: props ? props.email : "",
     hacedomicilio: props ? props.hacedomicilio : false,
-    finDEsuscripcion: props ? props.finDEsuscripcion : ""
+    finDEsuscripcion: props ? props.finDEsuscripcion : "",
+    horarioDEcontacto: props ? props.horarioDEcontacto : ""
   });
 
   const [practicaInput, setPracticaInput] = useState("");
