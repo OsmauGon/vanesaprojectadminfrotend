@@ -11,7 +11,7 @@ import CalendarPage from "./pages/CalendarioPage";
 
 function App() {
   //const isAuthenticated = localStorage.getItem("token"); // simplificado
-  const [isAuthenticated,setAuth] = useState<boolean>(true)
+  const [isAuthenticated,setAuth] = useState<boolean>(false)
 
   return (
     <BrowserRouter>

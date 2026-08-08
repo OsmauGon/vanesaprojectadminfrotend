@@ -1,7 +1,13 @@
 import { useState } from "react";
 import type { Blog } from "../types/types";
+import { Alert, Button, Spinner } from "react-bootstrap";
+import { blogPostEndpoint } from "../endpoints";
 
-export default function BlogForm() {
+
+type innerFormType = {
+  changeState: (val: "standby" | "success" | "error" | "loading")=> void
+}
+const InnerForm = ({changeState}: innerFormType) =>{
   const [formData, setFormData] = useState<Blog>({
     id: 0,
     idOwner: 0,
@@ -9,8 +15,7 @@ export default function BlogForm() {
     description: "",
     imageUrl: "",
     videoUrl: "",
-    documentUrl: "",
-    state: "standby"
+    documentUrl: ""
   });
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -18,33 +23,67 @@ export default function BlogForm() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
+  const [file, setFile] = useState<File | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Podrías subirlo a tu backend o convertirlo en URL temporal
-      const url = URL.createObjectURL(file);
-      setFormData((prev) => ({ ...prev, imageUrl: url }));
-    }
+  const selectedFile = e.target.files?.[0];
+  if (selectedFile) {
+    setFile(selectedFile);
+    // opcional: mostrar preview
+    const url = URL.createObjectURL(selectedFile);
+    setFormData((prev) => ({ ...prev, imagen: url }));
+  }
   };
-  const handleDocumentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      // Podrías subirlo a tu backend o convertirlo en URL temporal
-      const url = URL.createObjectURL(file);
-      setFormData((prev) => ({ ...prev, documentUrl: url }));
-    }
-  };
-
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Nuevo blog:", formData);
-    // Aquí podrías hacer un POST al backend
+      
+    changeState("loading")
+    const formDataToSend = new FormData();
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("description", formData.description);
+
+    if (formData.videoUrl && formData.videoUrl?.length > 5) formDataToSend.append("videoUrl", formData.videoUrl);
+    if (formData.documentUrl && formData.documentUrl?.length > 5) formDataToSend.append("documentUrl", formData.documentUrl);
+
+    // imagen como archivo
+    if (file) {
+      formDataToSend.append("imagen", file);
+    }
+    /* try {
+      const response = await fetch(blogPostEndpoint, {
+      method: "POST",
+      body: formDataToSend,
+      });
+      const result = await response.json();
+      if(result.message === "EXITO") {
+        changeState("success")
+      }
+    } catch (error) {
+      changeState("error")
+      console.log("Error detectado: ", error)
+    } */
+   
+    
+     for (const [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+    setTimeout(() => {
+      changeState("standby")
+    }, 2000);
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
+      <div className="mb-3">{/* ID dueño */}
+        <label className="form-label">ID dueño</label>
+        <input
+          type="text"
+          name="idOwner"
+          className="form-control"
+          value={formData.idOwner}
+          onChange={handleChange}
+          placeholder="ID del profesional"
+        />
+      </div>
       <div className="mb-3">{/* titulo */}
         <label className="form-label">Titulo</label>
         <input
@@ -54,9 +93,9 @@ export default function BlogForm() {
           value={formData.title}
           onChange={handleChange}
           required
+          placeholder="Titulo del articulo"
         />
       </div>
-
       <div className="mb-3">{/* Descripcion */}
         <label className="form-label">Descripcion</label>
         <input
@@ -66,6 +105,7 @@ export default function BlogForm() {
           value={formData.description}
           onChange={handleChange}
           required
+          placeholder="Descripcion del articulo"
         />
       </div>
 
@@ -76,6 +116,7 @@ export default function BlogForm() {
           className="form-control"
           accept="image/*"
           onChange={handleFileChange}
+          placeholder="Imagen del articulo"
         />
       </div>
       <div className="mb-3">{/* Video*/}
@@ -86,15 +127,16 @@ export default function BlogForm() {
           className="form-control"
           value={formData.videoUrl}
           onChange={handleChange}
+          placeholder="Enlace al video"
         />
       </div>
       <div className="mb-3">{/* Documento */}
         <label className="form-label">Adjuntar documento</label>
         <input
-          type="file"
+          type="text"
           className="form-control"
-          accept="document/*"
-          onChange={handleDocumentChange}
+          onChange={handleChange}
+          placeholder="Enlace al drive de descarga"
         />
       </div>
       <button type="submit" className="btn btn-success">
@@ -102,4 +144,22 @@ export default function BlogForm() {
       </button>
     </form>
   );
+}
+export const BlogForm = () =>{
+  const [requestState,setRequestState] = useState<"standby" | "success" | "error" | "loading">("standby")
+  return <>
+  {requestState === "standby" && <InnerForm  changeState={setRequestState}/>}
+                {requestState === "error" && <Alert variant={"danger"}>Operacion fallida</Alert>}
+                {requestState === "success" && <Alert  variant={"success"}>Operacion Exitosa</Alert>}
+                {requestState === "loading" && <Button variant="primary" disabled>
+                                                  <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                  />
+                                                   Loading...
+                                                </Button> }
+  </>
 }

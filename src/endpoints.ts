@@ -1,4 +1,5 @@
-const direLocal: string = "http://localhost:3000/"
+export const direLocal: string = "http://localhost:3000/"
+export const direRailway: string = "https://vanesabackend-production-a947.up.railway.app/"
 
 export const authEndpoint = direLocal + "auth/login"
 
@@ -11,4 +12,6 @@ export const publicidadGetEndpoint = direLocal + "api/publicidad/private"
 
 export const profPostEndpoint = direLocal + "api/profes/private"
 export const vetesPostEndpoint = direLocal + "api/vetes/private"
-export const missingsPostEndpoint = direLocal + "api/vetes/private"
+export const blogPostEndpoint = direLocal + "api/blogs/private"
+export const eventPostEndpoint = direLocal + "api/events/private"
+export const missingsPostEndpoint = direLocal + "api/missings/private"

@@ -21,10 +21,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
     horarioDEcontacto: "",//es campo obligatorio para el backend
     redsocial: ""
   });
-
   const [practicaInput, setPracticaInput] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -35,17 +32,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
   const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, hacedomicilio: e.target.checked }));
   };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  const selectedFile = e.target.files?.[0];
-  if (selectedFile) {
-    setFile(selectedFile);
-    // opcional: mostrar preview
-    const url = URL.createObjectURL(selectedFile);
-    setFormData((prev) => ({ ...prev, imagen: url }));
-  }
-  };
-
   const addPractica = () => {
     if (practicaInput.trim() !== "") {
       setFormData((prev) => ({
@@ -55,7 +41,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
       setPracticaInput("");
     }
   };
-
   const removePractica = (index: number) => {
     setFormData((prev) => ({
       ...prev,
@@ -63,7 +48,17 @@ const InnerForm = ({changeState}: innerFormType) =>{
     }));
   };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+  const [file, setFile] = useState<File | null>(null);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectedFile = e.target.files?.[0];
+  if (selectedFile) {
+    setFile(selectedFile);
+    // opcional: mostrar preview
+    const url = URL.createObjectURL(selectedFile);
+    setFormData((prev) => ({ ...prev, imagen: url }));
+  }
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
       
     changeState("loading")
@@ -92,28 +87,20 @@ const InnerForm = ({changeState}: innerFormType) =>{
       formDataToSend.append("imagen", file);
     }
     
-    const response = await fetch(profPostEndpoint, {
+    try {
+      const response = await fetch(profPostEndpoint, {
       method: "POST",
       body: formDataToSend,
-    });
-
-    const result = await response.json();
-    if(result.nombre) {
-      changeState("success")
+      });
+      const result = await response.json();
+      if(result.message === "EXITO") {
+        changeState("success")
+      }
+    } catch (error) {
+      changeState("error")
+      console.log("Error detectado: ", error)
     }
-    else changeState("error")
-    
   };
-  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-  /*El sigueinte codigo es para adaptar el formData que enviaremos al formData que espera el backend ()) */
-
-
-  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-  /* %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
-
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
       <details>

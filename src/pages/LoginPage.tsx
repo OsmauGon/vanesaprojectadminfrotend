@@ -89,7 +89,6 @@ export default function LoginPage({setAuth}: Props) {
         </div>
         <button type="submit" className="btn btn-primary w-100">Ingresar</button>
       </form>
-      <p>email === "admin@portal.com" && data.password === "123456"</p>
     </div>
   );
 }

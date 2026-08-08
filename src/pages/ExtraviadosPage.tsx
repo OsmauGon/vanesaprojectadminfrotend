@@ -8,20 +8,50 @@ import { ModalDEextraviados } from '../modales/ModalDEextraviados';
 import { missingsGetEndpoint } from '../endpoints';
 
 type Props = {
-    auth: boolean
+    auth: boolean,
+    encabezados: [],
+    lista: []
 }
+/*
+const TableComponent: React.FunctionComponent = ({encabezados, lista}: Props)=>{
+  return (
+    <table className='user-list'>
+      <thead>
+        <tr>
+          {encabezados.map(item => (<td>{item}</td>))}
+          </tr>
+      </thead>
+      <tbody>
+        {lista?.map((item) => (
+          <LostRow prof={item}  setSelectedLost={setSelectedLost} setShowModal={setShowModal} />
+        ))}
+      </tbody>
+    </table>
+  )
+
+}
+*/
 
 const ExtraviadosPage = ({auth}: Props) => {
-      const [busqueda, setBusqueda] = useState("");
+  const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const { data, loading, error } = useFetch<MissingPost[]>(missingsGetEndpoint);
   const [selectedLost,setSelectedLost] = useState<MissingPost | null>(null)
-    const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const lista = data?.filter(p => 
     p.title.toLowerCase().includes(busqueda.toLowerCase()) ||
     p.description.toLowerCase().includes(busqueda.toLowerCase())
   );
+
+  const tableHeaders = [
+  "IDs", 
+  "Tipo",
+  "Titulo",
+  "Modificar",
+  "Eliminar",
+]
+
   return (
      auth && <div className='container'>
       <h2>Gestión de Perdidos/encontrados</h2>
@@ -44,11 +74,7 @@ const ExtraviadosPage = ({auth}: Props) => {
                 : <table className='user-list'>
                   <thead>
                     <tr>
-                      <td>IDs</td>
-                      <td>Tipo</td>
-                      <td>Titulo</td>
-                      <td>Modificar</td>
-                      <td>Eliminar</td>
+                      {tableHeaders.map(item => (<td key={item}>{item}</td>))}
                     </tr>
                   </thead>
                   <tbody>

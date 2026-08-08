@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { MissingPost } from "../types/types";
 import { Alert, Button, Spinner } from "react-bootstrap";
+import { missingsPostEndpoint } from "../endpoints";
 
 type innerFormType = {
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
@@ -34,38 +35,40 @@ const InnerForm = ({changeState}: innerFormType) =>{
   }
   };
   const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-        
-      changeState("loading")
-      const formDataToSend = new FormData();
-      
-      formDataToSend.append("title", formData.title);
-      formDataToSend.append("description", formData.description);
-      formDataToSend.append("tipo", JSON.stringify(formData.tipo));
-      formDataToSend.append("contact", formData.contact);
-      
-      
-  
-      // imagen como archivo
-      if (file) {
-        formDataToSend.append("imagen", file);
-      }
-      /*
-      const response = await fetch(missingPostEndpoint, {
-        method: "POST",
-        body: formDataToSend,
+    e.preventDefault();
+    changeState("loading")
+    const formDataToSend = new FormData();
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("description", formData.description);
+    formDataToSend.append("contact", formData.contact);
+
+    
+    // imagen como archivo
+    if (file) {
+      formDataToSend.append("imagen", file);
+    }
+    /* try {
+      const response = await fetch(missingsPostEndpoint, {
+      method: "POST",
+      body: formDataToSend,
       });
-  
       const result = await response.json();
-      if(result.nombre) {
+      if(result.message === "EXITO") {
         changeState("success")
       }
-      else changeState("error")
-      */
+    } catch (error) {
+      changeState("error")
+      console.log("Error detectado: ", error)
+    } */
+   
+    
      for (const [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
-    };
+    setTimeout(() => {
+      changeState("standby")
+    }, 2000);
+  };
 
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
@@ -77,10 +80,9 @@ const InnerForm = ({changeState}: innerFormType) =>{
           className="form-control"
           value={formData.title}
           onChange={handleChange}
-          required
+          placeholder="Titulo"
         />
       </div>
-
       <div className="mb-3">{/* Descripcion */}
         <label className="form-label">Descripcion</label>
         <input
@@ -89,21 +91,21 @@ const InnerForm = ({changeState}: innerFormType) =>{
           className="form-control"
           value={formData.description}
           onChange={handleChange}
-          required
+          placeholder="Descripcion"
         />
       </div>
       <div className="mb-3">{/* IMAGEN */}
-        <label className="form-label">Foto de perfil</label>
+        <label className="form-label">Foto del posteo</label>
         <input
           type="file"
           className="form-control"
           accept="image/*"
           onChange={handleFileChange}
+          required
         />
       </div>
       <div className="mb-3">{/* Tipo */}
         <label className="form-label">Tipo de posteo</label>
-        
         <select name="tipo" id="tipo" className="form-control" onChange={handleChange}>
           <option value={0}>Perdido</option>
           <option value={1}>Encontrado</option>

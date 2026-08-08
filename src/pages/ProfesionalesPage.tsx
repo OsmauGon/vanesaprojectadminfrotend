@@ -8,6 +8,15 @@ import { ModalDEprofesional } from '../modales/ModalDEprofesional';
 import { profGetEndpoint } from '../endpoints';
 import { ProfesionalForm } from '../forms/ProfesionalForm';
 
+
+const tableHeaders = [
+  "IDs", 
+  "Nombre",
+  "Modificar",
+  "Eliminar",
+  "Estado"
+]
+
 type Props = {
     auth: boolean
 }
@@ -45,11 +54,7 @@ const ProfesionalesPage = ({auth}: Props) => {
                 : <table className='user-list'>
                   <thead>
                     <tr>
-                      <td>IDs</td>
-                      <td>Nombre</td>
-                      <td>Modificar</td>
-                      <td>Eliminar</td>
-                      <td>Estado</td>
+                      {tableHeaders.map(item => (<td key={item}>{item}</td>))}
                     </tr>
                   </thead>
                   <tbody>

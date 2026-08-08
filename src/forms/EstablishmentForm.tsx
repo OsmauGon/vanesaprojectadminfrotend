@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { Establishment } from "../types/types";
 import { Alert, Button, Spinner } from "react-bootstrap";
-import { vetesPostEndpoint } from "../endpoints";
+import {vetesPostEndpoint } from "../endpoints";
 
 type innerFormType = {
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
@@ -146,18 +146,19 @@ const InnerForm = ({changeState}: innerFormType)=> {
         if (file) {
           formDataToSend.append("imagen", file);
         }
-        
-        const response = await fetch(vetesPostEndpoint, {
+        try {
+          const response = await fetch(vetesPostEndpoint, {
           method: "POST",
           body: formDataToSend,
-        });
-    
-        const result = await response.json();
-        if(result.nombre) {
-          console.log(result)
-          changeState("success")
+          });
+          const result = await response.json();
+          if(result.message === "EXITO") {
+            changeState("success")
+          }
+        } catch (error) {
+          changeState("error")
+          console.log("Error detectado: ", error)
         }
-        else changeState("error")
         
       };
   

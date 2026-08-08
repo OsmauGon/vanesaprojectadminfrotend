@@ -8,10 +8,19 @@ import { ModalDEestablecimiento } from '../modales/ModalDEestablecimiento';
 import { EstablishmentForm } from '../forms/EstablishmentForm';
 import { vetesGetEndpoint } from '../endpoints';
 
+const tableHeaders = [
+  "IDs", 
+  "Nombre",
+  "Modificar",
+  "Eliminar",
+  "Estado"
+]
+
+
 type Props = {
     auth: boolean
 }
-const ProfesionalesPage = ({auth}: Props) => {
+const EstablecimientosPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedProf,setSelectedProf] = useState<Establishment | null>(null)
@@ -44,11 +53,7 @@ const ProfesionalesPage = ({auth}: Props) => {
                 : <table className='user-list'>
                   <thead>
                     <tr>
-                      <td>IDs</td>
-                      <td>Nombre</td>
-                      <td>Modificar</td>
-                      <td>Eliminar</td>
-                      <td>Estado</td>
+                      {tableHeaders.map(item => (<td key={item}>{item}</td>))}
                     </tr>
                   </thead>
                   <tbody>
@@ -63,4 +68,4 @@ const ProfesionalesPage = ({auth}: Props) => {
   )
 }
 
-export default ProfesionalesPage
+export default EstablecimientosPage

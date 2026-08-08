@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { useFetch } from '../hooks/useFetch';
 import type { Blog } from '../types/types';
 import { Button, Form, InputGroup } from 'react-bootstrap';
-import BlogForm from '../forms/BlogForm';
 import BlogRow from '../rows/BlogRow';
 import { ModalDEblog } from '../modales/ModalDEblog';
 import { blogGetEndpoint } from '../endpoints';
+import { BlogForm } from '../forms/BlogForm';
 
 type Props = {
     auth: boolean
@@ -22,9 +22,16 @@ const BlogsPage = ({auth}: Props) => {
     p.title.toLowerCase().includes(busqueda.toLowerCase()) ||
     p.description.toLowerCase().includes(busqueda.toLowerCase())
   ); 
+  const tableHeaders = [
+  "IDs", 
+  "ID dueño",
+  "Titulo",
+  "Modificar",
+  "Eliminar",
+  ]
   return (
      auth && <div className='container'>
-      <h2>Gestión de Profesionales</h2>
+      <h2>Gestión de Blogs</h2>
       <div className="plus-button-container">
         <button className="btn btn-success" onClick={()=> setFormview(!formview)}>{formview ? "<- Volver atras" : "+ Nuevo Blog"}</button>
       </div>
@@ -44,11 +51,7 @@ const BlogsPage = ({auth}: Props) => {
                 : <table className='user-list'>
                   <thead>
                     <tr>
-                      <td>IDs</td>
-                      <td>ID Dueño</td>
-                      <td>Titulo</td>
-                      <td>Modificar</td>
-                      <td>Eliminar</td>
+                      {tableHeaders.map(item=> (<td key={item}>{item}</td>))}
                     </tr>
                   </thead>
                   <tbody>

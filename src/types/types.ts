@@ -124,7 +124,7 @@ export type Blog ={
     documentUrl?: string,//Porque puede o no tener para descargar
     imageUrl?: string,//Porque puede o no tener para ver
     videoUrl?: string,//Porque puede o no tener para ver
-    state: "able"  | "disable" | "standby" 
+    state?: "able"  | "disable" | "standby" 
 }
 export interface Cita {
   id: number;

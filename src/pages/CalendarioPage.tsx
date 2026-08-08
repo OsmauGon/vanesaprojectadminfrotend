@@ -3,10 +3,10 @@ import { Form, InputGroup, Button } from 'react-bootstrap';
 import { useFetch } from '../hooks/useFetch';
 import '../styles/profesinal-page-style.css'
 import type { Event } from '../types/types';
-import EventForm from '../forms/EventForm';
 import EventRow from '../rows/EventRow';
 import { ModalDEevento } from '../modales/ModalDEevento';
 import { eventGetEndpoint } from '../endpoints';
+import { EventForm } from '../forms/EventForm';
 
 type Props = {
     auth: boolean
