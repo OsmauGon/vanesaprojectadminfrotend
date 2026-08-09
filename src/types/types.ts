@@ -29,7 +29,7 @@ export interface Profesional {
   email: string;//contacto
   horarioDEcontacto: string; //para que la gente sepa en que horario llamarlo
   finDEsuscripcion: string;//algunos profesionales no ejercen dentro de un establecimiento
-  redSocial?: string;
+  redSocial: string;
   insignias: string[];
   createdAt?: string;//Lo ponemos como no obligatorio por el formulario
   

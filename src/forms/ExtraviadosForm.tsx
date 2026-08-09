@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { MissingPost } from "../types/types";
 import { Alert, Button, Spinner } from "react-bootstrap";
-import { missingsPostEndpoint } from "../endpoints";
 
 type innerFormType = {
   changeState: (val: "standby" | "success" | "error" | "loading")=> void

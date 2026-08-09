@@ -18,7 +18,8 @@ const InnerForm = ({changeState}: innerFormType) =>{
     email: "",
     finDEsuscripcion: "",//es campo obligatorio para el backend
     horarioDEcontacto: "",//es campo obligatorio para el backend
-    redsocial: ""
+    redSocial: "",
+    insignias: []
   });
   const [practicaInput, setPracticaInput] = useState("");
   const [badges, setBadges] = useState<string[]>([])
@@ -77,7 +78,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
     formDataToSend.append("ubicacion", formData.ubicacion);
     formDataToSend.append("telefono", formData.telefono);
     formDataToSend.append("email", formData.email);
-    formDataToSend.append("redsocial", formData.redsocial ? formData.redsocial : "");
+    formDataToSend.append("redSocial", formData.redSocial);
     formDataToSend.append("insignias", JSON.stringify(domicilio));
     formDataToSend.append("finDeSuscripcion", formData.finDEsuscripcion);
     formDataToSend.append("horario", formData.horarioDEcontacto);
@@ -175,7 +176,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               type="redsocial"
               name="redsocial"
               className="form-control"
-              value={formData.redsocial}
+              value={formData.redSocial}
               onChange={handleChange}
               placeholder="@Instagram-link"
             />
