@@ -11,9 +11,8 @@ import { vetesGetEndpoint } from '../endpoints';
 const tableHeaders = [
   "IDs", 
   "Nombre",
-  "Modificar",
-  "Eliminar",
-  "Estado"
+  "Estado",
+  "Accion"
 ]
 
 

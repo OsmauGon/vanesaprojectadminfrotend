@@ -16,12 +16,20 @@ const InnerForm = ({changeState}: innerFormType) =>{
     ubicacion: "",
     telefono: "",
     email: "",
-    hacedomicilio: false,
     finDEsuscripcion: "",//es campo obligatorio para el backend
     horarioDEcontacto: "",//es campo obligatorio para el backend
     redsocial: ""
   });
   const [practicaInput, setPracticaInput] = useState("");
+  const [badges, setBadges] = useState<string[]>([])
+  const badgeCollector = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+    /*esta funcion es para agregar o quitar la insignia de correspondiente del establecimiento */
+    const {id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: e.target.value }));
+    if(value) setBadges((prev) => [ ...prev,id ]);
+    else setBadges(badges.filter(item => item !=id))
+    
+  }
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -29,9 +37,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, hacedomicilio: e.target.checked }));
-  };
   const addPractica = () => {
     if (practicaInput.trim() !== "") {
       setFormData((prev) => ({
@@ -107,7 +112,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
         <summary>Perfil Personal</summary>
         <div>
           <div className="mb-3">{/* NOMBRE */}
-            <label className="form-label">Nombre</label>
+            <label className="form-label">Nombre *</label>
             <input
               type="text"
               name="nombre"
@@ -115,10 +120,11 @@ const InnerForm = ({changeState}: innerFormType) =>{
               value={formData.nombre}
               onChange={handleChange}
               required
+              placeholder="Nombre del profesional"
             />
           </div>
           <div className="mb-3">{/* IMAGEN */}
-        <label className="form-label">Foto de perfil</label>
+        <label className="form-label">Foto de perfil *</label>
         <input
           type="file"
           className="form-control"
@@ -135,6 +141,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               className="form-control"
               value={formData.ubicacion}
               onChange={handleChange}
+              placeholder="Direccion del profesional"
             />
           </div>
 
@@ -146,6 +153,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               className="form-control"
               value={formData.telefono}
               onChange={handleChange}
+              placeholder="2236666666"
             />
           </div>
 
@@ -157,6 +165,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               className="form-control"
               value={formData.email}
               onChange={handleChange}
+              placeholder="profesional@hotmail.com"
             />
           </div>
           
@@ -168,6 +177,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               className="form-control"
               value={formData.redsocial}
               onChange={handleChange}
+              placeholder="@Instagram-link"
             />
           </div>
         </div>
@@ -184,6 +194,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               value={formData.horarioDEcontacto}
               onChange={handleChange}
               required
+              placeholder="Lunes a Viernes de 9 a 19"
             />
           </div>
           <div className="mb-3">{/* ESPECIALIDAD */}
@@ -195,6 +206,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               value={formData.especialidad}
               onChange={handleChange}
               required
+              placeholder="Especialidad principal"
             />
           </div>
           <div className="mb-3">{/* Practicas */}
@@ -205,6 +217,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
                 className="form-control"
                 value={practicaInput}
                 onChange={(e) => setPracticaInput(e.target.value)}
+                placeholder="Otras especialidades"
               />
               <button
                 type="button"
@@ -227,18 +240,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
                 </span>
               ))}
           </div>
-          <div className="form-check mb-3">{/* HACE DOMICILIO */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={formData.hacedomicilio}
-              onChange={handleCheckbox}
-              id="hacedomicilio"
-            />
-            <label className="form-check-label" htmlFor="hacedomicilio">
-              Hace visitas a domicilio
-            </label>
-          </div>
           <div className="mb-3">{/* Limite de Suscripcion */}
             <label className="form-label">Limite de suscripcion</label>
             <input
@@ -251,6 +252,35 @@ const InnerForm = ({changeState}: innerFormType) =>{
             />
           </div>
         </div>
+      </details>
+      <details>
+        <summary>Insignias</summary>
+        <div>
+          <div className="form-check mb-3">{/* HACE DOMICILIO */}
+            <input
+              type="checkbox"
+              className="form-check-input"
+              checked={badges.includes("hacedomicilio")}
+              onChange={badgeCollector}
+              id="hacedomicilio"
+            />
+            <label className="form-check-label" htmlFor="hacedomicilio">
+              Hace visitas a domicilio
+            </label>
+          </div>
+        </div>
+          <div className="form-check mb-3">{/* HACE URGENCIAS */}
+            <input
+              type="checkbox"
+              className="form-check-input"
+              checked={badges.includes("haceurgencias")}
+              onChange={badgeCollector}
+              id="haceurgencias"
+            />
+            <label className="form-check-label" htmlFor="haceurgencias">
+              Hace visitas a urgencias
+            </label>
+          </div>
       </details>
 
       <button type="submit" className="btn btn-success">

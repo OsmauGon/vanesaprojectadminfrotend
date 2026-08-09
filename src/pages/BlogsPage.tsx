@@ -26,8 +26,7 @@ const BlogsPage = ({auth}: Props) => {
   "IDs", 
   "ID dueño",
   "Titulo",
-  "Modificar",
-  "Eliminar",
+  "Accion"
   ]
   return (
      auth && <div className='container'>

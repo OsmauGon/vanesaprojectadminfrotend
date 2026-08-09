@@ -12,9 +12,8 @@ import { ProfesionalForm } from '../forms/ProfesionalForm';
 const tableHeaders = [
   "IDs", 
   "Nombre",
-  "Modificar",
-  "Eliminar",
-  "Estado"
+  "Estado",
+  "Accion"
 ]
 
 type Props = {

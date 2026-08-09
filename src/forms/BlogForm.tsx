@@ -85,7 +85,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
         />
       </div>
       <div className="mb-3">{/* titulo */}
-        <label className="form-label">Titulo</label>
+        <label className="form-label">Titulo *</label>
         <input
           type="text"
           name="title"
@@ -97,7 +97,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
         />
       </div>
       <div className="mb-3">{/* Descripcion */}
-        <label className="form-label">Descripcion</label>
+        <label className="form-label">Descripcion *</label>
         <input
           type="text"
           name="description"

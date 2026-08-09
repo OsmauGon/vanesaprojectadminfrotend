@@ -48,8 +48,7 @@ const ExtraviadosPage = ({auth}: Props) => {
   "IDs", 
   "Tipo",
   "Titulo",
-  "Modificar",
-  "Eliminar",
+  "Accion"
 ]
 
   return (

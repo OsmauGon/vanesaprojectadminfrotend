@@ -86,8 +86,6 @@ const InnerForm = ({changeState}: innerFormType)=> {
       practicas: prev.telefono?.filter((_, i) => i !== index),
     }));
   };
-
-  
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
@@ -373,15 +371,15 @@ const InnerForm = ({changeState}: innerFormType)=> {
         </div>
       </details>
       <details>
-        <summary>Servicios</summary>
+        <summary>Insignias</summary>
         <div>
           
           <div className="form-check mb-3">{/* Tiene Quirofano */}
             <input
               type="checkbox"
               className="form-check-input"
-              checked={formData.tienequirofano}
-              onChange={badgeCollector}
+              checked={badges.includes("tienequirofano")}
+               onChange={badgeCollector}
               id="tienequirofano"
             />
             <label className="form-check-label" htmlFor="tienelaboratorio">
@@ -392,8 +390,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
             <input
               type="checkbox"
               className="form-check-input"
-              checked={formData.tienelaboratorio}
-             onChange={badgeCollector}
+              checked={badges.includes("tienelaboratorio")}
+              onChange={badgeCollector}
               id="tienelaboratorio"
             />
             <label className="form-check-label" htmlFor="tienelaboratorio">
@@ -404,8 +402,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
             <input
               type="checkbox"
               className="form-check-input"
-              checked={formData.tieneinternacion}
-             onChange={badgeCollector}
+              checked={badges.includes("tieneinternacion")}
+              onChange={badgeCollector}
               id="tieneinternacion"
             />
             <label className="form-check-label" htmlFor="tieneinternacion">
@@ -416,8 +414,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
             <input
               type="checkbox"
               className="form-check-input"
-              checked={formData.haceurgencias}
-             onChange={badgeCollector}
+              checked={badges.includes("haceurgencias")}
+              onChange={badgeCollector}
               id="haceurgencias"
             />
             <label className="form-check-label" htmlFor="haceurgencias">
@@ -428,8 +426,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
             <input
               type="checkbox"
               className="form-check-input"
-              checked={formData.tienepeluqueria}
-             onChange={badgeCollector}
+              checked={badges.includes("tienepeluqueria")}
+              onChange={badgeCollector}
               id="tienepeluqueria"
             />
             <label className="form-check-label" htmlFor="tienepeluqueria">
@@ -440,8 +438,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
             <input
               type="checkbox"
               className="form-check-input"
-              checked={formData.tienepetshop}
-             onChange={badgeCollector}
+              checked={badges.includes("tienepetshop")}
+              onChange={badgeCollector}
               id="tienepetshop"
             />
             <label className="form-check-label" htmlFor="tienepetshop">

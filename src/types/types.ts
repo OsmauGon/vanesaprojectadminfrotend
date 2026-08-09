@@ -21,19 +21,25 @@ export const posiblesservicios: string[] = [
 export interface Profesional {
   id: number;
   nombre: string;// nombre del profesional
-  especialidad: string; // especialidad medica
   practicas: string[];//especies, practicas, conocimientos
+  servicios?: string[];//especies, practicas, conocimientos
   imagen?: string;// url de la foto de perfil
   ubicacion: string;//contacto
   telefono: string;//contacto
   email: string;//contacto
-  hacedomicilio: boolean;// para filtrar si hace visitas a domicilio
   horarioDEcontacto: string; //para que la gente sepa en que horario llamarlo
   finDEsuscripcion: string;//algunos profesionales no ejercen dentro de un establecimiento
-  redsocial?: string;
+  redSocial?: string;
+  insignias: string[];
+  createdAt?: string;//Lo ponemos como no obligatorio por el formulario
+  
+  rating?: number;//SE PUEDE QUITAR
+  disponible?: boolean;//SE PUEDE QUITAR
+
   contacto?: UserContact;
-  rating?: number;
-  disponible?: boolean;
+  especialidad: string; // especialidad medica SE INCLUYO EN PRACTICAS
+  hacedomicilio?: boolean;// para filtrar si hace visitas a domicilio SE PUEDE QUITAR porque se incluyo en INSIGNIAS
+  
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
@@ -71,7 +77,7 @@ export interface Establishment {
     horarios?: EstablishmentHours;
   profesionalesVinculados: string[];
   especialidades: string[]; // especialidad medica
-  practicas?: string[];//especies,practicas, conocimientos
+  practicas?: string[];//especialidad principal,especies,practicas, conocimientos
 
     contacto?: EstablishmentContact
   ubicacion: string;//contacto
