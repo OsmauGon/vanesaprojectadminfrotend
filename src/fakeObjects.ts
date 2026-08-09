@@ -1,6 +1,6 @@
-import type { Blog,Establishment, Event, MissingPost, Profesional } from "./types/types";
+//import type { Blog,Establishment, Event, MissingPost, Profesional } from "./types/types";
 
-export const fakeProfesionals: Profesional[] =[
+/* export const fakeProfesionals: Profesional[] =[
   { 
       id: 100, 
       nombre: "Dra Ana Paula Carou", 
@@ -195,13 +195,13 @@ export const fakeProfesionals: Profesional[] =[
     practicas: ["Cardiologia","Medicina General","Odontologia","Dermatologia","Cirugia Veterinaria","Perros","Gatos","Loros"] 
   },
 
-];
+]; */
 /**################################################# */
 /**################################################# */
 /**################################################# */
 /**################################################# */
 
-export const fakeEstablishments: Establishment[] = [
+/* export const fakeEstablishments: Establishment[] = [
   { 
     id: 1,
     nombre: "El club de las mascotas",
@@ -384,12 +384,12 @@ export const fakeEstablishments: Establishment[] = [
     //otro atributo
     },
     
-];
+]; */
 /**################################################# */
 /**################################################# */
 /**################################################# */
 /**################################################# */
-export const fakeMissingPosts: MissingPost[] = [
+/* export const fakeMissingPosts: MissingPost[] = [
   {
     
     id: 1,
@@ -450,12 +450,12 @@ export const fakeMissingPosts: MissingPost[] = [
     tipo: 0
 
   },
-]
+] */
 /**################################################# */
 /**################################################# */
 /**################################################# */
 /**################################################# */
-export const fackeBlogs :Blog[] = [
+/* export const fackeBlogs :Blog[] = [
     {
     id: 1,
     idOwner: 1,
@@ -536,13 +536,13 @@ export const fackeBlogs :Blog[] = [
     videoUrl: "string",
     state: "able"
      }
-]
+] */
 
 /**################################################# */
 /**################################################# */
 /**################################################# */
 /**################################################# */
-export const citasIniciales: Event[] = [
+/* export const citasIniciales: Event[] = [
   { id: 10, titulo: "Quirofano Movil", fecha: "2026-07-20", hora: "8:00", tipo: "castracion", responsable: "Salud MGP",ubicacion: "Sede Zoonosis y Bienestar animal - Canesa y Guanahani", contacto: "@saludmgp" },
   { id: 11, titulo: "Quirofano Movil", fecha: "2026-07-21", hora: "8:00", tipo: "castracion", responsable: "Salud MGP",ubicacion: "Sede Zoonosis y Bienestar animal - Canesa y Guanahani", contacto: "@saludmgp" },
   { id: 12, titulo: "Quirofano Movil", fecha: "2026-07-22", hora: "8:00", tipo: "castracion", responsable: "Salud MGP",ubicacion: "Sede Zoonosis y Bienestar animal - Canesa y Guanahani", contacto: "@saludmgp" },
@@ -554,4 +554,4 @@ export const citasIniciales: Event[] = [
   { id: 2, titulo: "Vacuna Antirrábica", fecha: "2026-02-15", hora: "11:30", tipo: "vacuna", responsable: "Dra. María González",contacto: "", ubicacion: "" },
   { id: 3, titulo: "Limpieza Dental", fecha: "2026-03-20", hora: "14:00", tipo: "cirujia", responsable: "Dr. Carlos López",contacto: "", ubicacion: "" },
   { id: 4, titulo: "Chequeo Mensual", fecha: "2026-04-25", hora: "09:00", tipo: "consulta", responsable: "Dr. Roberto Sánchez",contacto: "", ubicacion: "" },
-];
+]; */

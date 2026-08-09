@@ -3,7 +3,6 @@ import LoginPage from "./pages/LoginPage";
 import ProfesionalesPage from "./pages/ProfesionalesPage";
 import EstablecimientosPage from "./pages/EstablecimientosPage";
 import BlogsPage from "./pages/BlogsPage";
-import ExtraviadosPage from "./pages/ExtraviadosPage";
 import InicioPage from "./pages/InicioPage";
 import { useState } from "react";
 import './App.css'
@@ -98,7 +97,7 @@ function App() {
             <Route path="/profesionales" element={<ProfesionalesPage auth={isAuthenticated}/>} />
             <Route path="/establecimientos" element={<EstablecimientosPage auth={isAuthenticated}/>} />
             <Route path="/blogs" element={<BlogsPage auth={isAuthenticated}/>} />
-            <Route path="/extraviados" element={<ExtraviadosPage auth={isAuthenticated}/>} />
+            {/* <Route path="/extraviados" element={<ExtraviadosPage auth={isAuthenticated}/>} /> */}
             <Route path="/eventos" element={<CalendarPage auth={isAuthenticated}/>} />
           </>
         ) : (

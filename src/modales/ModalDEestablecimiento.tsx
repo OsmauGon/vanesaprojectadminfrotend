@@ -38,6 +38,8 @@ const EstablishmentEditForm = ({props, changeState}: FormProps)=> {
     haceurgencias: props ? props.haceurgencias : false,
     tienepeluqueria: props ? props.tienepeluqueria : false,
     tienepetshop: props ? props.tienepetshop : false,
+    redsocial: "",
+    insignias: []
   });
 
   const [practicaInput, setPracticaInput] = useState("");

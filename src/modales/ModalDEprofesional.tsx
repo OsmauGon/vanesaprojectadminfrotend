@@ -2,18 +2,34 @@
 import { Alert, Button, Modal, Spinner} from 'react-bootstrap';
 import type { Profesional } from '../types/types';
 import { useState } from 'react';
-type FormProps ={
+type EmergencyProf = {
+id: number;
+  nombre: string;// nombre del profesional
+  practicas: string[];//especies, practicas, conocimientos
+  servicios?: string[];//especies, practicas, conocimientos
+  imagen?: string;// url de la foto de perfil
+  ubicacion: string;//contacto
+  telefono: string;//contacto
+  email: string;//contacto
+  horario: string; //para que la gente sepa en que horario llamarlo
+  finDeSuscripcion: string;//algunos profesionales no ejercen dentro de un establecimiento
+  redSocial?: string;
+  insignias: string[];
+  createdAt?: string;//Lo ponemos como no obligatorio por el formulario
+}
+
+type FormProps<T> ={
   props: T | null
   state: "standby" | "success" | "error" | "loading" | "view"
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
 }
 type ModalProps = {
-    obj: Profesional | null;
+    obj: EmergencyProf | null;
     show: boolean;
     hide: (val: boolean) => void
 }
 
-const ProfesionalEditForm = ({props, changeState, state}: FormProps)=> {
+export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profesional>)=> {
   const [formData, setFormData] = useState<Profesional>({
     id: (props && props.id) ? props?.id : 0,
     nombre: (props && props.id) ? props?.nombre : "",
@@ -307,7 +323,7 @@ const ProfesionalEditForm = ({props, changeState, state}: FormProps)=> {
     </form>
   );
 }
-const ProfesionalModal = ({props}: FormProps) => {
+const ProfesionalModal = ({props}: FormProps<EmergencyProf>) => {
   console.log(props)
   return (
     props && 
