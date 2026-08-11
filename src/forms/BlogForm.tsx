@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Blog } from "../types/types";
 import { Alert, Button, Spinner } from "react-bootstrap";
+import { blogPostEndpoint } from "../endpoints";
 
 
 type innerFormType = {
@@ -12,7 +13,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
     idOwner: 0,
     title: "",
     description: "",
-    imageUrl: "",
+    imagen: "",
     videoUrl: "",
     documentUrl: ""
   });
@@ -47,7 +48,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
     if (file) {
       formDataToSend.append("imagen", file);
     }
-    /* try {
+    try {
       const response = await fetch(blogPostEndpoint, {
       method: "POST",
       body: formDataToSend,
@@ -59,15 +60,16 @@ const InnerForm = ({changeState}: innerFormType) =>{
     } catch (error) {
       changeState("error")
       console.log("Error detectado: ", error)
-    } */
+    } 
    
-    
+    /*
      for (const [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
     setTimeout(() => {
       changeState("standby")
     }, 2000);
+    */
   };
 
   return (

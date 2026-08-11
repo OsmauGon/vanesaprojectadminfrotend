@@ -1,0 +1,17 @@
+#barraDEnavegacion{
+    background-color: #303030;
+}
+.nav-title h1{
+    color: white
+}
+.nav-content ul{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px
+}
+.nav-content li{
+    
+    color: white;
+    list-style: none;
+}

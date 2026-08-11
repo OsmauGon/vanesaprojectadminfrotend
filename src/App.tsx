@@ -6,34 +6,21 @@ import BlogsPage from "./pages/BlogsPage";
 import InicioPage from "./pages/InicioPage";
 import { useState } from "react";
 import './App.css'
+import '../src/styles/navbar.css'
 import CalendarPage from "./pages/CalendarioPage";
+import { ExtraviadosPage } from "./pages/ExtraviadosPage";
 
 function App() {
   //const isAuthenticated = localStorage.getItem("token"); // simplificado
-  const [isAuthenticated,setAuth] = useState<boolean>(false)
+  const [isAuthenticated,setAuth] = useState<boolean>(true)
 
   return (
     <BrowserRouter>
-        
-        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container-fluid">
-          <NavLink className="navbar-brand" to="/">
-            Veterinet Admin
-          </NavLink>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNav"
-            aria-controls="navbarNav"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav">
+       
+      <nav id="barraDEnavegacion">
+        <div className="nav-title"><h1>Sitio de Administracion</h1></div>
+        <div className="nav-content">
+          <ul >
               <li className="nav-item">
                 <NavLink
                   className={({ isActive }) =>
@@ -85,7 +72,6 @@ function App() {
                 </NavLink>
               </li>
             </ul>
-          </div>
         </div>
       </nav>
       <Routes>
@@ -97,7 +83,7 @@ function App() {
             <Route path="/profesionales" element={<ProfesionalesPage auth={isAuthenticated}/>} />
             <Route path="/establecimientos" element={<EstablecimientosPage auth={isAuthenticated}/>} />
             <Route path="/blogs" element={<BlogsPage auth={isAuthenticated}/>} />
-            {/* <Route path="/extraviados" element={<ExtraviadosPage auth={isAuthenticated}/>} /> */}
+            <Route path="/extraviados" element={<ExtraviadosPage auth={isAuthenticated}/>} />
             <Route path="/eventos" element={<CalendarPage auth={isAuthenticated}/>} />
           </>
         ) : (

@@ -9,8 +9,8 @@ import { missingsGetEndpoint } from '../endpoints';
 
 type Props = {
     auth: boolean,
-    encabezados: [],
-    lista: []
+    encabezados?: [],
+    lista?: []
 }
 /*
 const TableComponent: React.FunctionComponent = ({encabezados, lista}: Props)=>{
@@ -32,7 +32,7 @@ const TableComponent: React.FunctionComponent = ({encabezados, lista}: Props)=>{
 }
 */
 
-const ExtraviadosPage = ({auth}: Props) => {
+export const ExtraviadosPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const { data, loading, error } = useFetch<MissingPost[]>(missingsGetEndpoint);
@@ -90,4 +90,4 @@ const ExtraviadosPage = ({auth}: Props) => {
 }
 
 
-export default ExtraviadosPage
+
