@@ -310,7 +310,7 @@ export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profe
   );
 }
 const ProfesionalModal = ({props}: FormProps<Profesional>) => {
-  
+  //console.log(props)
   return (
     props && 
     <div>

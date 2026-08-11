@@ -92,7 +92,12 @@ const InnerForm = ({changeState}: innerFormType) =>{
     if (file) {
       formDataToSend.append("imagen", file);
     }
-    
+    for (const [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+    setTimeout(() => {
+      changeState("standby")
+    }, 2000);
     try {
       const response = await fetch(profPostEndpoint, {
       method: "POST",

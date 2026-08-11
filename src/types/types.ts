@@ -85,17 +85,7 @@ export interface Establishment {
   email: string;//contacto
   latitud: string;
   longitud: string;
-
     serviciosTodos?: EstablishmentService;
-    //serviciosNOfiltrables: string[]
-   //tienequirofano?: boolean;// pa servicios
-   //tienelaboratorio?: boolean;// pa servicios
-   //tieneinternacion?: boolean;// pa servicios
-   //haceurgencias?: boolean;// pa servicios
-   //tienepeluqueria?: boolean;// pa servicios
-   //tienepetshop?: boolean;// pa servicios
-
-  
   createdAt?: string;//Lo ponemos como no obligatorio por el formulario
   finDeSuscripcion: string;
   redSocial: string;
