@@ -12,7 +12,7 @@ type EstablishmentRowProps = {
 
 const EstablishmentRow: React.FC<EstablishmentRowProps> = ({ prof, setSelectedProf, setShowModal }) => {
   const hoy = new Date();
-  const fin = new Date(prof.finDEsuscripcion);
+  const fin = new Date(prof.finDeSuscripcion);
   const vencido = fin < hoy;
 
   const [source,setSource] = useState<boolean>(false)

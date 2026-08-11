@@ -27,8 +27,8 @@ export interface Profesional {
   ubicacion: string;//contacto
   telefono: string;//contacto
   email: string;//contacto
-  horarioDEcontacto: string; //para que la gente sepa en que horario llamarlo
-  finDEsuscripcion: string;//algunos profesionales no ejercen dentro de un establecimiento
+  horario: string; //para que la gente sepa en que horario llamarlo
+  finDeSuscripcion: string;//algunos profesionales no ejercen dentro de un establecimiento
   redSocial: string;
   insignias: string[];
   createdAt?: string;//Lo ponemos como no obligatorio por el formulario
@@ -76,28 +76,29 @@ export interface Establishment {
   horario: string;
     horarios?: EstablishmentHours;
   profesionalesVinculados: string[];
-  especialidades: string[]; // especialidad medica
-  practicas?: string[];//especialidad principal,especies,practicas, conocimientos
+  
+  servicios: string[];//especialidad principal,especies,practicas, conocimientos
 
-    contacto?: EstablishmentContact
+    contactoTodos?: EstablishmentContact
   ubicacion: string;//contacto
-  telefono: string[];//contacto
+  telefono?: string[];//contacto
   email: string;//contacto
-  latitud: number;
-  longitud: number;
+  latitud: string;
+  longitud: string;
 
-    servicios?: EstablishmentService;
-    serviciosNOfiltrables: string[]
-  tienequirofano?: boolean;// pa servicios
-  tienelaboratorio?: boolean;// pa servicios
-  tieneinternacion?: boolean;// pa servicios
-  haceurgencias?: boolean;// pa servicios
-  tienepeluqueria?: boolean;// pa servicios
-  tienepetshop?: boolean;// pa servicios
+    serviciosTodos?: EstablishmentService;
+    //serviciosNOfiltrables: string[]
+   //tienequirofano?: boolean;// pa servicios
+   //tienelaboratorio?: boolean;// pa servicios
+   //tieneinternacion?: boolean;// pa servicios
+   //haceurgencias?: boolean;// pa servicios
+   //tienepeluqueria?: boolean;// pa servicios
+   //tienepetshop?: boolean;// pa servicios
 
   
-  finDEsuscripcion: string;
-  redsocial: string;
+  createdAt?: string;//Lo ponemos como no obligatorio por el formulario
+  finDeSuscripcion: string;
+  redSocial: string;
   insignias: string[]
   disponible?: boolean;
 }

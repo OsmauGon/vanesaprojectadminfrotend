@@ -12,7 +12,7 @@ type UserRowProps = {
 
 const UserRow: React.FC<UserRowProps> = ({ prof, setSelectedProf, setShowModal }) => {
   const hoy = new Date();
-  const fin = new Date(prof.finDEsuscripcion);
+  const fin = new Date(prof.finDeSuscripcion);
   const vencido = fin < hoy;
   const [source,setSource] = useState<boolean>(false)
   const handleDelete = async (id: number) => {

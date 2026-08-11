@@ -19,8 +19,6 @@ export function useFetch<T>(url: string) {
 
         const json = await res.json();
         setData(json.data);
-        console.log("Exito")
-        console.log(data)
       } catch (err: unknown) {
             if (err instanceof Error) {
                 setError(err.message);

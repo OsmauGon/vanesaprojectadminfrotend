@@ -10,26 +10,18 @@ const InnerForm = ({changeState}: innerFormType)=> {
   const [formData, setFormData] = useState<Establishment>({
     id: 0,
     nombre: "",
-    especialidades: [],
-    imagen: "",
     ubicacion: "",
     telefono: [],
     email: "",
-
-    finDEsuscripcion: "",
+    servicios: [],
+    finDeSuscripcion: "",
     horario: "",
-    serviciosNOfiltrables: [],
     profesionalesVinculados: [],
-    latitud: 0,
-    longitud: 0,
-    tienequirofano: false,
-    tienelaboratorio: false,
-    tieneinternacion: false,
-    haceurgencias: false,
-    tienepeluqueria: false,
-    tienepetshop: false,
-    redsocial: "",
-    insignias: []
+    latitud: "",
+    longitud: "",
+    redSocial: "",
+    insignias: [],
+    imagen: ""
   });
 
   const [practicaInput, setPracticaInput] = useState("");
@@ -57,7 +49,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
     if (practicaInput.trim() !== "") {
       setFormData((prev) => ({
         ...prev,
-        serviciosNOfiltrables: [...(prev.serviciosNOfiltrables ?? []), practicaInput.trim()],
+        servicios: [...(prev.servicios ?? []), practicaInput.trim()],
       }));
       setPracticaInput("");
     }
@@ -66,7 +58,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
   const removePractica = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      practicas: prev.serviciosNOfiltrables?.filter((_, i) => i !== index),
+      practicas: prev.servicios?.filter((_, i) => i !== index),
     }));
   };
 
@@ -74,7 +66,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
     if (phoneInput.trim() !== "") {
       setFormData((prev) => ({
         ...prev,
-        serviciosNOfiltrables: [...(prev.serviciosNOfiltrables ?? []), phoneInput.trim()],
+        telefono: [...(prev.telefono ?? []), phoneInput.trim()],
       }));
       setPhoneInput("");
     }
@@ -123,7 +115,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
           console.log(formData)
         changeState("loading")
         const formDataToSend = new FormData();
-        const servicios = [especialidadInput].concat(formData.serviciosNOfiltrables)
+        const servicios = [especialidadInput].concat(formData.servicios)
         //const domicilio = formData.hacedomicilio ? ["hacedomicilio"] : []
         
     
@@ -132,11 +124,13 @@ const InnerForm = ({changeState}: innerFormType)=> {
         formDataToSend.append("ubicacion", formData.ubicacion);
         formDataToSend.append("telefono", JSON.stringify(formData.telefono));
         formDataToSend.append("email", formData.email);
-        formDataToSend.append("redsocial", formData.redsocial ? formData.redsocial : "");
+        formDataToSend.append("redSocial", formData.redSocial ? formData.redSocial : "");
         formDataToSend.append("insignias", JSON.stringify(badges));
-        formDataToSend.append("finDeSuscripcion", formData.finDEsuscripcion);
+        formDataToSend.append("finDeSuscripcion", formData.finDeSuscripcion);
         formDataToSend.append("horario", formData.horario);
         formDataToSend.append("profesionalesVinculados", JSON.stringify(formData.profesionalesVinculados));
+        formDataToSend.append("latitud", formData.latitud);
+        formDataToSend.append("longitud", formData.longitud);
     
         
     
@@ -144,6 +138,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
         if (file) {
           formDataToSend.append("imagen", file);
         }
+        
         try {
           const response = await fetch(vetesPostEndpoint, {
           method: "POST",
@@ -157,7 +152,13 @@ const InnerForm = ({changeState}: innerFormType)=> {
           changeState("error")
           console.log("Error detectado: ", error)
         }
-        
+          
+        for (const [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+        }
+        setTimeout(() => {
+          changeState("standby")
+        }, 2000);
       };
   
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
@@ -277,6 +278,17 @@ const InnerForm = ({changeState}: innerFormType)=> {
               onChange={handleChange}
             />
           </div>
+          <div className="mb-3">{/* Red Social */}
+            <label className="form-label">Red Social</label>
+            <input
+            placeholder="Ej. vetlove@gmail.com"
+              type="text"
+              name="redSocial"
+              className="form-control"
+              value={formData.redSocial}
+              onChange={handleChange}
+            />
+          </div>
         </div>
       </details>
       <details>
@@ -315,7 +327,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
             </div>
           </div>
           <div>{/* CONJUNTO DE SERVICIOS */}
-              {formData.serviciosNOfiltrables?.map((p, i) => (
+              {formData.servicios?.map((p, i) => (
                 <span key={i} className="badge bg-secondary me-2">
                   {p}{" "}
                   <button
@@ -361,9 +373,9 @@ const InnerForm = ({changeState}: innerFormType)=> {
             <label className="form-label">Limite de suscripcion *</label>
             <input
               type="date"
-              name="finDEsuscripcion"
+              name="finDeSuscripcion"
               className="form-control"
-              value={formData.finDEsuscripcion}
+              value={formData.finDeSuscripcion}
               onChange={handleChange}
               required
             />

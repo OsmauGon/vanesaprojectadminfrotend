@@ -1,7 +1,6 @@
 import { useState } from "react";
 import type { Blog } from "../types/types";
 import { Alert, Button, Spinner } from "react-bootstrap";
-import { blogPostEndpoint } from "../endpoints";
 
 
 type innerFormType = {

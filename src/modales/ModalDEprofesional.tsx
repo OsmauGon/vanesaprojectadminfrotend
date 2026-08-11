@@ -2,29 +2,15 @@
 import { Alert, Button, Modal, Spinner} from 'react-bootstrap';
 import type { Profesional } from '../types/types';
 import { useState } from 'react';
-type EmergencyProf = {
-id: number;
-  nombre: string;// nombre del profesional
-  practicas: string[];//especies, practicas, conocimientos
-  servicios?: string[];//especies, practicas, conocimientos
-  imagen?: string;// url de la foto de perfil
-  ubicacion: string;//contacto
-  telefono: string;//contacto
-  email: string;//contacto
-  horario: string; //para que la gente sepa en que horario llamarlo
-  finDeSuscripcion: string;//algunos profesionales no ejercen dentro de un establecimiento
-  redSocial?: string;
-  insignias: string[];
-  createdAt?: string;//Lo ponemos como no obligatorio por el formulario
-}
 
-type FormProps<T> ={
-  props: T | null
+
+type FormProps<Profesional> ={
+  props: Profesional | null
   state: "standby" | "success" | "error" | "loading" | "view"
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
 }
 type ModalProps = {
-    obj: EmergencyProf | null;
+    obj: Profesional | null;
     show: boolean;
     hide: (val: boolean) => void
 }
@@ -39,8 +25,8 @@ export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profe
     telefono: props ? props.telefono : "",
     email: props ? props.email : "",
     redSocial: props ? props.redSocial : "",
-    finDEsuscripcion: props ? props.finDEsuscripcion : "",
-    horarioDEcontacto: props ? props.horarioDEcontacto : "",
+    finDeSuscripcion: props ? props.finDeSuscripcion : "",
+    horario: props ? props.horario : "",
     insignias: props ? props.insignias.splice(1,props.insignias.length) : [],
     
   });
@@ -103,8 +89,8 @@ export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profe
     formDataToSend.append("email", formData.email);
     formDataToSend.append("redSocial", formData.redSocial ? formData.redSocial : "");
     formDataToSend.append("insignias", JSON.stringify(domicilio));
-    formDataToSend.append("finDeSuscripcion", formData.finDEsuscripcion);
-    formDataToSend.append("horario", formData.horarioDEcontacto);
+    formDataToSend.append("finDeSuscripcion", formData.finDeSuscripcion);
+    formDataToSend.append("horario", formData.horario);
 
     // practicas como array
     formData.practicas.forEach((p, i) => {
@@ -219,7 +205,7 @@ export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profe
               type="text"
               name="horarioDEcontacto"
               className="form-control"
-              value={formData.horarioDEcontacto}
+              value={formData.horario}
               onChange={handleChange}
               disabled={state === "loading"}           />
           </div>
@@ -269,7 +255,7 @@ export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profe
               type="date"
               name="finDEsuscripcion"
               className="form-control"
-              value={formData.finDEsuscripcion}
+              value={formData.finDeSuscripcion}
               onChange={handleChange}
             />
           </div>
@@ -323,8 +309,8 @@ export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profe
     </form>
   );
 }
-const ProfesionalModal = ({props}: FormProps<EmergencyProf>) => {
-  console.log(props)
+const ProfesionalModal = ({props}: FormProps<Profesional>) => {
+  
   return (
     props && 
     <div>
@@ -345,14 +331,13 @@ const ProfesionalModal = ({props}: FormProps<EmergencyProf>) => {
 
 
 export const ModalDEprofesional = (props: ModalProps) => {
-  const [requestState,setRequestState] = useState<"view" | "standby" | "success" | "error" | "loading">("standby")
+  const [requestState,setRequestState] = useState<"view" | "standby" | "success" | "error" | "loading">("view")
 
   return (
     <Modal show={props.show} onHide={() => props.hide(false)}>
           <Modal.Body>
-                {/*requestState === "standby" && <ProfesionalEditForm props={props.obj} changeState={setRequestState} state={requestState}/>}
-                {requestState === "view" && <ProfesionalModal props={props.obj} changeState={setRequestState} state={requestState}/>*/}
-                <ProfesionalModal props={props.obj} changeState={setRequestState} state={requestState}/>
+                {requestState === "standby" && <ProfesionalEditForm props={props.obj} changeState={setRequestState} state={requestState}/>}
+                {requestState === "view" && <ProfesionalModal props={props.obj} changeState={setRequestState} state={requestState}/>}
                 
           </Modal.Body>
         <Modal.Footer>

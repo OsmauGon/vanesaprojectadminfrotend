@@ -16,8 +16,8 @@ const InnerForm = ({changeState}: innerFormType) =>{
     ubicacion: "",
     telefono: "",
     email: "",
-    finDEsuscripcion: "",//es campo obligatorio para el backend
-    horarioDEcontacto: "",//es campo obligatorio para el backend
+    finDeSuscripcion: "",//es campo obligatorio para el backend
+    horario: "",//es campo obligatorio para el backend
     redSocial: "",
     insignias: []
   });
@@ -80,8 +80,8 @@ const InnerForm = ({changeState}: innerFormType) =>{
     formDataToSend.append("email", formData.email);
     formDataToSend.append("redSocial", formData.redSocial);
     formDataToSend.append("insignias", JSON.stringify(domicilio));
-    formDataToSend.append("finDeSuscripcion", formData.finDEsuscripcion);
-    formDataToSend.append("horario", formData.horarioDEcontacto);
+    formDataToSend.append("finDeSuscripcion", formData.finDeSuscripcion);
+    formDataToSend.append("horario", formData.horario);
 
     // practicas como array
     formData.practicas.forEach((p, i) => {
@@ -171,10 +171,10 @@ const InnerForm = ({changeState}: innerFormType) =>{
           </div>
           
           <div className="mb-3">{/* redsocial */}
-            <label className="form-label">redsocial</label>
+            <label className="form-label">Red Social</label>
             <input
               type="redsocial"
-              name="redsocial"
+              name="redSocial"
               className="form-control"
               value={formData.redSocial}
               onChange={handleChange}
@@ -190,9 +190,9 @@ const InnerForm = ({changeState}: innerFormType) =>{
             <label className="form-label">Horario de contacto *</label>
             <input
               type="text"
-              name="horarioDEcontacto"
+              name="horario"
               className="form-control"
-              value={formData.horarioDEcontacto}
+              value={formData.horario}
               onChange={handleChange}
               required
               placeholder="Lunes a Viernes de 9 a 19"
@@ -245,9 +245,9 @@ const InnerForm = ({changeState}: innerFormType) =>{
             <label className="form-label">Limite de suscripcion</label>
             <input
               type="date"
-              name="finDEsuscripcion"
+              name="finDeSuscripcion"
               className="form-control"
-              value={formData.finDEsuscripcion}
+              value={formData.finDeSuscripcion}
               onChange={handleChange}
               required
             />
