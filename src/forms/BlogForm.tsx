@@ -40,6 +40,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
+    formDataToSend.append("idOwner", formData.idOwner.toString());
 
     if (formData.videoUrl && formData.videoUrl?.length > 5) formDataToSend.append("videoUrl", formData.videoUrl);
     if (formData.documentUrl && formData.documentUrl?.length > 5) formDataToSend.append("documentUrl", formData.documentUrl);
@@ -60,6 +61,12 @@ const InnerForm = ({changeState}: innerFormType) =>{
     } catch (error) {
       changeState("error")
       console.log("Error detectado: ", error)
+      for (const [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+    setTimeout(() => {
+      changeState("standby")
+    }, 2000);
     } 
    
     /*

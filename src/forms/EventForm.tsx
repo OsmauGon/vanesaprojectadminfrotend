@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { Event } from "../types/types";
 import { Alert, Button, Spinner } from "react-bootstrap";
+import { eventPostEndpoint } from "../endpoints";
 
 type innerFormType = {
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
@@ -27,20 +28,22 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     changeState("loading")
-    const formDataToSend = new FormData();
+    const dataToSend = {
     
-    formDataToSend.append("titulo", formData.titulo);
-    formDataToSend.append("fecha", formData.fecha);
-    formDataToSend.append("hora", formData.hora);
-    formDataToSend.append("ubicacion", formData.ubicacion);
-    formDataToSend.append("tipo", formData.tipo);
-    formDataToSend.append("contacto", formData.contacto);
-    formDataToSend.append("responsable", formData.responsable);
-    /*
+    titulo: formData.titulo,
+    fecha: formData.fecha,
+    hora: formData.hora,
+    ubicacion: formData.ubicacion,
+    tipo: formData.tipo,
+    contacto: formData.contacto,
+    responsable: formData.responsable,
+    }
+    
     try {
+      console.log(dataToSend)
       const response = await fetch(eventPostEndpoint, {
       method: "POST",
-      body: formDataToSend,
+      body: JSON.stringify(dataToSend),
       });
       const result = await response.json();
       if(result.message === "EXITO") {
@@ -50,21 +53,22 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
       changeState("error")
       console.log("Error detectado: ", error)
     }
-      */
+      
      
-    
+    /*
      for (const [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
     setTimeout(() => {
       changeState("standby")
     }, 2000);
+    */
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
       <div className="mb-3">{/* Titulo */}
-        <label className="form-label">Titulo</label>
+        <label className="form-label">Titulo *</label>
         <input
           type="text"
           name="titulo"
@@ -77,7 +81,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
         />
       </div>
       <div className="mb-3">{/* Fecha */}
-        <label className="form-label">Fecha</label>
+        <label className="form-label">Fecha *</label>
         <input
           type="date"
           name="fecha"
@@ -90,7 +94,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
         />
       </div>
       <div className="mb-3">{/* Hora */}
-        <label className="form-label">Hora</label>
+        <label className="form-label">Hora *</label>
         <input
           type="text"
           name="hora"
@@ -115,7 +119,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
         />
       </div>
       <div className="mb-3">{/* UBICACION */}
-        <label className="form-label">Ubicación</label>
+        <label className="form-label">Ubicación *</label>
         <input
           type="text"
           name="ubicacion"
@@ -140,7 +144,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
         />
       </div>
       <div className="mb-3">{/* Contacto */}
-        <label className="form-label">Contacto</label>
+        <label className="form-label">Contacto *</label>
         <input
           type="text"
           name="contacto"
@@ -149,6 +153,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           value={formData.contacto}
           onChange={handleChange}
           placeholder="Enlace a la publicacion"
+          required
         />
       </div>
 

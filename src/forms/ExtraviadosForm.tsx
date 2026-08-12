@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { MissingPost } from "../types/types";
 import { Alert, Button, Spinner } from "react-bootstrap";
+import { missingsPostEndpoint } from "../endpoints";
 
 type innerFormType = {
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
@@ -19,6 +20,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
+    console.log(name,value)
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -35,18 +37,22 @@ const InnerForm = ({changeState}: innerFormType) =>{
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(formData)
     changeState("loading")
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
     formDataToSend.append("description", formData.description);
     formDataToSend.append("contact", formData.contact);
+    if(formData.tipo === 0) formDataToSend.append("tipo", "EXTRAVIADO");
+    if(formData.tipo === 1) formDataToSend.append("tipo", "ENCONTRADO");
+    if(formData.tipo === 2) formDataToSend.append("tipo", "ADOPCION");
 
     
     // imagen como archivo
     if (file) {
       formDataToSend.append("imagen", file);
     }
-    /* try {
+    try {
       const response = await fetch(missingsPostEndpoint, {
       method: "POST",
       body: formDataToSend,
@@ -58,15 +64,14 @@ const InnerForm = ({changeState}: innerFormType) =>{
     } catch (error) {
       changeState("error")
       console.log("Error detectado: ", error)
-    } */
-   
-    
-     for (const [key, value] of formDataToSend.entries()) {
+    } 
+    for (const [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
     setTimeout(() => {
       changeState("standby")
     }, 2000);
+   
   };
 
   return (
