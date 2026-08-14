@@ -27,7 +27,7 @@ const EventRow: React.FC<EventRowProps> = ({ prof, setSelectedProf, setShowModal
       source ? <Alert  variant={"success"}>Se ha eliminado el recurso</Alert>
               : <td className="buttons-container">
                 <button className="btn btn-primary" onClick={()=> {setSelectedProf(prof); setShowModal(true)}}>Ver</button>
-                <button className="btn btn-success" onClick={()=> {setSelectedProf(prof); setShowModal(true)}}>Editar</button>
+                <button className="btn btn-success" disabled onClick={()=> {setSelectedProf(prof); setShowModal(true)}}>Editar</button>
                 <button className="btn btn-danger" onClick={()=> handleDelete(prof.id)}>Eliminar</button>
               </td>
       }

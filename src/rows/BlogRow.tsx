@@ -27,7 +27,7 @@ const BlogRow: React.FC<UserRowProps> = ({ prof, setSelectedBlog, setShowModal }
       source ? <Alert  variant={"success"}>Se ha eliminado el recurso</Alert>
               : <td className="buttons-container">
                 <button className="btn btn-primary" onClick={()=> {setSelectedBlog(prof); setShowModal(true)}}>Ver</button>
-                <button className="btn btn-success" onClick={()=> {setSelectedBlog(prof); setShowModal(true)}}>Editar</button>
+                <button className="btn btn-success" disabled onClick={()=> {setSelectedBlog(prof); setShowModal(true)}}>Editar</button>
                 <button className="btn btn-danger" onClick={()=> handleDelete(prof.id)}>Eliminar</button>
               </td>
       }

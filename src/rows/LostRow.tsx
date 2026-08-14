@@ -28,7 +28,7 @@ const LostRow: React.FC<MissingRowProps> = ({ prof, setSelectedLost, setShowModa
       source ? <Alert  variant={"success"}>Se ha eliminado el recurso</Alert>
               : <td className="buttons-container">
                 <button className="btn btn-primary" onClick={()=> {setSelectedLost(prof); setShowModal(true)}}>Ver</button>
-                <button className="btn btn-success" onClick={()=> {setSelectedLost(prof); setShowModal(true)}}>Editar</button>
+                <button className="btn btn-success" disabled onClick={()=> {setSelectedLost(prof); setShowModal(true)}}>Editar</button>
                 <button className="btn btn-danger" onClick={()=> handleDelete(prof.id)}>Eliminar</button>
               </td>
       }

@@ -101,10 +101,10 @@ export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profe
     if (file) {
       formDataToSend.append("imagen", file);
     }
-    /*
+    
     try {
-      const response = await fetch(profPostEndpoint, {
-      method: "POST",
+      const response = await fetch("profPutEndpoint", {
+      method: "PUT",
       body: formDataToSend,
       });
       const result = await response.json();
@@ -114,7 +114,13 @@ export const ProfesionalEditForm = ({props, changeState, state}: FormProps<Profe
     } catch (error) {
       changeState("error")
       console.log("Error detectado: ", error)
-    }*/
+    }
+    for (const [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+    setTimeout(() => {
+      changeState("standby")
+    }, 2000);
      
     
      for (const [key, value] of formDataToSend.entries()) {
@@ -325,6 +331,7 @@ const ProfesionalModal = ({props}: FormProps<Profesional>) => {
       <p><b>Fin de Suscripcion: </b>{props.finDeSuscripcion ? props.finDeSuscripcion : "No asigndado"}</p>
       <p><b>Horario de contacto: </b>{props.horario ? props.horario : "No asignado"}</p>
       <p><b>Fecha de creacion: </b>{props.createdAt}</p>
+      <img className='w-25' src={props.imagen} alt="" />
     </div>
   )
 }
@@ -342,7 +349,7 @@ export const ModalDEprofesional = (props: ModalProps) => {
           </Modal.Body>
         <Modal.Footer>
           {/* <button className="btn btn-success">Enviar</button> */}
-          <button className="btn btn-danger" onClick={()=> {setRequestState("standby");props.hide(true)}}>{requestState === "success" ? "Hecho" : "Cancelar"}</button>
+          <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>{requestState === "success" ? "Hecho" : "Cancelar"}</button>
         </Modal.Footer>
       </Modal>
   )

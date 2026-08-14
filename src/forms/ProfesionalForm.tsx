@@ -204,7 +204,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
             />
           </div>
           <div className="mb-3">{/* ESPECIALIDAD */}
-            <label className="form-label">Especialidad</label>
+            <label className="form-label">Especialidad *</label>
             <input
               type="text"
               name="especialidad"

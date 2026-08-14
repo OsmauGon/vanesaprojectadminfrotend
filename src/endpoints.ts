@@ -15,9 +15,11 @@ export const vetesPostEndpoint = direRailway + "api/vetes/private"
 export const blogPostEndpoint = direRailway + "api/blogs/private"
 export const eventPostEndpoint = direRailway + "api/events/private"
 export const missingsPostEndpoint = direRailway + "api/missings/private"
+export const publiPostEndpoint = direRailway + "api/publicidad/private"
 
 
 export const profDelEndpoint = direRailway + "api/profes/private"
+export const publiDelEndpoint = direRailway + "api/publicidad/private"
 export const vetesDelEndpoint = direRailway + "api/vetes/private"
 export const blogDelEndpoint = direRailway + "api/blogs/private"
 export const eventDelEndpoint = direRailway + "api/events/private"

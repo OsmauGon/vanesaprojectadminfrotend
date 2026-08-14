@@ -43,6 +43,9 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
       console.log(dataToSend)
       const response = await fetch(eventPostEndpoint, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(dataToSend),
       });
       const result = await response.json();

@@ -156,7 +156,7 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
           
           try {
             const response = await fetch("vetesPutEndpoint", {
-            method: "POST",
+            method: "PUT",
             body: formDataToSend,
             });
             const result = await response.json();
@@ -191,7 +191,7 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
               className="form-control"
               value={formData.nombre}
               onChange={handleChange}
-              required
+              
             />
           </div>
           <div className="mb-3">{/* IMAGEN */}
@@ -215,7 +215,7 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
               className="form-control"
               value={formData.horario}
               onChange={handleChange}
-              required
+              
             />
           </div>
           <div className="mb-3">{/* UBICACION */}
@@ -312,7 +312,7 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
               className="form-control"
               value={formData.servicios[0]}
               onChange={(e) => setEspecialidadInput(e.target.value)}
-              required
+              
             />
           </div>
           <div className="mb-3">{/* Servicios no filtrables*/}
@@ -388,7 +388,7 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
               className="form-control"
               value={formData.finDeSuscripcion}
               onChange={handleChange}
-              required
+              
             />
           </div>
         </div>
@@ -515,6 +515,8 @@ const EstablishmentModal = ({props}: FormProps) => {
       <p><b>Fin de Suscripcion: </b>{props.finDeSuscripcion ? props.finDeSuscripcion : "No asigndado"}</p>
       <p><b>Horario de contacto: </b>{props.horario ? props.horario : "No asignado"}</p>
       <p><b>Fecha de creacion: </b>{props.createdAt}</p>
+      
+      <img className='w-25' src={props.imagen} alt="" />
     </div>
   )
 }
@@ -545,7 +547,7 @@ export const ModalDEestablecimiento = (props: ModalProps) => {
                 {requestState === "view" && <EstablishmentModal props={props.obj} changeState={setRequestState} state={requestState}/>}
           </Modal.Body>
         <Modal.Footer>
-            <button className="btn btn-danger" onClick={()=> {setRequestState("standby");props.hide(true)}}>{requestState === "success" ? "Hecho" : "Cancelar"}</button>
+            <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>{requestState === "success" ? "Hecho" : "Cancelar"}</button>
         </Modal.Footer>
       </Modal>
   )

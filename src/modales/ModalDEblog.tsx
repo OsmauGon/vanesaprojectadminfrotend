@@ -67,14 +67,14 @@ const [file, setFile] = useState<File | null>(null);
       console.log("Error detectado: ", error)
     } 
    
-    /*
-     for (const [key, value] of formDataToSend.entries()) {
+    
+    for (const [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
     setTimeout(() => {
       changeState("standby")
     }, 2000);
-    */
+    
   };
 
   return (
@@ -98,7 +98,7 @@ const [file, setFile] = useState<File | null>(null);
           className="form-control"
           value={formData.title}
           onChange={handleChange}
-          required
+          
           placeholder="Titulo del articulo"
         />
       </div>
@@ -110,7 +110,7 @@ const [file, setFile] = useState<File | null>(null);
           className="form-control"
           value={formData.description}
           onChange={handleChange}
-          required
+          
           placeholder="Descripcion del articulo"
         />
       </div>
@@ -175,6 +175,8 @@ const BlogModal = ({props}: FormProps) => {
       <p><b>Enlace de video: </b>{props.videoUrl}</p>
       <p><b>Enlace de documento: </b>{props.documentUrl}</p>
       <p><b>Fecha de creacion: </b>{props.createdAt}</p>
+      
+      <img className='w-25' src={props.imagen} alt="" />
     </div>
   )
 }
@@ -190,7 +192,7 @@ export const ModalDEblog = (props: ModalProps) => {
           </Modal.Body>
         <Modal.Footer>
           {/* <button className="btn btn-success">Enviar</button> */}
-          <button className="btn btn-danger" onClick={()=> {setRequestState("standby");props.hide(true)}}>{requestState === "success" ? "Hecho" : "Cancelar"}</button>
+          <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>{requestState === "success" ? "Hecho" : "Cancelar"}</button>
         </Modal.Footer>
       </Modal>
   )

@@ -152,13 +152,6 @@ const InnerForm = ({changeState}: innerFormType)=> {
           changeState("error")
           console.log("Error detectado: ", error)
         }
-          
-        for (const [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
-        }
-        setTimeout(() => {
-          changeState("standby")
-        }, 2000);
       };
   
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */

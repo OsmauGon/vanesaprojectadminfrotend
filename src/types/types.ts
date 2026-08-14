@@ -150,3 +150,19 @@ export interface Event {
     ubicacion: string;//ubicacion del evento
     contacto: string;//un link de la publicacion
 }
+
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+/*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
+export interface Publicidad {
+    id: number;
+    titulo: string;
+    finDeSuscripcion: string;
+    imageUrlGrande?: string; //no se usara. se puede borrar
+    imageUrlChico: string;
+    contacto: string;
+    state?: "ACTIVE" | "INACTIVE"
+    createdAt?: string;
+}

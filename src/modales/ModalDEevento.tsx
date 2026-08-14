@@ -29,13 +29,44 @@ const EventEditForm = ({props, changeState}: FormProps)=> {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    changeState("loading")
-    setTimeout(()=> changeState("success"), 3000)
-    console.log("Nuevo blog:", formData);
-    // Aquí podrías hacer un POST al backend
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      changeState("loading")
+      const dataToSend = {
+      
+      titulo: formData.titulo,
+      fecha: formData.fecha,
+      hora: formData.hora,
+      ubicacion: formData.ubicacion,
+      tipo: formData.tipo,
+      contacto: formData.contacto,
+      responsable: formData.responsable,
+      }
+      
+      try {
+        console.log(dataToSend)
+        const response = await fetch("eventPutEndpoint", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+        });
+        const result = await response.json();
+        if(result.message === "EXITO") {
+          changeState("success")
+        }
+      } catch (error) {
+        changeState("error")
+        console.log("Error detectado: ", error)
+      }
+      
+      console.log(dataToSend)
+      setTimeout(() => {
+        changeState("standby")
+      }, 2000);
+     
+    };
 
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
@@ -47,7 +78,7 @@ const EventEditForm = ({props, changeState}: FormProps)=> {
           className="form-control"
           value={formData.titulo}
           onChange={handleChange}
-          required
+          
         />
       </div>
 
@@ -59,7 +90,7 @@ const EventEditForm = ({props, changeState}: FormProps)=> {
           className="form-control"
           value={formData.fecha}
           onChange={handleChange}
-          required
+          
         />
       </div>
       <div className="mb-3">{/* Hora */}
@@ -141,7 +172,7 @@ export const ModalDEevento = (props: ModalProps) => {
           </Modal.Body>
         <Modal.Footer>
           {/* <button className="btn btn-success">Enviar</button> */}
-          <button className="btn btn-danger" onClick={()=> {setRequestState("standby");props.hide(true)}}>{requestState === "success" ? "Hecho" : "Cancelar"}</button>
+          <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>{requestState === "success" ? "Hecho" : "Cancelar"}</button>
         </Modal.Footer>
       </Modal>
   )
