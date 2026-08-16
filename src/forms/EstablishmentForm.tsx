@@ -7,6 +7,7 @@ type innerFormType = {
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
 }
 const InnerForm = ({changeState}: innerFormType)=> {
+  const [obligatorios,setObligatorios] = useState<boolean>(false)
   const [formData, setFormData] = useState<Establishment>({
     id: 0,
     nombre: "",
@@ -112,7 +113,17 @@ const InnerForm = ({changeState}: innerFormType)=> {
     };
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-          console.log(formData)
+        if(
+          formData.nombre.length === 0 || 
+          formData.finDeSuscripcion.length === 0 || 
+          formData.horario.length === 0 || 
+          formData.ubicacion.length === 0 || 
+          especialidadInput.length === 0 ||
+          file === null ){
+          alert("Verificar los datos obligatorios")
+          setObligatorios(true)
+          return
+        }
         changeState("loading")
         const formDataToSend = new FormData();
         const servicios = [especialidadInput].concat(formData.servicios)
@@ -174,6 +185,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
               onChange={handleChange}
               required
             />
+            {obligatorios && formData.nombre.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* IMAGEN */}
         <label className="form-label">Foto de edificio *</label>
@@ -184,11 +196,15 @@ const InnerForm = ({changeState}: innerFormType)=> {
           onChange={handleFileChange}
           required
         />
+        
+            {obligatorios && file === null && <p>⛔</p>}
+        
+            {obligatorios && formData.nombre.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* Horario de atencion */}
             <label className="form-label">Horario del establecimiento *</label>
             <input
-            placeholder="Ej. De lunes a viernes de 16 a 23"
+            placeholder="Ej. De lunes a viernes de 16 a 23 / A convenir"
               type="text"
               name="horario"
               className="form-control"
@@ -196,6 +212,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
               onChange={handleChange}
               required
             />
+            
+            {obligatorios && formData.horario.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* UBICACION */}
             <label className="form-label">Ubicación *</label>
@@ -208,6 +226,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
               onChange={handleChange}
               required
             />
+            
+            {obligatorios && formData.ubicacion.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* latitud */}
             <label className="form-label">Latitud</label>
@@ -299,6 +319,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
               onChange={(e) => setEspecialidadInput(e.target.value)}
               required
             />
+            
+            {obligatorios && especialidadInput.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* Servicios no filtrables*/}
             <label className="form-label">Servicios</label>
@@ -372,6 +394,8 @@ const InnerForm = ({changeState}: innerFormType)=> {
               onChange={handleChange}
               required
             />
+            
+            {obligatorios && formData.finDeSuscripcion.length === 0 && <p>⛔</p>}
           </div>
         </div>
       </details>

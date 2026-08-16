@@ -8,6 +8,7 @@ type innerFormType = {
   state: "standby" | "success" | "error" | "loading"
 }
 const InnerForm = ({changeState, state}: innerFormType) =>{
+  const [obligatorios,setObligatorios] = useState<boolean>(false)
   const [formData, setFormData] = useState<Event>({
     id: 0,
     titulo: "",
@@ -27,6 +28,17 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if(
+          formData.titulo.length === 0 || 
+          formData.fecha.length === 0 || 
+          formData.hora.length === 0 || 
+          formData.ubicacion.length === 0 
+          ){
+          alert("Verificar los datos obligatorios")
+          setObligatorios(true)
+          return
+        }
     changeState("loading")
     const dataToSend = {
     
@@ -82,6 +94,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           required
           placeholder="Titulo del evento"
         />
+        {obligatorios && formData.titulo.length === 0 && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Fecha */}
         <label className="form-label">Fecha *</label>
@@ -95,6 +108,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           required
           placeholder="Fecha del evento"
         />
+        {obligatorios && formData.fecha.length === 0 && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Hora */}
         <label className="form-label">Hora *</label>
@@ -108,6 +122,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           required
           placeholder="Hora del evento"
         />
+        {obligatorios && formData.hora.length === 0 && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Responsable */}
         <label className="form-label">Responsable</label>
@@ -133,6 +148,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           required
           placeholder="Ubicacion del evento"
         />
+        {obligatorios && formData.ubicacion.length === 0 && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Tipo */}
         <label className="form-label">Tipo</label>
@@ -158,6 +174,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           placeholder="Enlace a la publicacion"
           required
         />
+        {obligatorios && formData.contacto.length === 0 && <p>⛔</p>}
       </div>
 
       <button type="submit" className="btn btn-success" disabled={state === "loading"}>

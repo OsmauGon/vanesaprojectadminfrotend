@@ -10,6 +10,7 @@ import '../src/styles/navbar.css'
 import CalendarPage from "./pages/CalendarioPage";
 import { ExtraviadosPage } from "./pages/ExtraviadosPage";
 import PublicidadPage from "./pages/PublicidadPage";
+import ServiciosPage from "./pages/ServicePage";
 
 function App() {
   //const isAuthenticated = localStorage.getItem("token"); // simplificado
@@ -22,6 +23,16 @@ function App() {
         <div className="nav-title"><h1>Sitio de Administracion</h1></div>
         <div className="nav-content">
           <ul >
+            <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " active fw-bold text-warning" : "")
+                  }
+                  to="/inicio"
+                >
+                  Inicio
+                </NavLink>
+              </li>
               <li className="nav-item">
                 <NavLink
                   className={({ isActive }) =>
@@ -82,6 +93,16 @@ function App() {
                   Publicidades
                 </NavLink>
               </li>
+              <li className="nav-item">
+                <NavLink
+                  className={({ isActive }) =>
+                    "nav-link" + (isActive ? " active fw-bold text-warning" : "")
+                  }
+                  to="/servis"
+                >
+                  Servicios
+                </NavLink>
+              </li>
             </ul>
         </div>
       </nav>
@@ -97,6 +118,7 @@ function App() {
             <Route path="/extraviados" element={<ExtraviadosPage auth={isAuthenticated}/>} />
             <Route path="/eventos" element={<CalendarPage auth={isAuthenticated}/>} />
             <Route path="/publicidades" element={<PublicidadPage auth={isAuthenticated}/>} />
+            <Route path="/servicios" element={<ServiciosPage auth={isAuthenticated}/>} />
           </>
         ) : (
           <Route path="*" element={<Navigate to="/login" />} />

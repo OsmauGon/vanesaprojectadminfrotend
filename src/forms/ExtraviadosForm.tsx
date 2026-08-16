@@ -7,6 +7,7 @@ type innerFormType = {
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
 }
 const InnerForm = ({changeState}: innerFormType) =>{
+  const [obligatorios,setObligatorios] = useState<boolean>(false)
   const [formData, setFormData] = useState<MissingPost>({
     id: 0,
     title: "",
@@ -22,8 +23,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  
   const [file, setFile] = useState<File | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const selectedFile = e.target.files?.[0];
@@ -36,6 +35,13 @@ const InnerForm = ({changeState}: innerFormType) =>{
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if( 
+          formData.contact.length === 0 ||
+          file === null ){
+          alert("Verificar los datos obligatorios")
+          setObligatorios(true)
+          return
+        }
     changeState("loading")
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
@@ -105,6 +111,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
           onChange={handleFileChange}
           required
         />
+        {obligatorios && file === null && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Tipo */}
         <label className="form-label">Tipo de posteo *</label>
@@ -125,6 +132,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
           onChange={handleChange}
           required
         />
+        {obligatorios && formData.contact.length === 0 && <p>⛔</p>}
       </div>
       
       <button type="submit" className="btn btn-success">

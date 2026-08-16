@@ -31,7 +31,7 @@ const PublicidadPage = ({auth}: Props) => {
      auth && <div className='container'>
       <h2>Gestión de Publicidades</h2>
       <div className="plus-button-container">
-        <button className="btn btn-success" onClick={()=> setFormview(!formview)}>{formview ? "<- Volver atras" : "+ Nuevo Profesional"}</button>
+        <button className="btn btn-success" onClick={()=> setFormview(!formview)}>{formview ? "<- Volver atras" : "+ Nueva Publicidad"}</button>
       </div>
       {loading && <p>Cargando...</p>}
       {error && <p>Error: {error}</p>}

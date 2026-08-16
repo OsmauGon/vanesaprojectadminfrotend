@@ -35,7 +35,10 @@ const InnerForm = ({changeState}: innerFormType) =>{
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      
+    if(formData.title.length === 0 || formData.description.length === 0 || formData.idOwner === 0 || file === null ){
+      alert("Verificar los datos obligatorios")
+      return
+    }
     changeState("loading")
     const formDataToSend = new FormData();
     formDataToSend.append("title", formData.title);
@@ -67,7 +70,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
       <div className="mb-3">{/* ID dueño */}
-        <label className="form-label">ID dueño</label>
+        <label className="form-label">ID dueño * </label>
         <input
           type="text"
           name="idOwner"
@@ -75,6 +78,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
           value={formData.idOwner}
           onChange={handleChange}
           placeholder="ID del profesional"
+          required
         />
       </div>
       <div className="mb-3">{/* titulo */}

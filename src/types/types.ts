@@ -166,3 +166,15 @@ export interface Publicidad {
     state?: "ACTIVE" | "INACTIVE"
     createdAt?: string;
 }
+export interface Servicio {
+  id: number;
+  nombre: string;
+  topico: string; //entrenamiento, petshop
+  descripcion: string;//descripcion del servicio
+  clase: "PRODUCTO" | "SERVICIO";
+  imagenLogo?: string;//imagen representante
+  contacto: string;//nombre de persona u organismo
+  telefono: string;
+  redSocial: string;
+  finDeSuscripcion: string;
+}
