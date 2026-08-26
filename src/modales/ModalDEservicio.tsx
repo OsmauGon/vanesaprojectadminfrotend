@@ -19,11 +19,11 @@ const ServicioEditForm = ({props, changeState}: FormProps)=> {
     topico: (props && props.topico) ? props?.topico : "",
     telefono: (props && props.telefono) ? props?.telefono : "",
     descripcion: props ? props.descripcion : "",
-    imagenLogo: props ? props.imagenLogo : "",
     clase: props ? props.clase : "SERVICIO",
     contacto: props ? props.contacto : "",
     redSocial: props ? props.redSocial : "",
-    finDeSuscripcion: props ? props.finDeSuscripcion : ""
+    finDeSuscripcion: props ? props.finDeSuscripcion : "",
+    notas: props ? props.notas : []
   });
 const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -46,37 +46,42 @@ const handleChange = (
     e.preventDefault();
     changeState("loading")
     const formDataToSend = new FormData();
-    formDataToSend.append("nombre", formData.nombre);
-    formDataToSend.append("contacto", formData.contacto);
-    formDataToSend.append("telefono", formData.telefono);
-    formDataToSend.append("contacto", formData.contacto);
-    formDataToSend.append("redSocial", formData.redSocial);
-    formDataToSend.append("finDeSuscripcion", formData.finDeSuscripcion);
     
     // imagen como archivo
     if (file) {
       formDataToSend.append("imagen", file);
     }
-    /*for (const [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
-      }
-    setTimeout(() => {
-      changeState("standby")
-    }, 2000);
-    */
+    const dataToSend = {
+    "nombre": formData.nombre,
+    "contacto": formData.contacto,
+    "telefono": formData.telefono,
+    "redSocial": formData.redSocial,
+    "finDeSuscripcion": formData.finDeSuscripcion,
+    }
     try {
       const response = await fetch("servPutEndpoint", {
       method: "PUT",
-      body: formDataToSend,
-      });
-      const result = await response.json();
-      if(result.message === "EXITO") {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataToSend),
+            });
+            const result = await response.json();
+            if(result.message === "PUT EXITOSO") {
         changeState("success")
       }
     } catch (error) {
       changeState("error")
       console.log("Error detectado: ", error)
     }
+    
+    for (const [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+      }
+    setTimeout(() => {
+      changeState("standby")
+    }, 2000);
+    
   };
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
@@ -103,6 +108,7 @@ const handleChange = (
               className="form-control"
               accept="image/*"
               onChange={handleFileChange}
+              disabled
             />
             
           </div>

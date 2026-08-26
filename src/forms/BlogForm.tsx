@@ -36,8 +36,8 @@ const InnerForm = ({changeState}: innerFormType) =>{
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if(formData.title.length === 0 || formData.description.length === 0 || formData.idOwner === 0 || file === null ){
-      alert("Verificar los datos obligatorios")
-      return
+      //alert("Verificar los datos obligatorios")
+      //return
     }
     changeState("loading")
     const formDataToSend = new FormData();

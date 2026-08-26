@@ -18,8 +18,26 @@ const InnerForm = ({changeState}: innerFormType) =>{
     contacto: "",
     finDeSuscripcion: "",//es campo obligatorio para el backend
     redSocial: "",
-    clase: "SERVICIO"
+    clase: "SERVICIO",
+    notas: []
   });
+  const [notasInput, setNotasInput] = useState("");
+  const addNota = () => {
+    if (notasInput.trim() !== "") {
+      setFormData((prev) => ({
+        ...prev,
+        notas: [...(prev.notas ?? []), notasInput.trim()],
+      }));
+      setNotasInput("");
+    }
+  };
+
+  const removeNota = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      notas: prev.notas?.filter((_, i) => i !== index),
+    }));
+  };
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
@@ -44,7 +62,8 @@ const InnerForm = ({changeState}: innerFormType) =>{
           formData.finDeSuscripcion.length === 0 || 
           formData.topico.length === 0 ||
           formData.contacto.length === 0 ||
-          file === null ){
+          file === null 
+          ){
           alert("Verificar los datos obligatorios")
           setObligatorios(true)
           return
@@ -181,6 +200,37 @@ const InnerForm = ({changeState}: innerFormType) =>{
               onChange={handleChange}
               placeholder="@Instagram-link"
             />
+          </div>
+          <div className="mb-3">{/* Notas */}
+            <label className="form-label">Notas</label>
+            <div className="input-group mb-2">
+              <input
+              placeholder="Ej. Dr. Estaban Quito"
+                type="text"
+                className="form-control"
+                value={notasInput}
+                onChange={(e) => setNotasInput(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={addNota}
+              >
+                Agregar
+              </button>
+            </div>
+          </div>
+          <div className="d-flex flex-wrap">{/* CONJUNTO DE NOTAS */}
+              {formData.notas.map((p, i) => (
+                <span key={i} className="badge bg-secondary me-2">
+                  {p}{" "}
+                  <button
+                    type="button"
+                    className="btn-close btn-close-white ms-1"
+                    onClick={() => removeNota(i)}
+                  ></button>
+                </span>
+              ))}
           </div>
           <div className="mb-3">{/* Limite de Suscripcion */}
             <label className="form-label">Limite de suscripcion</label>

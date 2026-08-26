@@ -15,7 +15,7 @@ const CalendarPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedProf,setSelectedProf] = useState<Event | null>(null)
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<"view" | "put-form" | "hide">('hide');
   const { data, loading, error } = useFetch<Event[]>(eventGetEndpoint);
   
   const lista = data?.filter(p => 
@@ -58,7 +58,7 @@ const CalendarPage = ({auth}: Props) => {
                     </tbody>
                   </table>
       }
-      <ModalDEevento show={showModal} hide={() => setShowModal(false)} obj={selectedProf} />
+      <ModalDEevento show={showModal != "hide"} tipo={showModal} hide={() => setShowModal("hide")} obj={selectedProf} />
       </div>
   )
 }

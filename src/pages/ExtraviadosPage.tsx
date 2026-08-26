@@ -37,7 +37,7 @@ export const ExtraviadosPage = ({auth}: Props) => {
   const [formview,setFormview] = useState<boolean>(false)
   const { data, loading, error } = useFetch<MissingPost[]>(missingsGetEndpoint);
   const [selectedLost,setSelectedLost] = useState<MissingPost | null>(null)
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<"view" | "put-form" | "hide">('hide');
 
   const lista = data?.filter(p => 
     p.title.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -84,7 +84,7 @@ export const ExtraviadosPage = ({auth}: Props) => {
                   </table>
       }
       
-      <ModalDEextraviados show={showModal} hide={() => setShowModal(false)} obj={selectedLost} />
+      <ModalDEextraviados show={showModal != "hide"} tipo={showModal} hide={() => setShowModal("hide")} obj={selectedLost} />
       </div>
   )
 }

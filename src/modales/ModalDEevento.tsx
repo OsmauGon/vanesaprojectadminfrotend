@@ -10,6 +10,7 @@ type ModalProps = {
     obj: Event | null;
     show: boolean;
     hide: (val: boolean) => void
+    tipo: "view" | "put-form" | "hide"
 }
 
 const EventEditForm = ({props, changeState}: FormProps)=> {
@@ -44,7 +45,7 @@ const EventEditForm = ({props, changeState}: FormProps)=> {
       }
       
       try {
-        console.log(dataToSend)
+        console.log(dataToSend)//BORRAR
         const response = await fetch("eventPutEndpoint", {
         method: "PUT",
         headers: {

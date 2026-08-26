@@ -21,9 +21,11 @@ const InnerForm = ({changeState}: innerFormType) =>{
     finDeSuscripcion: "",//es campo obligatorio para el backend
     horario: "",//es campo obligatorio para el backend
     redSocial: "",
-    insignias: []
+    insignias: [],
+    notas: []
   });
   const [practicaInput, setPracticaInput] = useState("");
+  const [notasInput, setNotaInput] = useState("");
   const [badges, setBadges] = useState<string[]>([])
   const badgeCollector = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
     /*esta funcion es para agregar o quitar la insignia de correspondiente del establecimiento */
@@ -55,6 +57,21 @@ const InnerForm = ({changeState}: innerFormType) =>{
       practicas: prev.practicas?.filter((_, i) => i !== index),
     }));
   };
+  const addNota = () => {
+    if (notasInput.trim() !== "") {
+      setFormData((prev) => ({
+        ...prev,
+        notas: [...(prev.notas ?? []), notasInput.trim()],
+      }));
+      setNotaInput("");
+    }
+  };
+  const removeNota = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      notas: prev.notas?.filter((_, i) => i !== index),
+    }));
+  };
 
   const [file, setFile] = useState<File | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +85,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(formData)
     if(
           formData.nombre.length === 0 || 
           formData.finDeSuscripcion.length === 0 || 
@@ -75,23 +93,23 @@ const InnerForm = ({changeState}: innerFormType) =>{
           formData.ubicacion.length === 0 ||
           formData.especialidad.length === 0 ||
           file === null ){
-          alert("Verificar los datos obligatorios")
+          //alert("Verificar los datos obligatorios")
           setObligatorios(true)
-          return
+          //return
         }
     changeState("loading")
     const formDataToSend = new FormData();
     const servicios = [formData.especialidad].concat(formData.practicas)
-    const domicilio = formData.hacedomicilio ? ["hacedomicilio"] : []
     
 
     formDataToSend.append("nombre", formData.nombre);
     formDataToSend.append("servicios", JSON.stringify(servicios));
+    formDataToSend.append("notas", JSON.stringify(formData.notas));
     formDataToSend.append("ubicacion", formData.ubicacion);
     formDataToSend.append("telefono", formData.telefono);
     formDataToSend.append("email", formData.email);
     formDataToSend.append("redSocial", formData.redSocial);
-    formDataToSend.append("insignias", JSON.stringify(domicilio));
+    formDataToSend.append("insignias", JSON.stringify(badges));
     formDataToSend.append("finDeSuscripcion", formData.finDeSuscripcion);
     formDataToSend.append("horario", formData.horario);
 
@@ -143,7 +161,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
             {obligatorios && formData.nombre.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* IMAGEN */}
-            <label className="form-label">Foto de perfil *</label>
+            <label className="form-label">Foto de perfil </label>
             <input
               type="file"
               className="form-control"
@@ -206,17 +224,15 @@ const InnerForm = ({changeState}: innerFormType) =>{
         <summary>Perfil Profesional</summary>
         <div>
           <div className="mb-3">{/* Horario de atencion */}
-            <label className="form-label">Horario de contacto *</label>
+            <label className="form-label">Horario de contacto </label>
             <input
               type="text"
               name="horario"
               className="form-control"
               value={formData.horario}
               onChange={handleChange}
-              required
               placeholder="Lunes a Viernes de 9 a 19"
             />
-            {obligatorios && formData.horario.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* ESPECIALIDAD */}
             <label className="form-label">Especialidad *</label>
@@ -250,7 +266,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               </button>
             </div>
           </div>
-          <div>{/* CONJUNTO DE PRACTICAS */}
+          <div className="d-flex flex-wrap">{/* CONJUNTO DE PRACTICAS */}
               {formData.practicas?.map((p, i) => (
                 <span key={i} className="badge bg-secondary me-2">
                   {p}{" "}
@@ -262,8 +278,39 @@ const InnerForm = ({changeState}: innerFormType) =>{
                 </span>
               ))}
           </div>
+          <div className="mb-3">{/* Notas */}
+            <label className="form-label">Notas</label>
+            <div className="input-group mb-2">
+              <input
+                type="text"
+                className="form-control"
+                value={notasInput}
+                onChange={(e) => setNotaInput(e.target.value)}
+                placeholder="Notas"
+              />
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={addNota}
+              >
+                Agregar
+              </button>
+            </div>
+          </div>
+          <div className="d-flex flex-wrap">{/* CONJUNTO DE Notas */}
+              {formData.notas?.map((p, i) => (
+                <span key={i} className="badge bg-secondary me-2">
+                  {p}{" "}
+                  <button
+                    type="button"
+                    className="btn-close btn-close-white ms-1"
+                    onClick={() => removeNota(i)}
+                  ></button>
+                </span>
+              ))}
+          </div>
           <div className="mb-3">{/* Limite de Suscripcion */}
-            <label className="form-label">Limite de suscripcion</label>
+            <label className="form-label">Limite de suscripcion *</label>
             <input
               type="date"
               name="finDeSuscripcion"

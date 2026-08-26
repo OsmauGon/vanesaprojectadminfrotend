@@ -11,6 +11,7 @@ type ModalProps = {
     obj: Blog | null;
     show: boolean;
     hide: (val: boolean) => void
+    tipo: "view" | "put-form" | "hide"
 }
 
 const BlogEditForm = ({props, changeState, state}: FormProps)=> {
@@ -28,7 +29,8 @@ const BlogEditForm = ({props, changeState, state}: FormProps)=> {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-const [file, setFile] = useState<File | null>(null);
+
+  const [file, setFile] = useState<File | null>(null);
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
   const selectedFile = e.target.files?.[0];
   if (selectedFile) {
@@ -43,23 +45,25 @@ const [file, setFile] = useState<File | null>(null);
       
     changeState("loading")
     const formDataToSend = new FormData();
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("description", formData.description);
-
-    if (formData.videoUrl && formData.videoUrl?.length > 5) formDataToSend.append("videoUrl", formData.videoUrl);
-    if (formData.documentUrl && formData.documentUrl?.length > 5) formDataToSend.append("documentUrl", formData.documentUrl);
-
     // imagen como archivo
-    if (file) {
-      formDataToSend.append("imagen", file);
+    if (file) formDataToSend.append("imagen", file);
+
+    const dataToSend = {
+    title: formData.title,
+    description: formData.description,
+    videoUrl: formData.videoUrl,
+    documentUrl: formData.documentUrl,
     }
     try {
       const response = await fetch("blogPutEndpoint", {
       method: "PUT",
-      body: formDataToSend,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataToSend),
       });
       const result = await response.json();
-      if(result.message === "EXITO") {
+      if(result.message === "PUT EXITOSO") {
         changeState("success")
       }
     } catch (error) {
@@ -186,8 +190,8 @@ export const ModalDEblog = (props: ModalProps) => {
   return (
     <Modal show={props.show} onHide={() => props.hide(false)}>
           <Modal.Body>
-                {requestState === "standby" && <BlogEditForm props={props.obj} changeState={setRequestState} state={requestState}/>}
-                {requestState === "view" && <BlogModal props={props.obj} changeState={setRequestState} state={requestState}/>}
+                {props.tipo === "put-form" && <BlogEditForm props={props.obj} changeState={setRequestState} state={requestState}/>}
+                {props.tipo === "view" && <BlogModal props={props.obj} changeState={setRequestState} state={requestState}/>}
                 
           </Modal.Body>
         <Modal.Footer>

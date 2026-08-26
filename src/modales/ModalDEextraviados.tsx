@@ -10,6 +10,7 @@ type ModalProps = {
     obj: MissingPost | null;
     show: boolean;
     hide: (val: boolean) => void
+    tipo: "view" | "put-form" | "hide"
 }
 
 const MissingPostEditForm = ({props, changeState}: FormProps)=> {
@@ -28,7 +29,7 @@ const MissingPostEditForm = ({props, changeState}: FormProps)=> {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const [file, setFile] = useState<File | null>(null);
+    const [file, setFile] = useState<File | null>(null);
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
@@ -42,25 +43,29 @@ const MissingPostEditForm = ({props, changeState}: FormProps)=> {
       e.preventDefault();
       changeState("loading")
       const formDataToSend = new FormData();
-      formDataToSend.append("title", formData.title);
-      formDataToSend.append("description", formData.description);
-      formDataToSend.append("contact", formData.contact);
       if(formData.tipo == 0) formDataToSend.append("tipo", "EXTRAVIADO");
       if(formData.tipo == 1) formDataToSend.append("tipo", "ENCONTRADO");
       if(formData.tipo == 2) formDataToSend.append("tipo", "ADOPCION");
   
       
       // imagen como archivo
-      if (file) {
-        formDataToSend.append("imagen", file);
+      if (file) {formDataToSend.append("imagen", file);}
+      const dataToSend = {
+        title: formData.title,
+        description: formData.description,
+        contact: formData.contact,
+        tipo: formData.tipo
       }
       try {
         const response = await fetch("missingsPutEndpoint", {
         method: "PUT",
-        body: formDataToSend,
-        });
-        const result = await response.json();
-        if(result.message === "EXITO") {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataToSend),
+            });
+            const result = await response.json();
+            if(result.message === "PUT EXITOSO") {
           changeState("success")
         }
       } catch (error) {

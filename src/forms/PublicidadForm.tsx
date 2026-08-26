@@ -38,9 +38,9 @@ const InnerForm = ({changeState}: innerFormType) =>{
           formData.finDeSuscripcion.length === 0 || 
           formData.contacto.length === 0 || 
           file === null ){
-          alert("Verificar los datos obligatorios")
+          //alert("Verificar los datos obligatorios")
           setObligatorios(true)
-          return
+          //return
         }
     changeState("loading")
     const formDataToSend = new FormData();

@@ -15,11 +15,12 @@ const EstablishmentRow: React.FC<EstablishmentRowProps> = ({ prof, setSelectedPr
   const fin = new Date(prof.finDeSuscripcion);
   const vencido = fin < hoy;
 
-  const [source,setSource] = useState<boolean>(false)
+ const [delstate,setDelstate] = useState<"esperando" | "borrado" | "seleccionado">("esperando")
+  
   const handleDelete = async (id: number) => {
     const ok = await deleteRegis(vetesDelEndpoint, id);
     if (ok) {
-      setSource(true); // actualiza la lista en el estado del padre
+      setDelstate("borrado"); // actualiza la lista en el estado del padre
     }
   };
   return (
@@ -36,14 +37,15 @@ const EstablishmentRow: React.FC<EstablishmentRowProps> = ({ prof, setSelectedPr
             {vencido ? "Vencido ❌" : "Al dia ✅"}
           </span>
       </td>
-      {
-      source ? <Alert variant={"success"}>Se ha eliminado el recurso</Alert>
-              : <td className="buttons-container">
+      {delstate === "seleccionado" && <Alert  variant={"danger"} >¿Confirma eliminacion? <button className="btn btn-danger" onClick={()=> handleDelete(prof.id)}>SI</button></Alert>}
+      {delstate === "borrado" && <Alert  variant={"warning"} >Recurso eliminado</Alert>}
+      {delstate === "esperando" && <td className="buttons-container">
                 <button className="btn btn-primary" onClick={()=> {setSelectedProf(prof); setShowModal(true)}}>Ver</button>
-                <button className="btn btn-success" disabled onClick={()=> {setSelectedProf(prof); setShowModal(true)}}>Editar</button>
-                <button className="btn btn-danger" onClick={()=> handleDelete(prof.id)}>Eliminar</button>
+                <button disabled className="btn btn-success" onClick={()=> {setSelectedProf(prof); setShowModal(true)}}>Editar</button>
+                <button className="btn btn-danger" onClick={()=> setDelstate("seleccionado")}>Eliminar</button>
+                {vencido && <button className="btn btn-warning" onClick={()=> alert("En construccion")}>Renovar</button>}
               </td>
-      }
+              }
     </tr>
   );
 };

@@ -15,7 +15,7 @@ const BlogsPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedBlog,setSelectedBlog] = useState<Blog | null>(null)
-  const [showModal, setShowModal] = useState(false);
+const [showModal, setShowModal] = useState<"view" | "put-form" | "hide">('hide');
   const { data, loading, error } = useFetch<Blog[]>(blogGetEndpoint);
   
   const lista = data?.filter(p => 
@@ -61,7 +61,7 @@ const BlogsPage = ({auth}: Props) => {
                   </table>
       }
       
-      <ModalDEblog show={showModal} hide={() => setShowModal(false)} obj={selectedBlog} />
+      <ModalDEblog show={showModal != "hide"} tipo={showModal} hide={() => setShowModal("hide")} obj={selectedBlog} />
       </div>
   )
 }

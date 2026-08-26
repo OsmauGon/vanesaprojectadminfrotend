@@ -52,7 +52,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
     }
     
     try {
-      console.log(dataToSend)
+      console.log(dataToSend)//BORRAR
       const response = await fetch(eventPostEndpoint, {
       method: "POST",
       headers: {

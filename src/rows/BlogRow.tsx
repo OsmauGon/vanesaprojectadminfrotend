@@ -6,16 +6,16 @@ import { blogDelEndpoint } from "../endpoints";
 
 type UserRowProps = {
   prof: Blog;
-  setShowModal: (val: boolean)=>void
+  setShowModal: (val: "view" | "hide" | "put-form")=>void
   setSelectedBlog: (val: Blog)=>void
 };
 
 const BlogRow: React.FC<UserRowProps> = ({ prof, setSelectedBlog, setShowModal }) => {
-  const [source,setSource] = useState<boolean>(false)
+ const [delstate,setDelstate] = useState<"esperando" | "borrado" | "seleccionado">("esperando")
   const handleDelete = async (id: number) => {
     const ok = await deleteRegis(blogDelEndpoint, id);
     if (ok) {
-      setSource(true); // actualiza la lista en el estado del padre
+     setDelstate("borrado"); // actualiza la lista en el estado del padre
     }
   };
   return (
@@ -23,11 +23,11 @@ const BlogRow: React.FC<UserRowProps> = ({ prof, setSelectedBlog, setShowModal }
       <td><b>{prof.id}</b></td>
       <td><b>{prof.idOwner}</b></td>
       <td><b>{prof.title}</b></td>
-      {
-      source ? <Alert  variant={"success"}>Se ha eliminado el recurso</Alert>
-              : <td className="buttons-container">
-                <button className="btn btn-primary" onClick={()=> {setSelectedBlog(prof); setShowModal(true)}}>Ver</button>
-                <button className="btn btn-success" disabled onClick={()=> {setSelectedBlog(prof); setShowModal(true)}}>Editar</button>
+      {delstate === "seleccionado" && <Alert  variant={"danger"} >¿Confirma eliminacion? <button className="btn btn-danger" onClick={()=> handleDelete(prof.id)}>SI</button></Alert>}
+            {delstate === "borrado" && <Alert  variant={"warning"} >Recurso eliminado</Alert>}
+            {delstate === "esperando" && <td className="buttons-container">
+                <button className="btn btn-primary" onClick={()=> {setSelectedBlog(prof); setShowModal("view")}}>Ver</button>
+                <button disabled className="btn btn-success" onClick={()=> {setSelectedBlog(prof); setShowModal("put-form")}}>Editar</button>
                 <button className="btn btn-danger" onClick={()=> handleDelete(prof.id)}>Eliminar</button>
               </td>
       }

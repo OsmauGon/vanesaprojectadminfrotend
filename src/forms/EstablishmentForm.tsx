@@ -22,10 +22,12 @@ const InnerForm = ({changeState}: innerFormType)=> {
     longitud: "",
     redSocial: "",
     insignias: [],
-    imagen: ""
+    imagen: "",
+    notas: []
   });
 
   const [practicaInput, setPracticaInput] = useState("");
+  const [notasInput, setNotasInput] = useState("");
   const [profesionalInput, setProfesionalInput] = useState("");
   const [phoneInput, setPhoneInput] = useState("");
   const [especialidadInput, setEspecialidadInput] = useState("");
@@ -44,6 +46,23 @@ const InnerForm = ({changeState}: innerFormType)=> {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const addNota = () => {
+    if (notasInput.trim() !== "") {
+      setFormData((prev) => ({
+        ...prev,
+        notas: [...(prev.notas ?? []), notasInput.trim()],
+      }));
+      setNotasInput("");
+    }
+  };
+
+  const removeNota = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      notas: prev.notas?.filter((_, i) => i !== index),
+    }));
   };
 
   const addPractica = () => {
@@ -120,9 +139,9 @@ const InnerForm = ({changeState}: innerFormType)=> {
           formData.ubicacion.length === 0 || 
           especialidadInput.length === 0 ||
           file === null ){
-          alert("Verificar los datos obligatorios")
+          //alert("Verificar los datos obligatorios")
           setObligatorios(true)
-          return
+          //return
         }
         changeState("loading")
         const formDataToSend = new FormData();
@@ -134,6 +153,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
         formDataToSend.append("servicios", JSON.stringify(servicios));
         formDataToSend.append("ubicacion", formData.ubicacion);
         formDataToSend.append("telefono", JSON.stringify(formData.telefono));
+        formDataToSend.append("notas", JSON.stringify(formData.notas));
         formDataToSend.append("email", formData.email);
         formDataToSend.append("redSocial", formData.redSocial ? formData.redSocial : "");
         formDataToSend.append("insignias", JSON.stringify(badges));
@@ -194,7 +214,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
           className="form-control"
           accept="image/*"
           onChange={handleFileChange}
-          required
+          
         />
         
             {obligatorios && file === null && <p>⛔</p>}
@@ -380,6 +400,37 @@ const InnerForm = ({changeState}: innerFormType)=> {
                     type="button"
                     className="btn-close btn-close-white ms-1"
                     onClick={() => removeProf(i)}
+                  ></button>
+                </span>
+              ))}
+          </div>
+          <div className="mb-3">{/* Notas */}
+            <label className="form-label">Notas</label>
+            <div className="input-group mb-2">
+              <input
+              placeholder="Ej. Dr. Estaban Quito"
+                type="text"
+                className="form-control"
+                value={notasInput}
+                onChange={(e) => setNotasInput(e.target.value)}
+              />
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={addNota}
+              >
+                Agregar
+              </button>
+            </div>
+          </div>
+          <div className="d-flex flex-wrap">{/* CONJUNTO DE NOTAS */}
+              {formData.notas.map((p, i) => (
+                <span key={i} className="badge bg-secondary me-2">
+                  {p}{" "}
+                  <button
+                    type="button"
+                    className="btn-close btn-close-white ms-1"
+                    onClick={() => removeNota(i)}
                   ></button>
                 </span>
               ))}

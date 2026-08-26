@@ -4,9 +4,10 @@ import { useFetch } from '../hooks/useFetch';
 import type { Profesional } from '../types/types';
 import '../styles/profesinal-page-style.css'
 import UserRow from '../rows/UserRow';
-import { ModalDEprofesional } from '../modales/ModalDEprofesional';
+//import { ModalDEprofesional } from '../modales/ModalDEprofesional';
 import { profGetEndpoint } from '../endpoints';
 import { ProfesionalForm } from '../forms/ProfesionalForm';
+import { ProfModal } from '../modales/ProfModal';
 
 
 const tableHeaders = [
@@ -23,9 +24,10 @@ const ProfesionalesPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedProf,setSelectedProf] = useState<Profesional | null>(null)
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
   const { data, loading, error } = useFetch<Profesional[]>(profGetEndpoint);
-  
+  console.log(data)
   const lista = data?.filter(p => 
     p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
     p.especialidad.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -58,12 +60,14 @@ const ProfesionalesPage = ({auth}: Props) => {
                   </thead>
                   <tbody>
                     {lista?.map((user) => (
-                       <UserRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal}/>
+                       <UserRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal} setmodalType={setmodalType}/>
                     ))}
                     </tbody>
                   </table>
       }
-      <ModalDEprofesional show={showModal} hide={() => setShowModal(false)} obj={selectedProf} />
+      {/* <ModalDEprofesional show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide")}} obj={selectedProf} /> */}
+      <ProfModal show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
+      
       </div>
   )
 }

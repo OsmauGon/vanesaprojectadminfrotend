@@ -15,10 +15,6 @@ type FormProps ={
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
 }
 
-
-
-
-
 const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
   const [formData, setFormData] = useState<Establishment>({
     id: (props && props.id) ? props?.id : 0,
@@ -36,7 +32,8 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
     latitud: (props && props.latitud) ? props?.latitud : "",
     longitud: (props && props.longitud) ? props?.longitud : "",
     redSocial: props ? props.redSocial : "",
-    insignias: props ? props.insignias : []
+    insignias: props ? props.insignias : [],
+    notas: props ? props.notas : []
   });
   
     const [practicaInput, setPracticaInput] = useState("");
@@ -97,7 +94,6 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
     /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
     /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
     /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
-  
     const addProf = () => {
       if (profesionalInput.trim() !== "") {
         setFormData((prev) => ({
@@ -107,7 +103,6 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
         setProfesionalInput("");
       }
     };
-  
     const removeProf = (index: number) => {
       setFormData((prev) => ({
         ...prev,
@@ -131,36 +126,33 @@ const EstablishmentEditForm = ({props, changeState, state}: FormProps)=> {
           changeState("loading")
           const formDataToSend = new FormData();
           const servicios = [especialidadInput].concat(formData.servicios)
-          //const domicilio = formData.hacedomicilio ? ["hacedomicilio"] : []
           
-      
-          formDataToSend.append("nombre", formData.nombre);
-          formDataToSend.append("servicios", JSON.stringify(servicios));
-          formDataToSend.append("ubicacion", formData.ubicacion);
-          formDataToSend.append("telefono", JSON.stringify(formData.telefono));
-          formDataToSend.append("email", formData.email);
-          formDataToSend.append("redSocial", formData.redSocial ? formData.redSocial : "");
-          formDataToSend.append("insignias", JSON.stringify(badges));
-          formDataToSend.append("finDeSuscripcion", formData.finDeSuscripcion);
-          formDataToSend.append("horario", formData.horario);
-          formDataToSend.append("profesionalesVinculados", JSON.stringify(formData.profesionalesVinculados));
-          formDataToSend.append("latitud", formData.latitud);
-          formDataToSend.append("longitud", formData.longitud);
-      
-          
-      
           // imagen como archivo
-          if (file) {
-            formDataToSend.append("imagen", file);
+          if (file) {formDataToSend.append("imagen", file);}
+          const dataToSend = {
+            nombre: formData.nombre,
+            ubicacion: formData.ubicacion,
+            telefono: formData.telefono,
+            email: formData.email,
+            redSocial: formData.redSocial,
+            finDeSuscripcion: formData.finDeSuscripcion,
+            horario: formData.horario,
+            latitud: formData.latitud,
+            longitud: formData.longitud,
+            profesionalesVinculados: JSON.stringify(formData.profesionalesVinculados),
+            insignias: JSON.stringify(badges),
+            servicios: JSON.stringify(servicios)  
           }
-          
           try {
             const response = await fetch("vetesPutEndpoint", {
             method: "PUT",
-            body: formDataToSend,
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataToSend),
             });
             const result = await response.json();
-            if(result.message === "EXITO") {
+            if(result.message === "PUT EXITOSO") {
               changeState("success")
             }
           } catch (error) {
@@ -512,6 +504,8 @@ const EstablishmentModal = ({props}: FormProps) => {
       <p><b>Telefonos: </b>{props.telefono ? props.telefono.join(" - ") : ""}</p>
       <p><b>Email: </b>{props.email}</p>
       <p><b>Instagram: </b>{props.redSocial ? props.redSocial : "No asignado"}</p>
+      
+      <p><b>Notas: </b>{props.notas ? props.notas.join(" - ") : ""}</p>
       <p><b>Fin de Suscripcion: </b>{props.finDeSuscripcion ? props.finDeSuscripcion : "No asigndado"}</p>
       <p><b>Horario de contacto: </b>{props.horario ? props.horario : "No asignado"}</p>
       <p><b>Fecha de creacion: </b>{props.createdAt}</p>

@@ -45,22 +45,24 @@ export const PublicidadEditForm = ({props, changeState, state}: FormProps<Public
       
     changeState("loading")
     const formDataToSend = new FormData();
-    formDataToSend.append("titulo", formData.titulo);
-    formDataToSend.append("finDeSuscripcion", formData.finDeSuscripcion);
-    formDataToSend.append("contacto", formData.contacto);
 
     // imagen como archivo
-    if (file) {
-      formDataToSend.append("imagen", file);
+    if (file) {formDataToSend.append("imagen", file);}
+    const dataToSend = {
+      titulo: formData.titulo,
+      finDeSuscripcion: formData.finDeSuscripcion,
+      contacto: formData.contacto
     }
-    
     try {
       const response = await fetch("publiPutEndpoint", {
       method: "PUT",
-      body: formDataToSend,
-      });
-      const result = await response.json();
-      if(result.message === "EXITO") {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(dataToSend),
+            });
+            const result = await response.json();
+            if(result.message === "PUT EXITOSO") {
         changeState("success")
       }
     } catch (error) {
@@ -87,7 +89,6 @@ export const PublicidadEditForm = ({props, changeState, state}: FormProps<Public
               className="form-control"
               value={formData.titulo}
               onChange={handleChange}
-              
               placeholder="nombre publicidad"
             />
           </div>
@@ -98,6 +99,7 @@ export const PublicidadEditForm = ({props, changeState, state}: FormProps<Public
           className="form-control"
           accept="image/*"
           onChange={handleFileChange}
+          disabled
         />
           </div>
           <div className="mb-3">{/* Limite de Suscripcion */}

@@ -31,6 +31,7 @@ export interface Profesional {
   finDeSuscripcion: string;//algunos profesionales no ejercen dentro de un establecimiento
   redSocial: string;
   insignias: string[];
+  notas: string[];
   createdAt?: string;//Lo ponemos como no obligatorio por el formulario
   
   rating?: number;//SE PUEDE QUITAR
@@ -89,7 +90,8 @@ export interface Establishment {
   createdAt?: string;//Lo ponemos como no obligatorio por el formulario
   finDeSuscripcion: string;
   redSocial: string;
-  insignias: string[]
+  insignias: string[];
+  notas: string[];
   disponible?: boolean;
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
@@ -177,4 +179,5 @@ export interface Servicio {
   telefono: string;
   redSocial: string;
   finDeSuscripcion: string;
+  notas: string[];
 }
