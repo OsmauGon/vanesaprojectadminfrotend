@@ -74,7 +74,11 @@ const InnerForm = ({changeState}: innerFormType) =>{
     formDataToSend.append("contacto", formData.contacto);
     formDataToSend.append("telefono", formData.telefono);
     formDataToSend.append("contacto", formData.contacto);
+    formDataToSend.append("topico", formData.topico);
+    formDataToSend.append("descripcion", formData.descripcion);
     formDataToSend.append("redSocial", formData.redSocial);
+    formDataToSend.append("notas", JSON.stringify(formData.notas));
+    formDataToSend.append("clase", formData.clase);
     formDataToSend.append("finDeSuscripcion", formData.finDeSuscripcion);
     
     // imagen como archivo
