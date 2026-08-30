@@ -7,8 +7,6 @@ type innerFormType = {
   changeState: (val: "standby" | "success" | "error" | "loading")=> void
 }
 const InnerForm = ({changeState}: innerFormType) =>{
-  
-  const [obligatorios,setObligatorios] = useState<boolean>(false)
   const [formData, setFormData] = useState<Profesional>({
     id: 0,//el backend lo asignara
     nombre: "",//es campo obligatorio para el backend
@@ -85,18 +83,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData)
-    if(
-          formData.nombre.length === 0 || 
-          formData.finDeSuscripcion.length === 0 || 
-          formData.horario.length === 0 || 
-          formData.ubicacion.length === 0 ||
-          formData.especialidad.length === 0 ||
-          file === null ){
-          //alert("Verificar los datos obligatorios")
-          setObligatorios(true)
-          //return
-        }
     changeState("loading")
     const formDataToSend = new FormData();
     const servicios = [formData.especialidad].concat(formData.practicas)
@@ -122,12 +108,12 @@ const InnerForm = ({changeState}: innerFormType) =>{
     if (file) {
       formDataToSend.append("imagen", file);
     }
-    for (const [key, value] of formDataToSend.entries()) {
+    /*for (const [key, value] of formDataToSend.entries()) {
         console.log(key, value);
       }
     setTimeout(() => {
       changeState("standby")
-    }, 2000);
+    }, 2000);*/
     try {
       const response = await fetch(profPostEndpoint, {
       method: "POST",
@@ -158,7 +144,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
               required
               placeholder="Nombre del profesional"
             />
-            {obligatorios && formData.nombre.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* IMAGEN */}
             <label className="form-label">Foto de perfil </label>
@@ -168,7 +153,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
               accept="image/*"
               onChange={handleFileChange}
             />
-            {obligatorios && file === null && <p>⛔</p>}
           </div>
 
           <div className="mb-3">{/* UBICACION */}
@@ -245,7 +229,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
               required
               placeholder="Especialidad principal"
             />
-            {obligatorios && formData.especialidad.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* Practicas */}
             <label className="form-label">Prácticas</label>
@@ -319,7 +302,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
               onChange={handleChange}
               required
             />
-            {obligatorios && formData.finDeSuscripcion.length === 0 && <p>⛔</p>}
           </div>
         </div>
       </details>

@@ -53,7 +53,7 @@ function App() {
                   Establecimientos
                 </NavLink>
               </li>
-              <li className="nav-item">
+              <li className="nav-item" d-none>{/* BLOGS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")
@@ -63,7 +63,7 @@ function App() {
                   Blogs
                 </NavLink>
               </li>
-              <li className="nav-item">
+              <li className="nav-item d-none">{/* EXTRAVIADOS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")
@@ -73,7 +73,7 @@ function App() {
                   Extraviados
                 </NavLink>
               </li>
-              <li className="nav-item">
+              <li className="nav-item d-none">{/* EVENTOS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")
@@ -93,7 +93,7 @@ function App() {
                   Publicidades
                 </NavLink>
               </li>
-              <li className="nav-item">
+              <li className="nav-item">{/*SERVICIOS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")

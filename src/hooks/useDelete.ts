@@ -74,3 +74,34 @@ export const updateRegis = async <T>(
   }
 };
 
+export const renovRegis = async <T>(
+  url: string,
+  id: number,
+  data: T
+): Promise<PutResponse | null> => {
+  try {
+    const response = await fetch(`${url}/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({finDeSuscripcion: data}),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
+
+    const result = (await response.json()) as PutResponse;
+
+    if (result.message === "EXITO") {
+      alert("Actualización exitosa");
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Error detectado: ", error);
+    return null;
+  }
+};
+

@@ -7,8 +7,8 @@ type Numeros = {
   vetes: number;
   blogs: number;
   events: number;
-  missings: number;
-  prublicidades: number;
+  missingposts: number;
+  publicidades: number;
   servis?: number
 }
 const InicioInnerPage = ()=> {
@@ -29,9 +29,9 @@ const InicioInnerPage = ()=> {
         <h3>Profesionales registrados:  {counts?.profes}</h3>
         <h3>Veterinarias registrados:  {counts?.vetes}</h3>
         <h3>Blogs registrados:  {counts?.blogs}</h3>
-        <h3>Extraviados registrados:  {counts?.missings}</h3>
+        <h3>Extraviados registrados:  {counts?.missingposts}</h3>
         <h3>Fechas registrados:  {counts?.events}</h3>
-        <h3>Publicidades registrados:  {counts?.prublicidades}</h3>
+        <h3>Publicidades registrados:  {counts?.publicidades}</h3>
         <h3>Servicios registrados:  {counts?.servis}</h3>
       </div>
     </div>

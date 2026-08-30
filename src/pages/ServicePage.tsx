@@ -6,7 +6,7 @@ import type { Servicio } from '../types/types';
 import { ServiciosForm } from '../forms/ServicioForm';
 import { servGetEndpoint } from '../endpoints';
 import ServRow from '../rows/ServRow';
-import { ModalDEservicios } from '../modales/ModalDEservicio';
+import { ServisModal } from '../modales/ServisModal';
 
 
 const tableHeaders = [
@@ -24,7 +24,8 @@ const ServiciosPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedProf,setSelectedProf] = useState<Servicio | null>(null)
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
   const { data, loading, error } = useFetch<Servicio[]>(servGetEndpoint);
   
   const lista = data?.filter(p => 
@@ -58,12 +59,13 @@ const ServiciosPage = ({auth}: Props) => {
                   </thead>
                   <tbody>
                     {lista?.map((user) => (
-                       <ServRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal}/>
+                       <ServRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal} setmodalType={setmodalType}/>
                     ))}
                     </tbody>
                   </table>
       }
-      <ModalDEservicios show={showModal} hide={() => setShowModal(false)} obj={selectedProf} />
+      <ServisModal show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
+      
       </div>
   )
 }

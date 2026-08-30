@@ -18,9 +18,10 @@ export function useFetch<T>(url: string) {
         if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
 
         const json = await res.json();
-        //console.log(json.data)
+        console.log(json.data)
         setData(json.data);
       } catch (err: unknown) {
+        console.log(err)
             if (err instanceof Error) {
                 setError(err.message);
             } else {

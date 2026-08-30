@@ -8,17 +8,16 @@ type innerFormType = {
 }
 const InnerForm = ({changeState}: innerFormType) =>{
   
-  const [obligatorios,setObligatorios] = useState<boolean>(false)
   const [formData, setFormData] = useState<Servicio>({
     id: 0,//el backend lo asignara
     nombre: "",//es campo obligatorio para el backend
-    topico: "",
+    topico: "",//es campo obligatorio para el backend
     descripcion: "",
-    telefono: "",
+    telefono: "",//es campo obligatorio para el backend
     contacto: "",
     finDeSuscripcion: "",//es campo obligatorio para el backend
     redSocial: "",
-    clase: "SERVICIO",
+    clase: "SERVICIO",//es campo obligatorio para el backend
     notas: []
   });
   const [notasInput, setNotasInput] = useState("");
@@ -57,23 +56,11 @@ const InnerForm = ({changeState}: innerFormType) =>{
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if(
-          formData.nombre.length === 0 || 
-          formData.finDeSuscripcion.length === 0 || 
-          formData.topico.length === 0 ||
-          formData.contacto.length === 0 ||
-          file === null 
-          ){
-          alert("Verificar los datos obligatorios")
-          setObligatorios(true)
-          return
-        }
     changeState("loading")
     const formDataToSend = new FormData();
     formDataToSend.append("nombre", formData.nombre);
     formDataToSend.append("contacto", formData.contacto);
     formDataToSend.append("telefono", formData.telefono);
-    formDataToSend.append("contacto", formData.contacto);
     formDataToSend.append("topico", formData.topico);
     formDataToSend.append("descripcion", formData.descripcion);
     formDataToSend.append("redSocial", formData.redSocial);
@@ -90,8 +77,8 @@ const InnerForm = ({changeState}: innerFormType) =>{
       }
     setTimeout(() => {
       changeState("standby")
-    }, 2000);
-    */
+    }, 2000);*/
+    
     try {
       const response = await fetch(servPostEndpoint, {
       method: "POST",
@@ -108,9 +95,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
   };
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
-      <details>
-        <summary>Perfil Personal</summary>
-        <div>
+
           <div className="mb-3">{/* NOMBRE */}
             <label className="form-label">Nombre *</label>
             <input
@@ -122,21 +107,19 @@ const InnerForm = ({changeState}: innerFormType) =>{
               required
               placeholder="Nombre del profesional"
             />
-            {obligatorios && formData.nombre.length === 0 && <p>⛔</p>}
           </div>
           <div className="mb-3">{/* IMAGEN */}
-            <label className="form-label">Foto de perfil *</label>
+            <label className="form-label">Foto de perfil</label>
             <input
               type="file"
               className="form-control"
               accept="image/*"
               onChange={handleFileChange}
             />
-            {obligatorios && file === null && <p>⛔</p>}
           </div>
 
           <div className="mb-3">{/* Topico */}
-            <label className="form-label">Topico</label>
+            <label className="form-label">Topico *</label>
             <input
               type="text"
               name="topico"
@@ -146,7 +129,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
               placeholder="Tema del servicio"
               required
             />
-            {obligatorios && formData.nombre.length === 0 && <p>⛔</p>}
           </div>
     
           <div className="mb-3">{/* Descripcion */}
@@ -162,7 +144,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
             
           </div>
           <div className="mb-3">{/* TELEFONO */}
-            <label className="form-label">Teléfono</label>
+            <label className="form-label">Teléfono *</label>
             <input
               type="text"
               name="telefono"
@@ -170,6 +152,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               value={formData.telefono}
               onChange={handleChange}
               placeholder="2236666666"
+              required
             />
           </div>
 
@@ -182,9 +165,8 @@ const InnerForm = ({changeState}: innerFormType) =>{
               value={formData.contacto}
               onChange={handleChange}
               placeholder="nombre de responsable a cargo"
-              required
             />
-            {obligatorios && formData.contacto.length === 0 && <p>⛔</p>}
+            {/*obligatorios && formData.contacto.length === 0 && <p>⛔</p>*/}
           </div>
             
         <div className="mb-3">{/* Tipo */}
@@ -209,7 +191,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
             <label className="form-label">Notas</label>
             <div className="input-group mb-2">
               <input
-              placeholder="Ej. Dr. Estaban Quito"
+              placeholder="Nota 1, Nota 2"
                 type="text"
                 className="form-control"
                 value={notasInput}
@@ -246,10 +228,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
               onChange={handleChange}
               required
             />
-            {obligatorios && formData.finDeSuscripcion.length === 0 && <p>⛔</p>}
           </div>
-        </div>
-      </details>
 
       <button type="submit" className="btn btn-success">
         Guardar Servicio

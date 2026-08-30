@@ -180,4 +180,5 @@ export interface Servicio {
   redSocial: string;
   finDeSuscripcion: string;
   notas: string[];
+  createdAt?: string
 }

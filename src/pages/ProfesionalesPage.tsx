@@ -65,7 +65,6 @@ const ProfesionalesPage = ({auth}: Props) => {
                     </tbody>
                   </table>
       }
-      {/* <ModalDEprofesional show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide")}} obj={selectedProf} /> */}
       <ProfModal show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
       
       </div>

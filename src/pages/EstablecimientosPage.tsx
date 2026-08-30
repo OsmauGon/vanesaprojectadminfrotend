@@ -4,9 +4,9 @@ import { useFetch } from '../hooks/useFetch';
 import '../styles/profesinal-page-style.css'
 import type { Establishment } from '../types/types';
 import EstablishmentRow from '../rows/EstablishmentRow';
-import { ModalDEestablecimiento } from '../modales/ModalDEestablecimiento';
 import { EstablishmentForm } from '../forms/EstablishmentForm';
 import { vetesGetEndpoint } from '../endpoints';
+import { VetesModal } from '../modales/VeteModal';
 
 const tableHeaders = [
   "IDs", 
@@ -23,7 +23,8 @@ const EstablecimientosPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedProf,setSelectedProf] = useState<Establishment | null>(null)
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
   const { data, loading, error } = useFetch<Establishment[]>(vetesGetEndpoint);
   
   const lista = data?.filter(p => 
@@ -57,12 +58,12 @@ const EstablecimientosPage = ({auth}: Props) => {
                   </thead>
                   <tbody>
                     {lista?.map((user) => (
-                       <EstablishmentRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal}/>
+                       <EstablishmentRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal} setmodalType={setmodalType}/>
                     ))}
                     </tbody>
                   </table>
       }
-      <ModalDEestablecimiento show={showModal} hide={() => setShowModal(false)} obj={selectedProf} />
+      <VetesModal show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
       </div>
   )
 }

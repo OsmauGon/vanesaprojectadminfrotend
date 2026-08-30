@@ -2,9 +2,6 @@ import { Alert, Button, Modal, Spinner } from "react-bootstrap"
 import type { Profesional } from "../types/types";
 import { useState } from "react";
 
-
-
-
 type FormProps ={
   props: Profesional | null
 }
@@ -14,9 +11,35 @@ type ModalProps = {
     hide: (val: boolean) => void
     tipo: "view" | "put-form" | "hide"
 }
+
+const ProfInfoView = ({props}: FormProps) => {
+  return (
+    props && 
+    <div>
+      <p><b>ID: </b>{props.id}</p>
+      <p><b>Nombre: </b>{props.nombre}</p>
+      <p><b>Especialidades: </b>{props.servicios ? props.servicios.join(" - ") : ""}</p>
+      <p><b>Insignias: </b>{props.insignias.join(" - ")}</p>
+      <p><b>Ubicacion: </b>{props.ubicacion ? props.ubicacion : "No asignado"}</p>
+      <p><b>Telefono: </b>{props.telefono}</p>
+      <p><b>Email: </b>{props.email}</p>
+      <p><b>Instagram: </b>{props.redSocial ? props.redSocial : "No asignado"}</p>
+      <p><b>Fin de Suscripcion: </b>{props.finDeSuscripcion ? props.finDeSuscripcion : "No asigndado"}</p>
+      <p><b>Horario de contacto: </b>{props.horario ? props.horario : "No asignado"}</p>
+      <p><b>Fecha de creacion: </b>{props.createdAt}</p>
+      <div><b>Notas: </b>
+      {props.notas.length === 0 && <p>Ninguna registrada</p>} 
+      <ul>
+        {props.notas.map(i => (<li>{i}</li>))}
+      </ul>
+      </div>
+      {props.imagen === null && <p>Ninguna imagen registrada</p>} 
+      <img className='w-25' src={props.imagen} alt="" />
+    </div>
+  )
+}
+
 const ProfEditForm = ({props}: FormProps) => {
-    
-      console.log(props?.servicios)
     const [state,setState] = useState<"standby" | "loading" | "success"  | "error">("standby")
     const [formData, setFormData] = useState<Profesional>({
         id: (props && props.id) ? props?.id : 0,
@@ -338,8 +361,8 @@ const ProfEditForm = ({props}: FormProps) => {
     </form>
     }
     {state === "error" && <Alert  variant={"danger"}>This is a {"danger"} alert—check it out!</Alert>}
-      {state === "success" && <Alert  variant={"success"}>This is a {"success"} alert—check it out!</Alert>}
-      {state === "loading" && <Button variant="primary" disabled>
+    {state === "success" && <Alert  variant={"success"}>This is a {"success"} alert—check it out!</Alert>}
+    {state === "loading" && <Button variant="primary" disabled>
                                         <Spinner
                                           as="span"
                                           animation="border"
@@ -351,28 +374,6 @@ const ProfEditForm = ({props}: FormProps) => {
                                       </Button> }
     </>
   );
-}
-
-const ProfInfoView = ({props}: FormProps) => {
-    console.log(props)
-  return (
-    props && 
-    <div>
-      <p><b>ID: </b>{props.id}</p>
-      <p><b>Nombre: </b>{props.nombre}</p>
-      <p><b>Especialidades: </b>{props.servicios ? props.servicios.join(" - ") : ""}</p>
-      <p><b>Insignias: </b>{props.insignias.join(" - ")}</p>
-      <p><b>Ubicacion: </b>{props.ubicacion ? props.ubicacion : "No asignado"}</p>
-      <p><b>Telefono: </b>{props.telefono}</p>
-      <p><b>Email: </b>{props.email}</p>
-      <p><b>Instagram: </b>{props.redSocial ? props.redSocial : "No asignado"}</p>
-      <p><b>Fin de Suscripcion: </b>{props.finDeSuscripcion ? props.finDeSuscripcion : "No asigndado"}</p>
-      <p><b>Horario de contacto: </b>{props.horario ? props.horario : "No asignado"}</p>
-      <p><b>Fecha de creacion: </b>{props.createdAt}</p>
-      <p><b>Notas: </b>{props.notas}</p>
-      <img className='w-25' src={props.imagen} alt="" />
-    </div>
-  )
 }
     
 
