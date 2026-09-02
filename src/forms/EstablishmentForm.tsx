@@ -13,7 +13,9 @@ const InnerForm = ({changeState}: innerFormType)=> {
     ubicacion: "",
     telefono: [],
     email: "",
+    practicas: [],
     servicios: [],
+    especialidades: "",
     finDeSuscripcion: "",
     horario: "",
     profesionalesVinculados: [],
@@ -68,7 +70,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
     if (practicaInput.trim() !== "") {
       setFormData((prev) => ({
         ...prev,
-        servicios: [...(prev.servicios ?? []), practicaInput.trim()],
+        practicas: [...(prev.practicas ?? []), practicaInput.trim()],
       }));
       setPracticaInput("");
     }
@@ -77,7 +79,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
   const removePractica = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      practicas: prev.servicios?.filter((_, i) => i !== index),
+      practicas: prev.practicas?.filter((_, i) => i !== index),
     }));
   };
 
@@ -94,7 +96,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
   const removePhone = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      practicas: prev.telefono?.filter((_, i) => i !== index),
+      telefono: prev.telefono?.filter((_, i) => i !== index),
     }));
   };
   /* &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& */
@@ -133,7 +135,7 @@ const InnerForm = ({changeState}: innerFormType)=> {
         e.preventDefault();
         changeState("loading")
         const formDataToSend = new FormData();
-        const servicios = [especialidadInput].concat(formData.servicios)
+        const servicios = [especialidadInput].concat(formData.practicas)
         //const domicilio = formData.hacedomicilio ? ["hacedomicilio"] : []
         
     
