@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import type { Profesional } from "../types/types";
-import { deleteRegis, renovRegis } from "../hooks/useDelete";
+import { deleteRegis, reimageRegis, renovRegis } from "../hooks/useDelete";
 import { Alert } from "react-bootstrap";
-import { profDelEndpoint, profesPatchEndpoint } from "../endpoints";
+import { profDelEndpoint, profesPatchEndpoint, profesPatchImageEndpoint } from "../endpoints";
 
 type UserRowProps = {
   prof: Profesional;
@@ -56,13 +56,51 @@ const RenovInner =({targetId, setState}: InnerType)=>{
     </Alert>
   )
 }
+const ImageEditInner =({targetId,setState}: InnerType)=>{
+  const [file, setFile] = useState<File | null>(null);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const selectedFile = e.target.files?.[0];
+  if (selectedFile) {
+    setFile(selectedFile);
+    
+  }
+  };
+  const handleReimage = async (e :React.FormEvent) => {
+    e.preventDefault()
+    if(!file) return
+     const ok = await reimageRegis(profesPatchImageEndpoint, targetId, file);
+     if (ok) {
+      alert("Renovacion exitosa")
+       setState("exito"); // actualiza la lista en el estado del padre
+     }
+   };
+  return (
+    <Alert  variant={"warning"} className="w-75">
+    <form onSubmit={handleReimage} className="new-form p-0 d-flex gap-2">
+       <div className="mb-3">{/* IMAGEN */}
+            <label className="form-label">Nueva Foto</label>
+            <input
+              type="file"
+              className="form-control"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+          </div>
+            
+    <button type="submit" className="btn btn-success" disabled={file === null}>
+        Guardar
+      </button>
+    </form>
+    </Alert>
+  )
+}
 
 
 const UserRow: React.FC<UserRowProps> = ({ prof, setSelectedProf, setmodalType, setShowModal }) => {
   const hoy = new Date();
   const fin = new Date(prof.finDeSuscripcion);
   const vencido = fin < hoy;
- const [state,setState] = useState<"esperando" | "exito" | "a renovar" | "a borrar">("esperando")
+ const [state,setState] = useState<"esperando" | "exito" | "a renovar" | "a borrar" | "a editar">("esperando")
   
   return (
     <tr key={prof.id}>
@@ -79,12 +117,14 @@ const UserRow: React.FC<UserRowProps> = ({ prof, setSelectedProf, setmodalType, 
           </span>
       </td>
       <td>
+      {state === "a editar" && <ImageEditInner targetId={prof.id} setState={()=>setState("exito")}/>}
       {state === "a renovar" && <RenovInner targetId={prof.id} setState={()=>setState("exito")}/>}
       {state === "a borrar" && <DeleteInner targetId={prof.id} setState={()=>setState("exito")}/>}
       {state === "exito" && <Alert  variant={"warning"} >Cambio realizado con exito</Alert>}
       {state === "esperando" && <div className="buttons-container">
                 <button className="btn btn-primary" onClick={()=> {setSelectedProf(prof); setShowModal(true); setmodalType("view")}}>Ver</button>
-                <button disabled className="btn btn-success" onClick={()=> {setSelectedProf(prof); setShowModal(true); setmodalType("put-form")}}>Editar</button>
+                <button className="btn btn-success" onClick={()=> {setSelectedProf(prof); setShowModal(true); setmodalType("put-form")}}>Editar Info</button>
+                <button className="btn btn-success" onClick={()=> setState("a editar")}>Editar imagen</button>
                 <button className="btn btn-danger" onClick={()=> setState("a borrar")}>Eliminar</button>
                 {vencido && <button className="btn btn-warning" onClick={()=> setState("a renovar")}>Renovar</button>}
                 </div>

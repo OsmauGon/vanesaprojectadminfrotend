@@ -21,7 +21,6 @@ export const posiblesservicios: string[] = [
 export interface Profesional {
   id: number;
   nombre: string;// nombre del profesional
-  practicas: string[];//especies, practicas, conocimientos
   servicios?: string[];//especies, practicas, conocimientos
   imagen?: string;// url de la foto de perfil
   ubicacion: string;//contacto
@@ -38,7 +37,9 @@ export interface Profesional {
   disponible?: boolean;//SE PUEDE QUITAR
 
   contacto?: UserContact;
-  especialidad: string; // especialidad medica SE INCLUYO EN PRACTICAS
+  
+  practicas: string[];// lo tengo solo para que funcione bien el formData
+  especialidad: string;// lo tengo solo para que funcione bien el formData
   hacedomicilio?: boolean;// para filtrar si hace visitas a domicilio SE PUEDE QUITAR porque se incluyo en INSIGNIAS
   
 }
@@ -93,6 +94,9 @@ export interface Establishment {
   insignias: string[];
   notas: string[];
   disponible?: boolean;
+  especialidades: string;// lo tengo solo para que funcione bien el formData
+  
+  practicas: string[];// lo tengo solo para que funcione bien el formData
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */

@@ -1,6 +1,7 @@
 import { Alert, Button, Modal, Spinner } from "react-bootstrap"
 import { useState } from "react";
 import type { Servicio } from "../types/types";
+import { servisPutEndpoint } from "../endpoints";
 
 type FormProps ={
   props: Servicio | null
@@ -13,7 +14,6 @@ type ModalProps = {
 }
 
 const ServisInfoView = ({props}: FormProps) => {
-  console.log(props)
   return (
     props && 
     <div>
@@ -81,15 +81,21 @@ const ServisEditForm = ({props}: FormProps) => {
         setState("loading")
         
         const dataToSend = {
-        "nombre": formData.nombre,
-        "contacto": formData.contacto,
-        "telefono": formData.telefono,
-        "redSocial": formData.redSocial,
-        "finDeSuscripcion": formData.finDeSuscripcion,
+        nombre: formData.nombre,
+        contacto: formData.contacto,
+        telefono: formData.telefono,
+        redSocial: formData.redSocial,
+        finDeSuscripcion: new Date(formData.finDeSuscripcion),
+        topico: formData.topico,
+        notas: formData.notas,
+        descripcion: formData.descripcion,
+        clase: formData.clase
+
         }
-        console.log(dataToSend)
+        console.log(servisPutEndpoint)
+        console.log(JSON.stringify(dataToSend))
         try {
-        const response = await fetch("servisPutEndpoint", {
+        const response = await fetch(servisPutEndpoint + props?.id, {
         method: "PUT",
                 headers: {
                 "Content-Type": "application/json",
@@ -99,15 +105,12 @@ const ServisEditForm = ({props}: FormProps) => {
                 const result = await response.json();
                 if(result.message === "PUT EXITOSO") {
             setState("success")
+            window.location.reload(); // 🔄 recarga la página actual
         }
         } catch (error) {
         setState("error")
         console.log("Error detectado: ", error)
         }
-        
-        setTimeout(() => {
-        setState("standby")
-        }, 2000);
         
     };
     return (
@@ -122,7 +125,6 @@ const ServisEditForm = ({props}: FormProps) => {
               className="form-control"
               value={formData.nombre}
               onChange={handleChange}
-              required
               placeholder="Nombre del profesional"
             />
             

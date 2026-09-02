@@ -104,4 +104,33 @@ export const renovRegis = async <T>(
     return null;
   }
 };
+export const reimageRegis = async (
+  url: string,
+  id: number,
+  data: File
+): Promise<PutResponse | null> => {
+  const formData = new FormData();
+  formData.append("imagen", data);
+  try {
+    const response = await fetch(`${url}/${id}`, {
+      method: "PATCH",
+      body:formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP: ${response.status}`);
+    }
+
+    const result = (await response.json()) as PutResponse;
+
+    if (result.message === "PATCH EXITOSO") {
+      alert("Actualización exitosa");
+    }
+
+    return result;
+  } catch (error) {
+    console.error("Error detectado: ", error);
+    return null;
+  }
+};
 

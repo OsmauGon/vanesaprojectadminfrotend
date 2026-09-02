@@ -1,6 +1,7 @@
 import { Alert, Button, Modal, Spinner } from "react-bootstrap"
 import type { Profesional } from "../types/types";
 import { useState } from "react";
+import { profesPutEndpoint } from "../endpoints";
 
 type FormProps ={
   props: Profesional | null
@@ -40,6 +41,7 @@ const ProfInfoView = ({props}: FormProps) => {
 }
 
 const ProfEditForm = ({props}: FormProps) => {
+  console.log(props?.servicios)
     const [state,setState] = useState<"standby" | "loading" | "success"  | "error">("standby")
     const [formData, setFormData] = useState<Profesional>({
         id: (props && props.id) ? props?.id : 0,
@@ -127,18 +129,15 @@ const ProfEditForm = ({props}: FormProps) => {
                     telefono: formData.telefono,
                     email: formData.email,
                     redSocial: formData.redSocial,
-                    finDeSuscripcion: formData.finDeSuscripcion,
+                    finDeSuscripcion: new Date(formData.finDeSuscripcion),
                     horario: formData.horario,
-                    insignias: JSON.stringify(badges),
-                    servicios: JSON.stringify(servicios),
-                    notas: JSON.stringify(formData.notas)  
+                    insignias: badges,
+                    servicios: servicios,
+                    notas: formData.notas 
             }
-            alert("En construccion")
             console.log(dataToSend)
-            setState("error")
-            return
                 try {
-                    const response = await fetch("profPutEndpoint", {
+                    const response = await fetch(profesPutEndpoint + props?.id, {
                     method: "PUT",
                     headers: {
                     "Content-Type": "application/json",
@@ -148,18 +147,20 @@ const ProfEditForm = ({props}: FormProps) => {
                     const result = await response.json();
                     if(result.message === "PUT EXITOSO") {
                 setState("success")
+                window.location.reload(); // 🔄 recarga la página actual
             }
             } catch (error) {
             setState("error")
             console.log("Error detectado: ", error)
             }
-            
+            /*
             for (const [key, value] of formDataToSend.entries()) {
                 console.log(key, value);
             }
             setTimeout(() => {
             setState("standby")
             }, 2000);//BORRAR
+            */
         };
 
   
@@ -219,7 +220,7 @@ const ProfEditForm = ({props}: FormProps) => {
             <label className="form-label">Instagram</label>
             <input
               type="redsocial"
-              name="redsocial"
+              name="redSocial"
               className="form-control"
               value={formData.redSocial}
               onChange={handleChange}
@@ -234,7 +235,7 @@ const ProfEditForm = ({props}: FormProps) => {
             <label className="form-label">Horario de contacto *</label>
             <input
               type="text"
-              name="horarioDEcontacto"
+              name="horario"
               className="form-control"
               value={formData.horario}
               onChange={handleChange}
@@ -316,7 +317,7 @@ const ProfEditForm = ({props}: FormProps) => {
             <label className="form-label">Limite de suscripcion</label>
             <input
               type="date"
-              name="finDEsuscripcion"
+              name="finDeSuscripcion"
               className="form-control"
               value={formData.finDeSuscripcion}
               onChange={handleChange}
@@ -378,9 +379,6 @@ const ProfEditForm = ({props}: FormProps) => {
     
 
 export const ProfModal = (props: ModalProps) => {
-    const editarImagen = ()=>{
-        alert("en construccion")
-    }
     return (
     <Modal show={props.show} onHide={() => props.hide(false)}>
           <Modal.Body>
@@ -391,8 +389,7 @@ export const ProfModal = (props: ModalProps) => {
         <Modal.Footer>
           {/* <button className="btn btn-success">Enviar</button> */}
           <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>Salir</button>
-          {props.tipo === "put-form" && <button className="btn btn-warning" onClick={editarImagen}>Editar Imagen</button>}
-        </Modal.Footer>
+          </Modal.Footer>
       </Modal>
   )
 }

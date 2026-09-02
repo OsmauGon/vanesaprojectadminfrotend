@@ -1,6 +1,7 @@
 import { Alert, Button, Modal, Spinner } from "react-bootstrap"
 import { useState } from "react";
 import type { Establishment } from "../types/types";
+import { vetesPutEndpoint } from "../endpoints";
 
 
 
@@ -32,7 +33,7 @@ const VeteInfoView = ({props}: FormProps) => {
       <p><b>Horario de contacto: </b>{props.horario ? props.horario : "No asignado"}</p>
       <p><b>Fecha de creacion: </b>{props.createdAt}</p>
       <div><b>Notas: </b>
-      {props.notas.length > 0 && <p>Ninguna registrada</p>} 
+      {props.notas.length === 0 && <p>Ninguna registrada</p>} 
       <ul>
         {props.notas.map(i => (<li>{i}</li>))}
       </ul>
@@ -47,28 +48,29 @@ const VeteEditForm = ({props}: FormProps) => {
     const [formData, setFormData] = useState<Establishment>({
     id: (props && props.id) ? props?.id : 0,
     nombre: (props && props.id) ? props?.nombre : "",
-    servicios: props ? props.servicios : [],
-    imagen: props ? props.imagen : "",
     ubicacion: props ? props.ubicacion : "",
     telefono: props ? props.telefono : [],
     email: props ? props.email : "",
-
+    redSocial: props ? props.redSocial : "",
+    especialidades: props ? props.servicios[0] : "",
     finDeSuscripcion: props ? props.finDeSuscripcion : "",
     horario: props ? props.horario : "",
+    servicios: props ? props.servicios : [],
+    insignias: props ? props.insignias : [],
+    notas: props ? props.notas : [],
+    imagen: "",//no se usa, pero no se puede borrar
+    practicas: (props && props.servicios) ? props.servicios.splice(1,props.servicios.length) : [],
     
     profesionalesVinculados: props ? props.profesionalesVinculados : [],
     latitud: (props && props.latitud) ? props?.latitud : "",
     longitud: (props && props.longitud) ? props?.longitud : "",
-    redSocial: props ? props.redSocial : "",
-    insignias: props ? props.insignias : [],
-    notas: props ? props.notas : []
   });
 
-    const [practicaInput, setPracticaInput] = useState("");
+  const [practicaInput, setPracticaInput] = useState("");
   const [notasInput, setNotasInput] = useState("");
   const [profesionalInput, setProfesionalInput] = useState("");
   const [phoneInput, setPhoneInput] = useState("");
-  const [especialidadInput, setEspecialidadInput] = useState("");
+  //const [especialidadInput, setEspecialidadInput] = useState("");
   const [badges, setBadges] = useState<string[]>(formData.insignias)
   const badgeCollector = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
     /*esta funcion es para agregar o quitar la insignia de correspondiente del establecimiento */
@@ -103,7 +105,7 @@ const VeteEditForm = ({props}: FormProps) => {
     if (practicaInput.trim() !== "") {
       setFormData((prev) => ({
         ...prev,
-        servicios: [...(prev.servicios ?? []), practicaInput.trim()],
+        practicas: [...(prev.practicas ?? []), practicaInput.trim()],
       }));
       setPracticaInput("");
     }
@@ -111,7 +113,7 @@ const VeteEditForm = ({props}: FormProps) => {
   const removePractica = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      practicas: prev.servicios?.filter((_, i) => i !== index),
+      practicas: prev.practicas?.filter((_, i) => i !== index),
     }));
   };
   const addPhone = () => {
@@ -126,7 +128,7 @@ const VeteEditForm = ({props}: FormProps) => {
   const removePhone = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      practicas: prev.telefono?.filter((_, i) => i !== index),
+      telefono: prev.telefono?.filter((_, i) => i !== index),
     }));
   };
   const addProf = () => {
@@ -142,7 +144,7 @@ const VeteEditForm = ({props}: FormProps) => {
   const removeProf = (index: number) => {
     setFormData((prev) => ({
       ...prev,
-      practicas: prev.profesionalesVinculados?.filter((_, i) => i !== index),
+      profesionalesVinculados: prev.profesionalesVinculados?.filter((_, i) => i !== index),
     }));
   };
   //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -157,19 +159,19 @@ const VeteEditForm = ({props}: FormProps) => {
                     telefono: formData.telefono,
                     email: formData.email,
                     redSocial: formData.redSocial,
-                    finDeSuscripcion: formData.finDeSuscripcion,
+                    finDeSuscripcion: new Date(formData.finDeSuscripcion),
                     horario: formData.horario,
-                    insignias: JSON.stringify(badges),
-                    servicios: JSON.stringify(formData.servicios),
-                    notas: JSON.stringify(formData.notas)  
+                    insignias: badges,
+                    servicios: [formData.especialidades].concat(formData.practicas),
+                    notas: formData.notas,
+                    latitud: formData.latitud,
+                    longitud: formData.longitud ,
+                    profesionalesVinculados: formData.profesionalesVinculados 
     }
-    alert("En construccion")
     console.log(dataToSend)
     setState("error")
-    return
-
     try {
-                    const response = await fetch("profPutEndpoint", {
+                    const response = await fetch(vetesPutEndpoint + props?.id, {
                     method: "PUT",
                     headers: {
                     "Content-Type": "application/json",
@@ -179,6 +181,7 @@ const VeteEditForm = ({props}: FormProps) => {
                     const result = await response.json();
                     if(result.message === "PUT EXITOSO") {
                 setState("success")
+                //window.location.reload(); // 🔄 recarga la página actual
             }
     } catch (error) {
     setState("error")
@@ -320,8 +323,8 @@ const VeteEditForm = ({props}: FormProps) => {
               type="text"
               name="especialidades"
               className="form-control"
-              value={especialidadInput}
-              onChange={(e) => setEspecialidadInput(e.target.value)}
+              value={formData.especialidades}
+              onChange={handleChange}
               
             />
             
@@ -346,7 +349,7 @@ const VeteEditForm = ({props}: FormProps) => {
             </div>
           </div>
           <div>{/* CONJUNTO DE SERVICIOS */}
-              {formData.servicios?.map((p, i) => (
+              {formData.practicas?.map((p, i) => (
                 <span key={i} className="badge bg-secondary me-2">
                   {p}{" "}
                   <button
