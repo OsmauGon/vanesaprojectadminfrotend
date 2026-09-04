@@ -317,7 +317,7 @@ const ProfEditForm = ({props}: FormProps) => {
             <label className="form-label">Limite de suscripcion</label>
             <input
               type="date"
-              name="finDeSuscripcion"
+              name="finDEsuscripcion"
               className="form-control"
               value={formData.finDeSuscripcion}
               onChange={handleChange}
@@ -387,7 +387,6 @@ export const ProfModal = (props: ModalProps) => {
                 
           </Modal.Body>
         <Modal.Footer>
-          {/* <button className="btn btn-success">Enviar</button> */}
           <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>Salir</button>
           </Modal.Footer>
       </Modal>

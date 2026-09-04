@@ -262,9 +262,6 @@ const ServisEditForm = ({props}: FormProps) => {
   );
 }
 export const ServisModal = (props: ModalProps) => {
-    const editarImagen = ()=>{
-        alert("en construccion")
-    }
     return (
     <Modal show={props.show} onHide={() => props.hide(false)}>
           <Modal.Body>
@@ -273,9 +270,7 @@ export const ServisModal = (props: ModalProps) => {
                 
           </Modal.Body>
         <Modal.Footer>
-          {/* <button className="btn btn-success">Enviar</button> */}
           <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>Salir</button>
-          {props.tipo === "put-form" && <button className="btn btn-warning" onClick={editarImagen}>Editar Imagen</button>}
         </Modal.Footer>
       </Modal>
   )

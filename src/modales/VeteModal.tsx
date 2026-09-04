@@ -24,10 +24,10 @@ const VeteInfoView = ({props}: FormProps) => {
       <p><b>ID: </b>{props.id}</p>
       <p><b>Nombre: </b>{props.nombre}</p>
       <p><b>Especialidades: </b>{props.servicios ? props.servicios.join(" - ") : ""}</p>
-      <p><b>Insignias: </b>{props.insignias.join(" - ")}</p>
+      <p><b>Insignias: </b>{props.insignias.length > 0 ? props.insignias.join(" - ") : "Ninguna asignada"}</p>
       <p><b>Ubicacion: </b>{props.ubicacion ? props.ubicacion : "No asignado"}</p>
-      <p><b>Telefono: </b>{props.telefono ? props.telefono.join(" - ") : "No asignado"}</p>
-      <p><b>Email: </b>{props.email}</p>
+      <p><b>Telefono: </b>{(props.telefono && props.telefono ?.length > 0) ? props.telefono.join(" - ") : "Ninguno asinado"}</p>
+      <p><b>Email: </b>{props.email ? props.email : "Ninguno asinado"}</p>
       <p><b>Instagram: </b>{props.redSocial ? props.redSocial : "No asignado"}</p>
       <p><b>Fin de Suscripcion: </b>{props.finDeSuscripcion ? props.finDeSuscripcion : "No asigndado"}</p>
       <p><b>Horario de contacto: </b>{props.horario ? props.horario : "No asignado"}</p>
@@ -181,7 +181,7 @@ const VeteEditForm = ({props}: FormProps) => {
                     const result = await response.json();
                     if(result.message === "PUT EXITOSO") {
                 setState("success")
-                //window.location.reload(); // 🔄 recarga la página actual
+                window.location.reload(); // 🔄 recarga la página actual
             }
     } catch (error) {
     setState("error")
@@ -554,9 +554,6 @@ const VeteEditForm = ({props}: FormProps) => {
 
 
 export const VetesModal = (props: ModalProps) => {
-    const editarImagen = ()=>{
-        alert("en construccion")
-    }
     return (
     <Modal show={props.show} onHide={() => props.hide(false)}>
           <Modal.Body>
@@ -565,9 +562,7 @@ export const VetesModal = (props: ModalProps) => {
                 
           </Modal.Body>
         <Modal.Footer>
-          {/* <button className="btn btn-success">Enviar</button> */}
           <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>Salir</button>
-          {props.tipo === "put-form" && <button className="btn btn-warning" onClick={editarImagen}>Editar Imagen</button>}
         </Modal.Footer>
       </Modal>
   )
