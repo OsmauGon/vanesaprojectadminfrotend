@@ -5,12 +5,14 @@ import { profesPutEndpoint } from "../endpoints";
 
 type FormProps ={
   props: Profesional | null
+  reload?: (val:true)=> void
 }
 type ModalProps = {
     obj: Profesional | null;
     show: boolean;
     hide: (val: boolean) => void
     tipo: "view" | "put-form" | "hide"
+    reload: (val:true)=> void
 }
 
 const ProfInfoView = ({props}: FormProps) => {
@@ -40,8 +42,7 @@ const ProfInfoView = ({props}: FormProps) => {
   )
 }
 
-const ProfEditForm = ({props}: FormProps) => {
-  console.log(props?.servicios)
+const ProfEditForm = ({props, reload}: FormProps) => {
     const [state,setState] = useState<"standby" | "loading" | "success"  | "error">("standby")
     const [formData, setFormData] = useState<Profesional>({
         id: (props && props.id) ? props?.id : 0,
@@ -127,7 +128,6 @@ const ProfEditForm = ({props}: FormProps) => {
                     servicios: servicios,
                     notas: formData.notas 
             }
-            console.log(dataToSend)
                 try {
                     const response = await fetch(profesPutEndpoint + props?.id, {
                     method: "PUT",
@@ -139,8 +139,9 @@ const ProfEditForm = ({props}: FormProps) => {
                     const result = await response.json();
                     if(result.message === "PUT EXITOSO") {
                 setState("success")
-                window.location.reload(); // 🔄 recarga la página actual
-            }
+                
+                if(reload) reload(true)
+                }
             } catch (error) {
             setState("error")
             console.log("Error detectado: ", error)
@@ -309,7 +310,7 @@ const ProfEditForm = ({props}: FormProps) => {
             <label className="form-label">Limite de suscripcion</label>
             <input
               type="date"
-              name="finDEsuscripcion"
+              name="finDeSuscripcion"
               className="form-control"
               value={formData.finDeSuscripcion}
               onChange={handleChange}
@@ -364,7 +365,7 @@ export const ProfModal = (props: ModalProps) => {
     return (
     <Modal show={props.show} onHide={() => props.hide(false)}>
           <Modal.Body>
-                {props.tipo === "put-form" && <ProfEditForm props={props.obj}/>}
+                {props.tipo === "put-form" && <ProfEditForm props={props.obj} reload={props.reload}/>}
                 {props.tipo === "view" && <ProfInfoView props={props.obj} />}
                 
           </Modal.Body>

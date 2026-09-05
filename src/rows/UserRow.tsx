@@ -43,7 +43,7 @@ const RenovInner =({targetId, setState}: InnerType)=>{
       <label className="form-label">Nueva fecha</label>
       <input
               type="date"
-              name="finDEsuscripcion"
+              name="finDeSuscripcion"
               className="form-control w-25"
               value={newdate}
               onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setNewdate(e.target.value)}

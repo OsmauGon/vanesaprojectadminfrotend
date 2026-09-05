@@ -8,16 +8,17 @@ import { vetesPutEndpoint } from "../endpoints";
 
 type FormProps ={
   props: Establishment | null
+  reload?: (val:true)=> void
 }
 type ModalProps = {
     obj: Establishment | null;
     show: boolean;
     hide: (val: boolean) => void
     tipo: "view" | "put-form" | "hide"
+    reload: (val:true)=> void
 }
 
 const VeteInfoView = ({props}: FormProps) => {
-    console.log(props)
   return (
     props && 
     <div>
@@ -43,7 +44,7 @@ const VeteInfoView = ({props}: FormProps) => {
     </div>
   )
 }
-const VeteEditForm = ({props}: FormProps) => {
+const VeteEditForm = ({props, reload}: FormProps) => {
     const [state,setState] = useState<"standby" | "loading" | "success"  | "error">("standby")
     const [formData, setFormData] = useState<Establishment>({
     id: (props && props.id) ? props?.id : 0,
@@ -138,7 +139,6 @@ const VeteEditForm = ({props}: FormProps) => {
       setProfesionalInput("");
     }
   };
-
   const removeProf = (index: number) => {
     setFormData((prev) => ({
       ...prev,
@@ -149,7 +149,6 @@ const VeteEditForm = ({props}: FormProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setState("loading")
-
     
     const dataToSend = {
                     nombre: formData.nombre,
@@ -166,7 +165,6 @@ const VeteEditForm = ({props}: FormProps) => {
                     longitud: formData.longitud ,
                     profesionalesVinculados: formData.profesionalesVinculados 
     }
-    console.log(dataToSend)
     setState("error")
     try {
                     const response = await fetch(vetesPutEndpoint + props?.id, {
@@ -179,15 +177,14 @@ const VeteEditForm = ({props}: FormProps) => {
                     const result = await response.json();
                     if(result.message === "PUT EXITOSO") {
                 setState("success")
-                window.location.reload(); // 🔄 recarga la página actual
+                if(reload) reload(true)
+                
             }
     } catch (error) {
     setState("error")
     console.log("Error detectado: ", error)
     }
-        setTimeout(() => {
-        setState("standby")
-        }, 2000);//BORRAR
+        
     };
   return (
     <>
@@ -530,9 +527,9 @@ export const VetesModal = (props: ModalProps) => {
     return (
     <Modal show={props.show} onHide={() => props.hide(false)}>
           <Modal.Body>
-                {props.tipo === "put-form" && <VeteEditForm props={props.obj}/>}
+                {props.tipo === "put-form" && <VeteEditForm props={props.obj} reload={props.reload}/>}
                 {props.tipo === "view" && <VeteInfoView props={props.obj} />}
-                
+                 
           </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>Salir</button>

@@ -25,7 +25,7 @@ const EstablecimientosPage = ({auth}: Props) => {
   const [selectedProf,setSelectedProf] = useState<Establishment | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
-  const { data, loading, error } = useFetch<Establishment[]>(vetesGetEndpoint);
+  const { data, loading, error, setReload } = useFetch<Establishment[]>(vetesGetEndpoint);
   
   const lista = data?.filter(p => 
     p.nombre.toLowerCase().includes(busqueda.toLowerCase()) 
@@ -63,7 +63,7 @@ const EstablecimientosPage = ({auth}: Props) => {
                     </tbody>
                   </table>
       }
-      <VetesModal show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
+      <VetesModal reload={setReload} show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
       </div>
   )
 }

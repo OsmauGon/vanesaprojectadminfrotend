@@ -5,7 +5,10 @@ export function useFetch<T>(url: string) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
+  const [reload,setReload] = useState<boolean>(false)
+  useEffect(()=>{
+    console.log("se modifico el valor de reload", url)
+  },[reload])
   useEffect(() => {
     if (!url) return;
 
@@ -18,7 +21,7 @@ export function useFetch<T>(url: string) {
         if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
 
         const json = await res.json();
-        console.log(json.data)
+        
         setData(json.data);
       } catch (err: unknown) {
         console.log(err)
@@ -28,13 +31,14 @@ export function useFetch<T>(url: string) {
                 setError(String(err));
             }
       } finally {
+        if(reload) setReload(false)
         setLoading(false);
         
       }
     };
 
     fetchData();
-  }, [url]);
+  }, [url,reload]);
 
-  return { data, loading, error };
+  return { data, loading, error, setReload };
 }

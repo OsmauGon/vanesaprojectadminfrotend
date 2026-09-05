@@ -26,7 +26,7 @@ const ServiciosPage = ({auth}: Props) => {
   const [selectedProf,setSelectedProf] = useState<Servicio | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
-  const { data, loading, error } = useFetch<Servicio[]>(servGetEndpoint);
+  const { data, loading, error, setReload } = useFetch<Servicio[]>(servGetEndpoint);
   
   const lista = data?.filter(p => 
     p.nombre.toLowerCase().includes(busqueda.toLowerCase()) 
@@ -64,7 +64,7 @@ const ServiciosPage = ({auth}: Props) => {
                     </tbody>
                   </table>
       }
-      <ServisModal show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
+      <ServisModal reload={setReload} show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
       
       </div>
   )

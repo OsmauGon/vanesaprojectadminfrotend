@@ -12,7 +12,7 @@
       telefono: "2234386829", 
       hacedomicilio: false, 
       email: "emailfalso@gmail.com", 
-      finDEsuscripcion: "Tue Sep 1 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+      finDeSuscripcion: "Tue Sep 1 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
       practicas: ["Medicina Felina","Medicina interna de pequeños animales","Gatos"],
       horarioDEcontacto: "Lunes a Viernes de 10 a 17, Sabados de 10 a 13"
     },
@@ -27,7 +27,7 @@
       telefono: "1234567891011", 
       hacedomicilio: true, 
       email: "emailfalso@gmail.com", 
-      finDEsuscripcion: "Tue Sep 1 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+      finDeSuscripcion: "Tue Sep 1 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
       practicas: ["Medicina General","Odontologia","Dermatologia","Cirugia Veterinaria","Cardiologia","Perros","Gatos","Loros"] 
     },
 
@@ -42,7 +42,7 @@
     telefono: "1234567891011", 
     hacedomicilio: true, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 1 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 1 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Cirugia Veterinaria","Cardiologia","Medicina General","Odontologia","Dermatologia","Perros","Gatos","Loros"] 
   },
 
@@ -57,7 +57,7 @@
     telefono: "1234567891011", 
     hacedomicilio: false, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 21 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 21 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Odontologia","Dermatologia","Cirugia Veterinaria","Cardiologia","Medicina General","Perros","Gatos","Loros"] 
   },
 
@@ -72,7 +72,7 @@
     telefono: "1234567891011", 
     hacedomicilio: false, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 13 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 13 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Medicina General","Odontologia","Dermatologia","Cirugia Veterinaria","Cardiologia","Perros","Gatos","Loros"] 
   },
 
@@ -87,7 +87,7 @@
     telefono: "1234567891011", 
     hacedomicilio: false, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue May 12 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue May 12 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Dermatologia","Medicina General","Odontologia","Cirugia Veterinaria","Cardiologia","Perros","Gatos","Loros"] 
   },
 
@@ -102,7 +102,7 @@
     telefono: "1234567891011", 
     hacedomicilio: false, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 21 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 21 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Cardiologia","Medicina General","Odontologia","Dermatologia","Cirugia Veterinaria","Perros","Gatos","Loros"] 
   },
     { 
@@ -116,7 +116,7 @@
       telefono: "1234567891011", 
       hacedomicilio: true, 
       email: "emailfalso@gmail.com", 
-      finDEsuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+      finDeSuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
       practicas: ["Medicina General","Odontologia","Dermatologia","Cirugia Veterinaria","Cardiologia","Perros","Gatos","Loros"] 
     },
 
@@ -131,7 +131,7 @@
     telefono: "1234567891011", 
     hacedomicilio: true, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Cirugia Veterinaria","Cardiologia","Medicina General","Odontologia","Dermatologia","Perros","Gatos","Loros"] 
   },
 
@@ -146,7 +146,7 @@
     telefono: "1234567891011", 
     hacedomicilio: false, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Odontologia","Dermatologia","Cirugia Veterinaria","Cardiologia","Medicina General","Perros","Gatos","Loros"] 
   },
 
@@ -161,7 +161,7 @@
     telefono: "1234567891011", 
     hacedomicilio: false, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Medicina General","Odontologia","Dermatologia","Cirugia Veterinaria","Cardiologia","Perros","Gatos","Loros"] 
   },
 
@@ -176,7 +176,7 @@
     telefono: "1234567891011", 
     hacedomicilio: false, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Dermatologia","Medicina General","Odontologia","Cirugia Veterinaria","Cardiologia","Perros","Gatos","Loros"] 
   },
 
@@ -191,7 +191,7 @@
     telefono: "1234567891011", 
     hacedomicilio: false, 
     email: "emailfalso@gmail.com", 
-    finDEsuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Jul 16 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     practicas: ["Cardiologia","Medicina General","Odontologia","Dermatologia","Cirugia Veterinaria","Perros","Gatos","Loros"] 
   },
 
@@ -219,7 +219,7 @@
     tienepetshop: true,
     tienepeluqueria: false,
     tienequirofano: false,
-    finDEsuscripcion: "",
+    finDeSuscripcion: "",
     serviciosNOfiltrables: [
     ]
     //otro atributo
@@ -241,7 +241,7 @@
     tienepetshop: true,
     tienepeluqueria: true,
     tienequirofano: true,
-    finDEsuscripcion: "Tue Sep 1 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
+    finDeSuscripcion: "Tue Sep 1 2026 19:11:55 GMT-0300 (Argentina Standard Time)",
     serviciosNOfiltrables: [
       "Internacion",
   "Medicina Felina",
@@ -269,7 +269,7 @@
    tienequirofano: true,
    tienelaboratorio: true,
    tieneinternacion: true,
-   finDEsuscripcion: "", 
+   finDeSuscripcion: "", 
    serviciosNOfiltrables: [
   "Laboratorio de análisis clinicos",
   "Diagnóstico por imágenes ( rx y ecografía)",
@@ -293,7 +293,7 @@
    profesionalesVinculados: ["Juan Perez","Sebastian Stan","Idris Elba"],
    horario: "07 a 18",
    tienepetshop: true,
-   finDEsuscripcion: "", 
+   finDeSuscripcion: "", 
    serviciosNOfiltrables: [
       "Jugueteria canina",
       "Farmacia veterinaria"
@@ -316,7 +316,7 @@
    horario: "07 a 18",
    tienepeluqueria: true,
    tienepetshop: true,
-   finDEsuscripcion: "", 
+   finDeSuscripcion: "", 
    serviciosNOfiltrables: [
     "Clínica médica",
     "Medicina felina",
@@ -340,7 +340,7 @@
    horario: "07 a 18",
    tienelaboratorio: true,
    tienepetshop: true,
-   finDEsuscripcion: "", 
+   finDeSuscripcion: "", 
    serviciosNOfiltrables: [
   "Clínica médica",
   "Clinica quirúrgica de tejidos blandos",
@@ -369,7 +369,7 @@
     horario: "07 a 18",
     haceurgencias: true,
     tienelaboratorio: true,
-    finDEsuscripcion: "",
+    finDeSuscripcion: "",
     serviciosNOfiltrables: [
   "Clínica médica",
   "Clinica quirúrgica de tejidos blandos",

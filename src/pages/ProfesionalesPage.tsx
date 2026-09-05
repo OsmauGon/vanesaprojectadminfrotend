@@ -26,8 +26,9 @@ const ProfesionalesPage = ({auth}: Props) => {
   const [selectedProf,setSelectedProf] = useState<Profesional | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false);
   const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
-  const { data, loading, error } = useFetch<Profesional[]>(profGetEndpoint);
-  console.log(data)
+  const { data, loading, error, setReload} = useFetch<Profesional[]>(profGetEndpoint);
+ 
+  
   const lista = data?.filter(p => 
     p.nombre.toLowerCase().includes(busqueda.toLowerCase()) 
     //|| p.especialidad.toLowerCase().includes(busqueda.toLowerCase()) 
@@ -65,7 +66,12 @@ const ProfesionalesPage = ({auth}: Props) => {
                     </tbody>
                   </table>
       }
-      <ProfModal show={showModal} tipo={modalType} hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} obj={selectedProf} />
+      <ProfModal 
+        show={showModal} 
+        tipo={modalType} 
+        hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} 
+        obj={selectedProf} 
+        reload={setReload}/>
       
       </div>
   )

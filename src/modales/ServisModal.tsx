@@ -5,12 +5,14 @@ import { servisPutEndpoint } from "../endpoints";
 
 type FormProps ={
   props: Servicio | null
+  reload?: (val:true)=> void
 }
 type ModalProps = {
     obj: Servicio | null;
     show: boolean;
     hide: (val: boolean) => void
     tipo: "view" | "put-form" | "hide"
+    reload: (val:true)=> void
 }
 
 const ServisInfoView = ({props}: FormProps) => {
@@ -38,7 +40,7 @@ const ServisInfoView = ({props}: FormProps) => {
     </div>
   )
 }
-const ServisEditForm = ({props}: FormProps) => {
+const ServisEditForm = ({props, reload}: FormProps) => {
     const [state,setState] = useState<"standby" | "loading" | "success"  | "error">("standby")
     const [formData, setFormData] = useState<Servicio>({
         id: (props && props.id) ? props?.id : 0,
@@ -92,8 +94,6 @@ const ServisEditForm = ({props}: FormProps) => {
         clase: formData.clase
 
         }
-        console.log(servisPutEndpoint)
-        console.log(JSON.stringify(dataToSend))
         try {
         const response = await fetch(servisPutEndpoint + props?.id, {
         method: "PUT",
@@ -105,7 +105,7 @@ const ServisEditForm = ({props}: FormProps) => {
                 const result = await response.json();
                 if(result.message === "PUT EXITOSO") {
             setState("success")
-            window.location.reload(); // 🔄 recarga la página actual
+            if(reload) reload(true)
         }
         } catch (error) {
         setState("error")
@@ -265,10 +265,10 @@ export const ServisModal = (props: ModalProps) => {
     return (
     <Modal show={props.show} onHide={() => props.hide(false)}>
           <Modal.Body>
-                {props.tipo === "put-form" && <ServisEditForm props={props.obj}/>}
+                {props.tipo === "put-form" && <ServisEditForm props={props.obj} reload={props.reload}/>}
                 {props.tipo === "view" && <ServisInfoView props={props.obj} />}
                 
-          </Modal.Body>
+          </Modal.Body> 
         <Modal.Footer>
           <button className="btn btn-danger" onClick={()=> {props.hide(true)}}>Salir</button>
         </Modal.Footer>
