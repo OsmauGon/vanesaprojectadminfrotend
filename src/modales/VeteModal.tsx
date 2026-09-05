@@ -72,12 +72,10 @@ const VeteEditForm = ({props}: FormProps) => {
   const [phoneInput, setPhoneInput] = useState("");
   //const [especialidadInput, setEspecialidadInput] = useState("");
   const [badges, setBadges] = useState<string[]>(formData.insignias)
-  const badgeCollector = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
+  const toggleBadge = (value: string)=>{
     /*esta funcion es para agregar o quitar la insignia de correspondiente del establecimiento */
-    const {id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: e.target.value }));
-    if(value) setBadges((prev) => [ ...prev,id ]);
-    else setBadges(badges.filter(item => item !=id))
+    if(!badges.includes(value))setBadges((prev) => [ ...prev,value ]);
+    else setBadges(badges.filter(item => item != value))
     
   }
   const handleChange = (
@@ -439,78 +437,53 @@ const VeteEditForm = ({props}: FormProps) => {
       <details>
         <summary>Insignias</summary>
         <div>
-          
-          <div className="form-check mb-3">{/* Tiene Quirofano */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={badges.includes("tienequirofano")}
-               onChange={badgeCollector}
-              id="tienequirofano"
-            />
-            <label className="form-check-label" htmlFor="tienelaboratorio">
-              Tiene Quirofano
-            </label>
+          <div>{/* Tiene Quirofano */}
+            {`${badges.includes("tienequirofano") ? "✅ Si" : "⛔ No"} `} 
+            tiene Quirofano 
+            <span className={`btn ${badges.includes("tienequirofano") ? "btn-danger" : "btn-primary"} p-0 m-1`} 
+                  onClick={()=>toggleBadge("tienequirofano")}>
+                    {badges.includes("tienequirofano") ? " ¿Quitar?" : " ¿Añadir?"}
+                    </span>
           </div>
-          <div className="form-check mb-3">{/* Tiene Laboratorio */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={badges.includes("tienelaboratorio")}
-              onChange={badgeCollector}
-              id="tienelaboratorio"
-            />
-            <label className="form-check-label" htmlFor="tienelaboratorio">
-              Tiene Laboratorio
-            </label>
+          <div>{/* Tiene Lavoratorio */}
+            {`${badges.includes("tienelaboratorio") ? "✅ Si" : "⛔ No"} `} 
+            Tiene Laboratorio
+            <span className={`btn ${badges.includes("tienelaboratorio") ? "btn-danger" : "btn-primary"} p-0 m-1`} 
+                  onClick={()=>toggleBadge("tienelaboratorio")}>
+                    {badges.includes("tienelaboratorio") ? " ¿Quitar?" : " ¿Añadir?"}
+                    </span>
           </div>
-          <div className="form-check mb-3">{/* Tiene Internacion */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={badges.includes("tieneinternacion")}
-              onChange={badgeCollector}
-              id="tieneinternacion"
-            />
-            <label className="form-check-label" htmlFor="tieneinternacion">
-              Tiene Internacion
-            </label>
+          <div>{/* Tiene Internacion */}
+            {`${badges.includes("tieneinternacion") ? "✅ Si" : "⛔ No"} `} 
+            Tiene Internacion
+            <span className={`btn ${badges.includes("tieneinternacion") ? "btn-danger" : "btn-primary"} p-0 m-1`} 
+                  onClick={()=>toggleBadge("tieneinternacion")}>
+                    {badges.includes("tieneinternacion") ? " ¿Quitar?" : " ¿Añadir?"}
+                    </span>
           </div>
-          <div className="form-check mb-3">{/* Hace Urgencias */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={badges.includes("haceurgencias")}
-              onChange={badgeCollector}
-              id="haceurgencias"
-            />
-            <label className="form-check-label" htmlFor="haceurgencias">
-              Hace Urgencias
-            </label>
+          <div>{/* Tiene Hace Urgencias */}
+            {`${badges.includes("haceurgencias") ? "✅ Si" : "⛔ No"} `} 
+            Hace Urgencias
+            <span className={`btn ${badges.includes("haceurgencias") ? "btn-danger" : "btn-primary"} p-0 m-1`} 
+                  onClick={()=>toggleBadge("haceurgencias")}>
+                    {badges.includes("haceurgencias") ? " ¿Quitar?" : " ¿Añadir?"}
+                    </span>
           </div>
-          <div className="form-check mb-3">{/* Tiene Peluqueria */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={badges.includes("tienepeluqueria")}
-              onChange={badgeCollector}
-              id="tienepeluqueria"
-            />
-            <label className="form-check-label" htmlFor="tienepeluqueria">
-              Tiene Peluqueria
-            </label>
+          <div>{/* Tiene Peluqueria */}
+            {`${badges.includes("tienepeluqueria") ? "✅ Si" : "⛔ No"} `} 
+            Tiene Peluqueria
+            <span className={`btn ${badges.includes("tienepeluqueria") ? "btn-danger" : "btn-primary"} p-0 m-1`} 
+                  onClick={()=>toggleBadge("tienepeluqueria")}>
+                    {badges.includes("tienepeluqueria") ? " ¿Quitar?" : " ¿Añadir?"}
+                    </span>
           </div>
-          <div className="form-check mb-3">{/* Tiene Petshop */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={badges.includes("tienepetshop")}
-              onChange={badgeCollector}
-              id="tienepetshop"
-            />
-            <label className="form-check-label" htmlFor="tienepetshop">
-              Tiene Petshop
-            </label>
+          <div>{/* Tiene Petshop */}
+            {`${badges.includes("tienepetshop") ? "✅ Si" : "⛔ No"} `} 
+            Tiene Petshop 
+            <span className={`btn ${badges.includes("tienepetshop") ? "btn-danger" : "btn-primary"} p-0 m-1`} 
+                  onClick={()=>toggleBadge("tienepetshop")}>
+                    {badges.includes("tienepetshop") ? " ¿Quitar?" : " ¿Añadir?"}
+                    </span>
           </div>
         </div>
       </details>

@@ -20,7 +20,7 @@ const ProfInfoView = ({props}: FormProps) => {
       <p><b>ID: </b>{props.id}</p>
       <p><b>Nombre: </b>{props.nombre}</p>
       <p><b>Especialidades: </b>{props.servicios ? props.servicios.join(" - ") : ""}</p>
-      <p><b>Insignias: </b>{props.insignias.join(" - ")}</p>
+      <p><b>Insignias: </b>{props.insignias.length > 0 ? props.insignias.join(" - ") : "Ninguna asignada"}</p>
       <p><b>Ubicacion: </b>{props.ubicacion ? props.ubicacion : "No asignado"}</p>
       <p><b>Telefono: </b>{props.telefono}</p>
       <p><b>Email: </b>{props.email}</p>
@@ -60,17 +60,9 @@ const ProfEditForm = ({props}: FormProps) => {
       const [practicaInput, setPracticaInput] = useState("");
         const [notasInput, setNotaInput] = useState("");
         const [badges, setBadges] = useState<string[]>(formData.insignias)
-       
-
-
-
-        const badgeCollector = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>)=>{
-          /*esta funcion es para agregar o quitar la insignia de correspondiente del establecimiento */
-          const {id, value } = e.target;
-          setFormData((prev) => ({ ...prev, [id]: e.target.value }));
-          if(value) setBadges((prev) => [ ...prev,id ]);
-          else setBadges(badges.filter(item => item !=id))
-          
+       const toggleBadge = (value: string)=>{
+        if(!badges.includes(value))setBadges((prev) => [ ...prev,value ]);
+        else setBadges(badges.filter(item => item != value))
         }
         const handleChange = (
           e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -327,31 +319,21 @@ const ProfEditForm = ({props}: FormProps) => {
       </details>
       <details>
         <summary>Insignias</summary>
-        <div>
-          <div className="form-check mb-3">{/* HACE DOMICILIO */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={badges.includes("hacedomicilio")}
-              onChange={badgeCollector}
-              id="hacedomicilio"
-            />
-            <label className="form-check-label" htmlFor="hacedomicilio">
-              Hace visitas a domicilio
-            </label>
+          <div>{/* Tiene Hace Domicilio */}
+            {`${badges.includes("hacedomicilio") ? "✅ Si" : "⛔ No"} `} 
+            Visita domicilios
+            <span className={`btn ${badges.includes("hacedomicilio") ? "btn-danger" : "btn-primary"} p-0 m-1`} 
+                  onClick={()=>toggleBadge("hacedomicilio")}>
+                    {badges.includes("hacedomicilio") ? " ¿Quitar?" : " ¿Añadir?"}
+                    </span>
           </div>
-        </div>
-          <div className="form-check mb-3">{/* HACE URGENCIAS */}
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={badges.includes("haceurgencias")}
-              onChange={badgeCollector}
-              id="haceurgencias"
-            />
-            <label className="form-check-label" htmlFor="haceurgencias">
-              Hace visitas a urgencias
-            </label>
+          <div>{/* Tiene Hace Urgencias */}
+            {`${badges.includes("haceurgencias") ? "✅ Si" : "⛔ No"} `} 
+            Hace Urgencias
+            <span className={`btn ${badges.includes("haceurgencias") ? "btn-danger" : "btn-primary"} p-0 m-1`} 
+                  onClick={()=>toggleBadge("haceurgencias")}>
+                    {badges.includes("haceurgencias") ? " ¿Quitar?" : " ¿Añadir?"}
+                    </span>
           </div>
       </details>
 

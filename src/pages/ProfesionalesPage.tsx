@@ -29,9 +29,9 @@ const ProfesionalesPage = ({auth}: Props) => {
   const { data, loading, error } = useFetch<Profesional[]>(profGetEndpoint);
   console.log(data)
   const lista = data?.filter(p => 
-    p.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-    p.especialidad.toLowerCase().includes(busqueda.toLowerCase()) ||
-    p.ubicacion.toLowerCase().includes(busqueda.toLowerCase())
+    p.nombre.toLowerCase().includes(busqueda.toLowerCase()) 
+    //|| p.especialidad.toLowerCase().includes(busqueda.toLowerCase()) 
+    //|| p.ubicacion.toLowerCase().includes(busqueda.toLowerCase())
   );
   return (
      auth && <div className='container'>
