@@ -25,7 +25,7 @@ const ProfInfoView = ({props}: FormProps) => {
       <p><b>Insignias: </b>{props.insignias.length > 0 ? props.insignias.join(" - ") : "Ninguna asignada"}</p>
       <p><b>Ubicacion: </b>{props.ubicacion ? props.ubicacion : "No asignado"}</p>
       <p><b>Telefono: </b>{props.telefono}</p>
-      <p><b>Email: </b>{props.email}</p>
+      <p><b>Email: </b>{props.email ? props.email : "No asignado"}</p>
       <p><b>Instagram: </b>{props.redSocial ? props.redSocial : "No asignado"}</p>
       <p><b>Fin de Suscripcion: </b>{props.finDeSuscripcion ? props.finDeSuscripcion : "No asigndado"}</p>
       <p><b>Horario de contacto: </b>{props.horario ? props.horario : "No asignado"}</p>
@@ -128,7 +128,7 @@ const ProfEditForm = ({props, reload}: FormProps) => {
                     servicios: servicios,
                     notas: formData.notas 
             }
-                try {
+            try {
                     const response = await fetch(profesPutEndpoint + props?.id, {
                     method: "PUT",
                     headers: {

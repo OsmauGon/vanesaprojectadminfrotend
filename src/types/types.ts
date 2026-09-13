@@ -121,11 +121,12 @@ export interface MissingPost {
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */
 export type Blog ={
     id: number,
-    idOwner: number,
+    idOwner: number
+    //idOwner: string,//lo hacemos string para poder modificarlo con input de texto
     title: string,
     description: string,
     documentUrl?: string,//Porque puede o no tener para descargar
-    imagen?: string,//Porque puede o no tener para ver
+    imageUrl?: string,//Porque puede o no tener para ver
     videoUrl?: string,//Porque puede o no tener para ver
     state?: "able"  | "disable" | "standby" 
     createdAt?: string

@@ -4,9 +4,9 @@ import { useFetch } from '../hooks/useFetch';
 import '../styles/profesinal-page-style.css'
 import type { Event } from '../types/types';
 import EventRow from '../rows/EventRow';
-import { ModalDEevento } from '../modales/ModalDEevento';
 import { eventGetEndpoint } from '../endpoints';
 import { EventForm } from '../forms/EventForm';
+import { EventModal } from '../modales/EventModal';
 
 type Props = {
     auth: boolean
@@ -14,9 +14,10 @@ type Props = {
 const CalendarPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
-  const [selectedProf,setSelectedProf] = useState<Event | null>(null)
-  const [showModal, setShowModal] = useState<"view" | "put-form" | "hide">('hide');
-  const { data, loading, error } = useFetch<Event[]>(eventGetEndpoint);
+  const [selectedEvent,setSelectedEvent] = useState<Event | null>(null)
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
+  const { data, loading, error, setReload } = useFetch<Event[]>(eventGetEndpoint);
   
   const lista = data?.filter(p => 
     p.titulo.toLowerCase().includes(busqueda.toLowerCase()) ||
@@ -53,12 +54,17 @@ const CalendarPage = ({auth}: Props) => {
                   </thead>
                   <tbody>
                     {lista?.map((user) => (
-                       <EventRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal}/>
+                       <EventRow prof={user} setSelectedEvent={setSelectedEvent} setShowModal={setShowModal} setmodalType={setmodalType}/>
                     ))}
                     </tbody>
                   </table>
       }
-      <ModalDEevento show={showModal != "hide"} tipo={showModal} hide={() => setShowModal("hide")} obj={selectedProf} />
+      <EventModal 
+        show={showModal} 
+        tipo={modalType} 
+        hide={() => {setShowModal(false); setmodalType("hide"); setSelectedEvent(null)}} 
+        obj={selectedEvent} 
+        reload={setReload}/>
       </div>
   )
 }

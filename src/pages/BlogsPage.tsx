@@ -3,10 +3,17 @@ import { useFetch } from '../hooks/useFetch';
 import type { Blog } from '../types/types';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import BlogRow from '../rows/BlogRow';
-import { ModalDEblog } from '../modales/ModalDEblog';
 import { blogGetEndpoint } from '../endpoints';
 import { BlogForm } from '../forms/BlogForm';
+import { BlogModal } from '../modales/BlogModal';
 
+ 
+const tableHeaders = [
+  "IDs", 
+  "ID dueño",
+  "Titulo",
+  "Accion"
+]
 type Props = {
     auth: boolean
 }
@@ -15,19 +22,14 @@ const BlogsPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedBlog,setSelectedBlog] = useState<Blog | null>(null)
-const [showModal, setShowModal] = useState<"view" | "put-form" | "hide">('hide');
-  const { data, loading, error } = useFetch<Blog[]>(blogGetEndpoint);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
+  const { data, loading, error, setReload} = useFetch<Blog[]>(blogGetEndpoint);
   
   const lista = data?.filter(p => 
     p.title.toLowerCase().includes(busqueda.toLowerCase()) ||
     p.description.toLowerCase().includes(busqueda.toLowerCase())
-  ); 
-  const tableHeaders = [
-  "IDs", 
-  "ID dueño",
-  "Titulo",
-  "Accion"
-  ]
+  );
   return (
      auth && <div className='container'>
       <h2>Gestión de Blogs</h2>
@@ -55,13 +57,18 @@ const [showModal, setShowModal] = useState<"view" | "put-form" | "hide">('hide')
                   </thead>
                   <tbody>
                     {lista?.map((user) => (
-                      <BlogRow prof={user} setSelectedBlog={setSelectedBlog} setShowModal={setShowModal} />
+                      <BlogRow prof={user} setSelectedBlog={setSelectedBlog} setShowModal={setShowModal} setmodalType={setmodalType}/>
                     ))}
                     </tbody>
                   </table>
       }
       
-      <ModalDEblog show={showModal != "hide"} tipo={showModal} hide={() => setShowModal("hide")} obj={selectedBlog} />
+      <BlogModal 
+        show={showModal} 
+        tipo={modalType} 
+        hide={() => {setShowModal(false); setmodalType("hide"); setSelectedBlog(null)}} 
+        obj={selectedBlog} 
+        reload={setReload}/>
       </div>
   )
 }

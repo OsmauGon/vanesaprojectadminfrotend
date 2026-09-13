@@ -13,7 +13,6 @@ const InnerForm = ({changeState}: innerFormType) =>{
     idOwner: 0,
     title: "",
     description: "",
-    imagen: "",
     videoUrl: "",
     documentUrl: ""
   });
@@ -35,7 +34,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
   };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if(formData.title.length === 0 || formData.description.length === 0 || formData.idOwner === 0 || file === null ){
+    if(formData.title.length === 0 || formData.description.length === 0 || file === null ){
       //alert("Verificar los datos obligatorios")
       //return
     }

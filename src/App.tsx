@@ -53,7 +53,7 @@ function App() {
                   Establecimientos
                 </NavLink>
               </li>
-              <li className="nav-item" d-none>{/* BLOGS */}
+              <li className="nav-item" >{/* BLOGS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")
@@ -63,7 +63,7 @@ function App() {
                   Blogs
                 </NavLink>
               </li>
-              <li className="nav-item d-none">{/* EXTRAVIADOS */}
+              <li className="nav-item ">{/* EXTRAVIADOS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")
@@ -73,7 +73,7 @@ function App() {
                   Extraviados
                 </NavLink>
               </li>
-              <li className="nav-item d-none">{/* EVENTOS */}
+              <li className="nav-item ">{/* EVENTOS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")

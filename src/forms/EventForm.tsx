@@ -8,7 +8,6 @@ type innerFormType = {
   state: "standby" | "success" | "error" | "loading"
 }
 const InnerForm = ({changeState, state}: innerFormType) =>{
-  const [obligatorios,setObligatorios] = useState<boolean>(false)
   const [formData, setFormData] = useState<Event>({
     id: 0,
     titulo: "",
@@ -29,19 +28,8 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if(
-          formData.titulo.length === 0 || 
-          formData.fecha.length === 0 || 
-          formData.hora.length === 0 || 
-          formData.ubicacion.length === 0 
-          ){
-          alert("Verificar los datos obligatorios")
-          setObligatorios(true)
-          return
-        }
     changeState("loading")
     const dataToSend = {
-    
     titulo: formData.titulo,
     fecha: formData.fecha,
     hora: formData.hora,
@@ -68,20 +56,22 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
       changeState("error")
       console.log("Error detectado: ", error)
     }
-      
-     
-    /*
-     for (const [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
-      }
-    setTimeout(() => {
-      changeState("standby")
-    }, 2000);
-    */
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-3 new-form">
+      {state === "error" && <Alert variant={"danger"}>Operacion fallida</Alert>}
+      {state === "success" && <Alert  variant={"success"}>Operacion Exitosa</Alert>}
+      {state === "loading" && <Button variant="primary" disabled>
+                                                  <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                  />
+                                                   Loading...
+                                                </Button> }
       <div className="mb-3">{/* Titulo */}
         <label className="form-label">Titulo *</label>
         <input
@@ -94,7 +84,6 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           required
           placeholder="Titulo del evento"
         />
-        {obligatorios && formData.titulo.length === 0 && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Fecha */}
         <label className="form-label">Fecha *</label>
@@ -108,7 +97,6 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           required
           placeholder="Fecha del evento"
         />
-        {obligatorios && formData.fecha.length === 0 && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Hora */}
         <label className="form-label">Hora *</label>
@@ -122,7 +110,6 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           required
           placeholder="Hora del evento"
         />
-        {obligatorios && formData.hora.length === 0 && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Responsable */}
         <label className="form-label">Responsable</label>
@@ -148,7 +135,6 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           required
           placeholder="Ubicacion del evento"
         />
-        {obligatorios && formData.ubicacion.length === 0 && <p>⛔</p>}
       </div>
       <div className="mb-3">{/* Tipo */}
         <label className="form-label">Tipo</label>
@@ -163,7 +149,7 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
         />
       </div>
       <div className="mb-3">{/* Contacto */}
-        <label className="form-label">Contacto *</label>
+        <label className="form-label">Contacto </label>
         <input
           type="text"
           name="contacto"
@@ -172,34 +158,12 @@ const InnerForm = ({changeState, state}: innerFormType) =>{
           value={formData.contacto}
           onChange={handleChange}
           placeholder="Enlace a la publicacion"
-          required
         />
-        {obligatorios && formData.contacto.length === 0 && <p>⛔</p>}
       </div>
 
       <button type="submit" className="btn btn-success" disabled={state === "loading"}>
-        Guardar Profesional
+        Guardar Evento
       </button>
-
-
-
-
-
-
-
-
-      {state === "error" && <Alert variant={"danger"}>Operacion fallida</Alert>}
-      {state === "success" && <Alert  variant={"success"}>Operacion Exitosa</Alert>}
-      {state === "loading" && <Button variant="primary" disabled>
-                                                  <Spinner
-                                                    as="span"
-                                                    animation="border"
-                                                    size="sm"
-                                                    role="status"
-                                                    aria-hidden="true"
-                                                  />
-                                                   Loading...
-                                                </Button> }
     </form>
   );
 }
