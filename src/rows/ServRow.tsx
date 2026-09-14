@@ -13,6 +13,7 @@ type ServisRowProps = {
 
 type InnerType ={
   targetId: number,
+  state: "esperando" | "exito" | "a borrar" | "a editar" | "a renovar",
   setState: (val: "exito") => void
 }
 
@@ -119,9 +120,9 @@ const ServRow: React.FC<ServisRowProps> = ({ prof, setSelectedProf, setShowModal
           </span>
       </td>
       <td>
-            {state === "a editar" && <ImageEditInner targetId={prof.id} setState={()=>setState("exito")}/>}
-            {state === "a renovar" && <RenovInner targetId={prof.id} setState={()=>setState("exito")}/>}
-            {state === "a borrar" && <DeleteInner targetId={prof.id} setState={()=>setState("exito")}/>}
+            {state === "a editar" && <ImageEditInner targetId={prof.id} setState={()=>setState("exito")} state={state} />}
+            {state === "a renovar" && <RenovInner targetId={prof.id} setState={()=>setState("exito")} state={state}/>}
+            {state === "a borrar" && <DeleteInner targetId={prof.id} setState={()=>setState("exito")} state={state}/>}
             {state === "exito" && <Alert  variant={"warning"} >Cambio realizado con exito</Alert>}
             {state === "esperando" && <div className="buttons-container">
                       <button className="btn btn-primary" onClick={()=> {setSelectedProf(prof); setShowModal(true); setmodalType("view")}}>Ver</button>

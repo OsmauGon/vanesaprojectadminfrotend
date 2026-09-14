@@ -5,7 +5,7 @@ import { Button, Form, InputGroup } from "react-bootstrap";
 import type { Publicidad } from "../types/types";
 import { PublicidadForm } from "../forms/PublicidadForm";
 import PubliRow from "../rows/PubliRow";
-import { ModalDEpublicidad } from "../modales/ModalDEpublicidad";
+import { PublisModal } from "../modales/PublisModal";
 
 const tableHeaders = [
   "IDs", 
@@ -22,7 +22,8 @@ const PublicidadPage = ({auth}: Props) => {
   const [formview,setFormview] = useState<boolean>(false)
   const [selectedProf,setSelectedProf] = useState<Publicidad | null>(null)
   const [showModal, setShowModal] = useState(false);
-  const { data, loading, error } = useFetch<Publicidad[]>(publicidadGetEndpoint);
+  const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
+  const { data, loading, error, setReload } = useFetch<Publicidad[]>(publicidadGetEndpoint);
   
   const lista = data?.filter(p => 
     p.titulo.toLowerCase().includes(busqueda.toLowerCase())
@@ -54,12 +55,17 @@ const PublicidadPage = ({auth}: Props) => {
                   </thead>
                   <tbody>
                     {lista?.map((user) => (
-                       <PubliRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal}/>
+                       <PubliRow prof={user} setSelectedProf={setSelectedProf} setShowModal={setShowModal} setmodalType={setmodalType}/>
                     ))}
                     </tbody>
                   </table>
       }
-      <ModalDEpublicidad show={showModal} hide={() => setShowModal(false)} obj={selectedProf} />
+      <PublisModal 
+        show={showModal} 
+        tipo={modalType} 
+        hide={() => {setShowModal(false); setmodalType("hide"); setSelectedProf(null)}} 
+        obj={selectedProf} 
+        reload={setReload}/>
       </div>
   )
 }

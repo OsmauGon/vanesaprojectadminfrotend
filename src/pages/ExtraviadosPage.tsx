@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import ExtraviadosForm from '../forms/ExtraviadosForm';
 import LostRow from '../rows/LostRow';
-import { ModalDEextraviados } from '../modales/ModalDEextraviados';
 import { missingsGetEndpoint } from '../endpoints';
+import { MissingsModal } from '../modales/MissingsModal';
 
 type Props = {
     auth: boolean,
@@ -35,14 +35,11 @@ const TableComponent: React.FunctionComponent = ({encabezados, lista}: Props)=>{
 export const ExtraviadosPage = ({auth}: Props) => {
   const [busqueda, setBusqueda] = useState("");
   const [formview,setFormview] = useState<boolean>(false)
-  const { data, loading, error } = useFetch<MissingPost[]>(missingsGetEndpoint);
+  const { data, loading, error, setReload } = useFetch<MissingPost[]>(missingsGetEndpoint);
   const [selectedLost,setSelectedLost] = useState<MissingPost | null>(null)
-  const [showModal, setShowModal] = useState<"view" | "put-form" | "hide">('hide');
-
-  const lista = data?.filter(p => 
-    p.title.toLowerCase().includes(busqueda.toLowerCase()) ||
-    p.description.toLowerCase().includes(busqueda.toLowerCase())
-  );
+  const [showModal, setShowModal] = useState<boolean>(false);
+const [modalType, setmodalType] = useState<"view" | "put-form" | "hide">('hide');
+  
 
   const tableHeaders = [
   "IDs", 
@@ -77,14 +74,18 @@ export const ExtraviadosPage = ({auth}: Props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {lista?.map((user) => (
-                      <LostRow prof={user}  setSelectedLost={setSelectedLost} setShowModal={setShowModal} />
+                    {data?.map((user) => (
+                      <LostRow prof={user}  setSelectedLost={setSelectedLost} setShowModal={setShowModal} setmodalType={setmodalType}/>
                     ))}
                     </tbody>
                   </table>
       }
-      
-      <ModalDEextraviados show={showModal != "hide"} tipo={showModal} hide={() => setShowModal("hide")} obj={selectedLost} />
+      <MissingsModal 
+        show={showModal} 
+        tipo={modalType} 
+        hide={() => {setShowModal(false); setmodalType("hide"); setSelectedLost(null)}} 
+        obj={selectedLost} 
+        reload={setReload}/>
       </div>
   )
 }

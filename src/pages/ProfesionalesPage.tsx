@@ -4,7 +4,6 @@ import { useFetch } from '../hooks/useFetch';
 import type { Profesional } from '../types/types';
 import '../styles/profesinal-page-style.css'
 import UserRow from '../rows/UserRow';
-//import { ModalDEprofesional } from '../modales/ModalDEprofesional';
 import { profGetEndpoint } from '../endpoints';
 import { ProfesionalForm } from '../forms/ProfesionalForm';
 import { ProfModal } from '../modales/ProfModal';

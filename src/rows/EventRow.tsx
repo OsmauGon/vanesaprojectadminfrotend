@@ -12,6 +12,7 @@ type EventRowProps = {
 };
 type InnerType ={
   targetId: number,
+  state: "esperando" | "exito" | "a borrar" | "a editar",
   setState: (val: "exito") => void
 }
 const DeleteInner =({targetId, setState}: InnerType)=>{
@@ -35,7 +36,7 @@ const EventRow: React.FC<EventRowProps> = ({ prof, setSelectedEvent, setShowModa
       <td><b>{prof.titulo}</b></td>
       <td><b>{prof.tipo}</b></td>
       <td>
-      {state === "a borrar" && <DeleteInner targetId={prof.id} setState={()=>setState("exito")}/>}
+      {state === "a borrar" && <DeleteInner targetId={prof.id} setState={()=>setState("exito")} state={state}/>}
       {state === "exito" && <Alert  variant={"warning"} >Cambio realizado con exito</Alert>}
       {state === "esperando" && <div className="buttons-container">
                 <button className="btn btn-primary" onClick={()=> {setSelectedEvent(prof); setShowModal(true); setmodalType("view")}}>Ver</button>

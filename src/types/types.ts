@@ -111,7 +111,7 @@ export interface MissingPost {
   description: string;
   location?: string;
   contact: string;
-  createdAt?: Date;
+  createdAt?: string;
   tipo: 0 | 1 | 2// 0:"extraviado" 1:"encontrado" 2:"adopcion"
 }
 /*%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% */

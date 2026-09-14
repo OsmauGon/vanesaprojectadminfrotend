@@ -12,6 +12,7 @@ type UserRowProps = {
 };
 type InnerType ={
   targetId: number,
+  state: "esperando" | "exito" | "a borrar" | "a editar",
   setState: (val: "exito") => void
 }
 const DeleteInner =({targetId, setState}: InnerType)=>{
@@ -89,8 +90,8 @@ const BlogRow: React.FC<UserRowProps> = ({ prof, setSelectedBlog, setShowModal, 
         <td><b>{prof.title}</b></td>
         
         <td>
-        {state === "a editar" && <ImageEditInner targetId={prof.id} setState={()=>setState("exito")}/>}
-        {state === "a borrar" && <DeleteInner targetId={prof.id} setState={()=>setState("exito")}/>}
+        {state === "a editar" && <ImageEditInner targetId={prof.id} setState={()=>setState("exito")} state={state} />}
+        {state === "a borrar" && <DeleteInner targetId={prof.id} setState={()=>setState("exito")} state={state}/>}
         {state === "exito" && <Alert  variant={"warning"} >Cambio realizado con exito</Alert>}
         {state === "esperando" && <div className="buttons-container">
                   <button className="btn btn-primary" onClick={()=> {setSelectedBlog(prof); setShowModal(true); setmodalType("view")}}>Ver</button>
