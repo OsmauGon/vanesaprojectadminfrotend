@@ -14,7 +14,7 @@ import ServiciosPage from "./pages/ServicePage";
 
 function App() {
   //const isAuthenticated = localStorage.getItem("token"); // simplificado
-  const [isAuthenticated,setAuth] = useState<boolean>(true)
+  const [isAuthenticated,setAuth] = useState<boolean>(false)
 
   return (
     <BrowserRouter>
@@ -53,7 +53,7 @@ function App() {
                   Establecimientos
                 </NavLink>
               </li>
-              <li className="nav-item" >{/* BLOGS */}
+              <li className="nav-item" d-none>{/* BLOGS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")
@@ -63,7 +63,7 @@ function App() {
                   Blogs
                 </NavLink>
               </li>
-              <li className="nav-item ">{/* EXTRAVIADOS */}
+              <li className="nav-item d-none">{/* EXTRAVIADOS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")
@@ -73,7 +73,7 @@ function App() {
                   Extraviados
                 </NavLink>
               </li>
-              <li className="nav-item ">{/* EVENTOS */}
+              <li className="nav-item d-none">{/* EVENTOS */}
                 <NavLink
                   className={({ isActive }) =>
                     "nav-link" + (isActive ? " active fw-bold text-warning" : "")
