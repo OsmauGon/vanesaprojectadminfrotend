@@ -14,7 +14,7 @@ import ServiciosPage from "./pages/ServicePage";
 
 function App() {
   //const isAuthenticated = localStorage.getItem("token"); // simplificado
-  const [isAuthenticated,setAuth] = useState<boolean>(false)
+  const [isAuthenticated,setAuth] = useState<boolean>(true)
 
   return (
     <BrowserRouter>

@@ -16,6 +16,7 @@ type ModalProps = {
 }
 
 const BlogInfoView = ({props}: FormProps) => {
+  console.log(props)
   return (
     props && 
     <div>
@@ -25,6 +26,7 @@ const BlogInfoView = ({props}: FormProps) => {
       <p><b>Enlace-video: </b>{props.videoUrl ? props.videoUrl : "No asignado"}</p>
       <p><b>Enlace-documento: </b>{props.documentUrl ? props.documentUrl : "No asignado"}</p>
       <p><b>Descripcion: </b>{props.description}</p>
+      <p><b>Descripcion completa: </b>{props.bigdescription ? props.bigdescription : "No asignado"}</p>
       <p><b>Estado: </b>{props.state}</p><p><b>Fecha de creacion: </b>{props.createdAt}</p>
       
       {props.imageUrl === null && <p>Ninguna imagen registrada</p>} 
@@ -40,6 +42,7 @@ const BlogEditForm = ({props, reload}: FormProps) => {
     idOwner: (props && props.idOwner) ? props?.idOwner : 0,
     title: (props && props.title) ? props?.title : "",
     description: (props && props.description) ? props?.description : "",
+    bigdescription: (props && props.bigdescription) ? props?.bigdescription : "",
     imageUrl: "",
     videoUrl: (props && props.videoUrl) ? props?.videoUrl : "",
     documentUrl: (props && props.documentUrl) ? props?.documentUrl : "",
@@ -58,10 +61,12 @@ const BlogEditForm = ({props, reload}: FormProps) => {
       const dataToSend = {
                     title: formData.title,
                     description: formData.description,
+                    bigdescription: formData.bigdescription,
                     idOwner: Number(formData.idOwner),
                     videoUrl: formData.videoUrl,
                     documentUrl: formData.documentUrl,
                     }
+                    console.log(dataToSend)
       
                   try {
                           const response = await fetch(blogPutEndpoint + props?.id, {
@@ -127,8 +132,18 @@ const BlogEditForm = ({props, reload}: FormProps) => {
           className="form-control"
           value={formData.description}
           onChange={handleChange}
-          required
           placeholder="Descripcion del articulo"
+        />
+      </div>
+      <div className="mb-3">{/*Gran Descripcion */}
+        <label className="form-label">Descripcion completa</label>
+        <input
+          type="text"
+          name="bigdescription"
+          className="form-control"
+          value={formData.bigdescription}
+          onChange={handleChange}
+          placeholder="Descripcion completa del articulo"
         />
       </div>
 

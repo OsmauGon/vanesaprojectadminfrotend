@@ -125,6 +125,7 @@ export type Blog ={
     //idOwner: string,//lo hacemos string para poder modificarlo con input de texto
     title: string,
     description: string,
+    bigdescription?: string //agregado para grandes descripciones - es opsional
     documentUrl?: string,//Porque puede o no tener para descargar
     imageUrl?: string,//Porque puede o no tener para ver
     videoUrl?: string,//Porque puede o no tener para ver

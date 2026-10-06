@@ -13,6 +13,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
     idOwner: 0,
     title: "",
     description: "",
+    bigdescription: "",
     videoUrl: "",
     documentUrl: ""
   });
@@ -44,6 +45,7 @@ const InnerForm = ({changeState}: innerFormType) =>{
     formDataToSend.append("description", formData.description);
     formDataToSend.append("idOwner", formData.idOwner.toString());
 
+    if (formData.bigdescription && formData.bigdescription?.length > 5) formDataToSend.append("bigdescription", formData.bigdescription);
     if (formData.videoUrl && formData.videoUrl?.length > 5) formDataToSend.append("videoUrl", formData.videoUrl);
     if (formData.documentUrl && formData.documentUrl?.length > 5) formDataToSend.append("documentUrl", formData.documentUrl);
 
@@ -101,7 +103,18 @@ const InnerForm = ({changeState}: innerFormType) =>{
           value={formData.description}
           onChange={handleChange}
           required
-          placeholder="Descripcion del articulo"
+          placeholder="Descripcion breve del articulo"
+        />
+      </div>
+      <div className="mb-3">{/* Gran Descripcion */}
+        <label className="form-label">Descripcion Completa</label>
+        <input
+          type="text"
+          name="bigdescription"
+          className="form-control"
+          value={formData.bigdescription}
+          onChange={handleChange}
+          placeholder="Descripcion completa del articulo"
         />
       </div>
 
